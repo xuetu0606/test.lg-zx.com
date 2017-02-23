@@ -47,8 +47,8 @@
                                         <td><?= $item['gong'] ?></td>
                                         <td><?= $item['is_vip']?'VIP':'普通会员' ?></td>
                                         <td><?= $item['referrer']?$item['referrer']:'零工在线' ?></td>
-                                        <td><?= data('Y-m-d',$item['addtime']) ?></td>
-                                        <td><?= data('Y-m-d',$item['vip_starttime']) ?></td>
+                                        <td><?= date('Y-m-d',$item['addtime']) ?></td>
+                                        <td><?= date('Y-m-d',$item['vip_starttime']) ?></td>
                                         <td><?= $item['is_vip']?data('Y-m-d',$item['is_vip']):'无' ?></td>
                                         <td><?= $item['mobile'] ?></td>
                                     </tr>
