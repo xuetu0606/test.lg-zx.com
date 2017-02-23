@@ -1493,7 +1493,7 @@ class User extends CI_Controller
         }
 
         if(!is_dir($config['upload_path'])){
-            $this->mk_dir($config['upload_path']);
+            mkdir($config['upload_path'],0777,true);
         }
 
         //if (!is_dir('../..'.$config['upload_path'])) mkdir($config['upload_path']); //
