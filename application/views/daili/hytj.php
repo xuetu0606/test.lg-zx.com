@@ -41,21 +41,15 @@
                                 <tbody>
                                 <?php foreach($users as $item): ?>
                                     <tr>
-                                        <td><?= $item['id'] ?></td>
-                                        <td><?= $item['is_co'] ?></td>
-                                        <td><?= $item['coname'] ?></td>
-                                        <td>
-                                            <?php
-                                            foreach($item['job'] as $value){
-                                                echo $value.'<br/>';
-                                            }
-                                            ?>
-                                        </td>
-                                        <td><?= $item['status'] ?></td>
-                                        <td><?= $item['referrer'] ?></td>
-                                        <td><?= $item['addtime'] ?></td>
-                                        <td><?= $item['starttime'] ?></td>
-                                        <td><?= $item['endtime'] ?></td>
+                                        <td><?= $item['no'] ?></td>
+                                        <td><?= $item['is_co']?'公司':'个人' ?></td>
+                                        <td><?= $item['name'] ?></td>
+                                        <td><?= $item['gong'] ?></td>
+                                        <td><?= $item['is_vip']?'VIP':'普通会员' ?></td>
+                                        <td><?= $item['referrer']?$item['referrer']:'零工在线' ?></td>
+                                        <td><?= data('Y-m-d',$item['addtime']) ?></td>
+                                        <td><?= data('Y-m-d',$item['vip_starttime']) ?></td>
+                                        <td><?= $item['is_vip']?data('Y-m-d',$item['is_vip']):'无' ?></td>
                                         <td><?= $item['mobile'] ?></td>
                                     </tr>
                                 <?php endforeach; ?>

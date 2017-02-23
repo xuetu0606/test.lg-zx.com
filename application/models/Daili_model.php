@@ -20,6 +20,7 @@ class Daili_model extends CI_Model {
         $query = $this->db->query($sql);
         $arr = $query->result_array();
         foreach ($arr as $k => $v){
+
             if($arr[$k]['is_co']==1){
                 $sql1 = "select coname from user_co where uid='{$arr[$k]['uid']}'";
                 $query1 = $this->db->query($sql1);
