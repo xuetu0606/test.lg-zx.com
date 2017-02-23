@@ -1,5 +1,5 @@
 <?php
-class Form_model extends CI_Model {
+class Daili_model extends CI_Model {
 
     public function __construct()
     {
