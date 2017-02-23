@@ -1493,7 +1493,7 @@ class User extends CI_Controller
         }
 
         if(!is_dir($config['upload_path'])){
-            $this->mk_dir($config['upload_path']);
+            mkdir($config['upload_path'],0777,true);
         }
 
         //if (!is_dir('../..'.$config['upload_path'])) mkdir($config['upload_path']); //
@@ -1535,12 +1535,4 @@ class User extends CI_Controller
         $this->load->view('templates/footer2');
     }
 
-
-    // 循环创建目录
-    public function mk_dir($dir, $mode = 0755)
-    {
-        if (is_dir($dir) || @mkdir($dir,$mode)) return true;
-        if (!$this->mk_dir(dirname($dir),$mode)) return false;
-        return @mkdir($dir,$mode);
-    }
 }
