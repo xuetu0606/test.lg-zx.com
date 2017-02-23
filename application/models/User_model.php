@@ -1059,7 +1059,7 @@ class User_model extends CI_Model {
     *
      */
     public function getCityCode($city_id){
-        $sql = "select pinyin from province_city where dist_id={$city_id}";
+        $sql = "select pinyin from province_city where dist_id='{$city_id}'";
         $query = $this->db->query($sql);
         $arr = $query->row_array();
         return $arr;
