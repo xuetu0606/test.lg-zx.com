@@ -39,7 +39,7 @@ class Daili_model extends CI_Model {
             $query2 = $this->db->query($sql2);
             foreach ($query2->result_array() as $row)
             {
-                $gong.=$row['title'].',';
+                $gong.=$row['name'].',';
             }
             $arr[$k]['gong']=substr($gong, 0, -1);
 
