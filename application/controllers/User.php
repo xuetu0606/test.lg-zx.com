@@ -1535,12 +1535,4 @@ class User extends CI_Controller
         $this->load->view('templates/footer2');
     }
 
-
-    // 循环创建目录
-    public function mk_dir($dir, $mode = 0755)
-    {
-        if (is_dir($dir) || @mkdir($dir,$mode)) return true;
-        if (!$this->mk_dir(dirname($dir),$mode)) return false;
-        return @mkdir($dir,$mode);
-    }
 }
