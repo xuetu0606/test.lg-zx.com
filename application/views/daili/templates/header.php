@@ -356,7 +356,7 @@
 
                 <li>
                     <a href="pages/mailbox/mailbox.html">
-                        <i class="fa fa-envelope"></i> <span>Mailbox</span>
+                        <i class="fa fa-envelope"></i> <span>站内消息</span>
                         <span class="pull-right-container">
               <small class="label pull-right bg-yellow">12</small>
               <small class="label pull-right bg-green">16</small>
