@@ -66,7 +66,7 @@ class Daili extends CI_Controller {
     }
 
     /**
-     * 会员统计
+     * 会员统计sasa
      */
     public function hytj(){
         if ( ! file_exists(APPPATH.'views/daili/hytj.php')){
