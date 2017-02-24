@@ -7,6 +7,8 @@ class Daili_model extends CI_Model {
         parent::__construct();
         $this->load->database();
         $this->load->model('string_model');
+        $this->load->helper('string');
+        $this->load->helper('text');
     }
 
     /**
@@ -16,7 +18,7 @@ class Daili_model extends CI_Model {
      */
     public function getMemberInfo($userid){
         $city_id=$this->getCityid($userid);
-        $sql = "select userlist.no,is_co,referrer,addtime,mobile from userlist where city_id='$city_id'";
+        $sql = "select uid,userlist.no,is_co,referrer,addtime,mobile from userlist where city_id='$city_id'";
         $query = $this->db->query($sql);
         $arr = $query->result_array();
         foreach ($arr as $k => $v){
@@ -37,11 +39,13 @@ class Daili_model extends CI_Model {
                      inner join publish_list on job_type.id=publish_list.uid 
                      where publish_list.uid='{$arr[$k]['uid']}'";
             $query2 = $this->db->query($sql2);
-            foreach ($query2->result_array() as $row)
+            $gong='';
+            $g='';
+            foreach ($query2->result_array() as $key=>$row)
             {
                 $gong.=$row['name'].',';
             }
-            $arr[$k]['gong']=substr($gong, 0, -1);
+            $arr[$k]['gong']=reduce_multiples($gong, ",", TRUE);
 
             $time = time();
             //查看vip是否过期 有值则为vip

@@ -43,8 +43,8 @@
                                     <tr>
                                         <td><?= $item['no'] ?></td>
                                         <td><?= $item['is_co']?'公司':'个人' ?></td>
-                                        <td><?= $item['name'] ?></td>
-                                        <td><?= $item['gong'] ?></td>
+                                        <td><?= $item['name']?$item['name']:'未填写' ?></td>
+                                        <td><?= $item['gong']?$item['gong']:'无' ?></td>
                                         <td><?= $item['is_vip']?'VIP':'普通会员' ?></td>
                                         <td><?= $item['referrer']?$item['referrer']:'零工在线' ?></td>
                                         <td><?= date('Y-m-d',$item['addtime']) ?></td>

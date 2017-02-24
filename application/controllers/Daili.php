@@ -66,7 +66,7 @@ class Daili extends CI_Controller {
     }
 
     /**
-     * 会员统计sasa
+     * 会员统计
      */
     public function hytj(){
         if ( ! file_exists(APPPATH.'views/daili/hytj.php')){
@@ -82,6 +82,27 @@ class Daili extends CI_Controller {
 
         $this->load->view('daili/templates/header');
         $this->load->view('daili/hytj',$data);
+        $this->load->view('daili/templates/footer');
+
+    }
+
+    /**
+     * 站内消息
+     */
+    public function mailbox(){
+        if ( ! file_exists(APPPATH.'views/daili/mailbox.php')){
+            show_404();
+        }
+
+        //是否登录
+        if (!$this->hasLogin()){
+            redirect('http://'.$_SERVER['HTTP_HOST'].'daili/login');
+        }
+
+        $data['users']=$this->daili_model->getMemberInfo();
+
+        $this->load->view('daili/templates/header');
+        $this->load->view('daili/mailbox',$data);
         $this->load->view('daili/templates/footer');
 
     }

@@ -355,7 +355,7 @@
                 </li>
 
                 <li>
-                    <a href="pages/mailbox/mailbox.html">
+                    <a href="/daili/mailbox">
                         <i class="fa fa-envelope"></i> <span>站内消息</span>
                         <span class="pull-right-container">
               <small class="label pull-right bg-yellow">12</small>
