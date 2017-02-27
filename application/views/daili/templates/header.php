@@ -337,8 +337,8 @@
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href="/daili"><i class="fa fa-circle-o"></i> 账户管理</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> 概况预览</a></li>
+                        <li class="active"><a href="/daili"><i class="fa fa-circle-o"></i> 概况预览</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> 资料修改</a></li>
                     </ul>
                 </li>
 
