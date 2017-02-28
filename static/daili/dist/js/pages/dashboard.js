@@ -149,38 +149,7 @@ $(function () {
     hideHover: 'auto'
   });
    */
-  var line = new Morris.Line({
-    element: 'line-chart',
-    resize: true,
-    data: [
-        {y: '2016-7', item1: 0},
-        {y: '2016-8', item1: 0},
-        {y: '2016-9', item1: 0},
-        {y: '2016-10', item1: 0},
-        {y: '2016-11', item1: 0},
-        {y: '2016-12', item1: 0},
-        {y: '2017-1', item1: 2666},
-        {y: '2017-2', item1: 2778},
-        {y: '2017-3', item1: 4912},
-        {y: '2017-4', item1: 3767},
-        {y: '2017-5', item1: 6810},
-        {y: '2017-6', item1: 5670}
 
-    ],
-    xkey: 'y',
-    ykeys: ['item1'],
-    labels: ['注册用户'],
-    lineColors: ['#efefef'],
-    lineWidth: 2,
-    hideHover: 'auto',
-    gridTextColor: "#fff",
-    gridStrokeWidth: 0.4,
-    pointSize: 4,
-    pointStrokeColors: ["#efefef"],
-    gridLineColor: "#efefef",
-    gridTextFamily: "Open Sans",
-    gridTextSize: 10
-  });
 
   //Donut Chart
   var donut = new Morris.Donut({

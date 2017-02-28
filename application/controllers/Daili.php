@@ -2,8 +2,18 @@
 class Daili extends CI_Controller {
     public function __construct(){
         parent::__construct();
-        $this->load->model('daili_model');
-        $this->load->helper('url_helper');
+        $this->load->model(array(
+            'daili_model',
+            'main_model'
+        ));
+        $this->load->helper(array(
+            'url_helper',
+            'form'
+        ));
+        $this->load->library(array(
+            'session',
+            'form_validation'
+        ));
     }
 
 
@@ -17,15 +27,98 @@ class Daili extends CI_Controller {
 
         //是否登录
         if (!$this->hasLogin()){
-            redirect('http://'.$_SERVER['HTTP_HOST'].'daili/login');
+            redirect('http://'.$_SERVER['HTTP_HOST'].'/daili/login');
         }
 
         $data['title'] = '代理商管理后台'; // Capitalize the first letter
         $data['localhost'] = $_SERVER['HTTP_HOST'];//获取当前域名
+        $uid=$_SESSION['daili_uid'];
+        $data['city']=$this->main_model->getcityName($_SESSION['daili_cityid']);
+        $data['index_class']='active';
 
-        $this->load->view('daili/templates/header');
+        //获取当前代理商所有会员信息
+        $data['users']=$this->daili_model->getMemberInfo($uid);
+
+        $beginThismonth=mktime(0,0,0,date('m'),1,date('Y')); //当月开始时间戳
+        $endThismonth=mktime(23,59,59,date('m'),date('t'),date('Y'));//当月结束时间戳
+
+        $begin_month_1=mktime(0,0,0,date('m')-1,1,date('Y')); //上个月开始时间戳
+        $end_month_1=mktime(23,59,59,date('m')-1,date('t', strtotime('-1 month')),date('Y'));//上个月结束时间戳
+
+
+        foreach ($data['users'] as $v){
+
+            //当月注册会员
+            if($beginThismonth < $v['addtime'] and $v['addtime'] < $endThismonth){
+                $data['month_add_users'][]=$v;
+            }
+
+            //上月注册会员
+            if($begin_month_1 < $v['addtime'] and $v['addtime'] < $end_month_1){
+                $data['month_1_add_users'][]=$v;
+            }
+            //是否vip
+            if($v['is_vip']==1){
+                $data['vip_users'][]=$v;
+            }
+            //是否公司会员
+            if($v['is_co']==1){
+                $data['co_users'][]=$v;
+            }
+            //是否实名会员
+            if($v['is_real']==1){
+                $data['real_users'][]=$v;
+            }
+            //是否签约推广来的会员
+            if($v['promotion_flag']==1){
+                $data['promotion_users'][]=$v;
+            }
+
+            for ($i=11;$i>=0;$i--){
+                $begin_time=mktime(0,0,0,date('m')-$i,1,date('Y'));
+                $end_time=mktime(23,59,59,date('m')-$i,date('t', strtotime('-'.$i.' month')),date('Y'));
+
+                if($begin_time < $v['addtime'] and $v['addtime'] < $end_time){
+                    $trend_data[date('Y-m',$begin_time)][]=$v;
+                    $trend_data[date('Y-m',$begin_time)]['no']=1;
+                }else{
+                    $trend_data[date('Y-m',$begin_time)]['no']=0;
+                }
+            }
+
+        }
+
+        //var_dump($data['users']);
+
+        foreach ($trend_data as $k=>$v){
+            $trend_text.='{y: \''.$k.'\', item1: '.(count($v)-1).'},';
+        }
+
+        $data['script']='
+        var line = new Morris.Line({
+        element: \'line-chart\',
+        resize: true,
+        data: [
+            '.$trend_text.'
+        ],
+        xkey: \'y\',
+        ykeys: [\'item1\'],
+        labels: [\'注册用户\'],
+        lineColors: [\'#efefef\'],
+        lineWidth: 2,
+        hideHover: \'auto\',
+        gridTextColor: "#fff",
+        gridStrokeWidth: 0.4,
+        pointSize: 4,
+        pointStrokeColors: ["#efefef"],
+        gridLineColor: "#efefef",
+        gridTextFamily: "Open Sans",
+        gridTextSize: 10
+        });';
+
+        $this->load->view('daili/templates/header',$data);
         $this->load->view('daili/index',$data);
-        $this->load->view('daili/templates/footer');
+        $this->load->view('daili/templates/footer',$data);
     }
 
     /**
@@ -38,15 +131,45 @@ class Daili extends CI_Controller {
 
         //是否登录
         if ($this->hasLogin()){
-            redirect('http://'.$_SERVER['HTTP_HOST'].'daili');
+            redirect('http://'.$_SERVER['HTTP_HOST'].'/daili');
         }
 
         $data['title'] = '代理商登录'; // Capitalize the first letter
         $data['localhost'] = $_SERVER['HTTP_HOST'];//获取当前域名
 
-        $this->load->view('daili/templates/header');
-        $this->load->view('daili/login',$data);
-        $this->load->view('daili/templates/footer');
+        $this->form_validation->set_rules('username', '用户名', 'trim|required|min_length[5]|max_length[12]');
+        $this->form_validation->set_rules('passwd', '密码', 'trim|required|min_length[6]');
+        $this->form_validation->set_error_delimiters('<span>', '</span>');
+
+
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('daili/login', $data);
+        } else {
+            $userdata['username'] = $this->input->post('username', TRUE);
+            $userdata['passwd'] = $this->daili_model->encryptPwd($this->input->post('passwd', TRUE));
+
+            $user = $this->daili_model->getuserlist($userdata);
+
+            if (!empty($user)) {
+
+                /** 记录用户登录状态 */
+                $_SESSION['daili_uid'] = $user['uid'];
+                $_SESSION['daili_username'] = $user['username'];
+                $_SESSION['daili_coname'] = $user['coname'];
+                $_SESSION['daili_cityid'] = $user['city_id'];
+
+                redirect('http://' . $_SERVER['HTTP_HOST'] . '/daili');
+
+            } else {
+
+                $data['error_string'] = '用户名和密码不符';
+                $data['userdata'] = $userdata;
+
+                $this->load->view('daili/login', $data);
+            }
+        }
+
     }
 
 
@@ -56,12 +179,12 @@ class Daili extends CI_Controller {
     public function hasLogin()
     {
         /** 检查session，并与数据库里的数据相匹配 */
-        if(!empty($_SESSION) and NULL !== $_SESSION['uid'])
+        if(!empty($_SESSION) and NULL !== $_SESSION['daili_uid'])
         {
             return TRUE;
         }else{
-            //return FALSE;
-            return TRUE;
+            return FALSE;
+            //return TRUE;
         }
     }
 
@@ -75,12 +198,12 @@ class Daili extends CI_Controller {
 
         //是否登录
         if (!$this->hasLogin()){
-            redirect('http://'.$_SERVER['HTTP_HOST'].'daili/login');
+            redirect('http://'.$_SERVER['HTTP_HOST'].'/daili/login');
         }
 
-        $data['users']=$this->daili_model->getMemberInfo();
-
-        $this->load->view('daili/templates/header');
+        $data['users']=$this->daili_model->getMemberInfo($_SESSION['daili_uid']);
+        $data['hytj_class']='active';
+        $this->load->view('daili/templates/header',$data);
         $this->load->view('daili/hytj',$data);
         $this->load->view('daili/templates/footer');
 
@@ -96,15 +219,27 @@ class Daili extends CI_Controller {
 
         //是否登录
         if (!$this->hasLogin()){
-            redirect('http://'.$_SERVER['HTTP_HOST'].'daili/login');
+            redirect('http://'.$_SERVER['HTTP_HOST'].'/daili/login');
         }
 
-        $data['users']=$this->daili_model->getMemberInfo();
+        $data['users']=$this->daili_model->getMemberInfo($_SESSION['daili_uid']);
+        $data['mailbox_class']='active';
 
-        $this->load->view('daili/templates/header');
+        $this->load->view('daili/templates/header',$data);
         $this->load->view('daili/mailbox',$data);
         $this->load->view('daili/templates/footer');
 
+    }
+
+    /**
+     * 用户登出
+     *
+     */
+    public function logout()
+    {
+        $this->session->sess_destroy();
+
+        redirect('http://' . $_SERVER['HTTP_HOST'] . '/daili');
     }
 
 }

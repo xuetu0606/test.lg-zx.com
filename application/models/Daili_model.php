@@ -36,7 +36,7 @@ class Daili_model extends CI_Model {
             }
             $sql2 = "select job_type.name 
                      from job_type 
-                     inner join publish_list on job_type.id=publish_list.uid 
+                     inner join publish_list on job_type.id=publish_list.job_code
                      where publish_list.uid='{$arr[$k]['uid']}'";
             $query2 = $this->db->query($sql2);
             $gong='';
@@ -66,9 +66,40 @@ class Daili_model extends CI_Model {
      * 返回值数组：城市编码=>城市名称
      */
     public function getCityid($userid){
+        $sql = "select city_id from daili_userlist where uid='{$userid}'";
+        $query = $this->db->query($sql);
+        $arr = $query->row_array();
+        if($arr){
+            return $arr['city_id'];
+        }else{
+            return false;
+        }
+    }
 
-
-        return '224';
+    /**密码加密
+     * 参数pwd  密码明文
+     *return 加密后密码
+     */
+    public function encryptPwd($pwd){
+        $salt = 'Random_sfqw2frhp3dd';
+        return md5($pwd.$salt);
+    }
+    /**
+     * 登陆验证并填写登录日志,半小时内同一个用户在同浏览器下日志不重复写入
+     * 参数：$data数组-登录数据项，包含 username-用户名或手机号；passwd-加密后密码
+     * 返回值：有该用户则返回uid，否则返回false
+     */
+    public function getuserlist($data){
+//    	$data = array('username'=>'shane','passwd'=>'123123');
+        extract($data);
+        $sql = "select uid,username,coname,city_id from daili_userlist where (username = '$username' or mobile='$username') and password = '$passwd'";
+        $query = $this->db->query($sql);
+        $arr = $query->row_array();
+        if($arr){
+            return $arr;
+        }else{
+            return false;
+        }
     }
 
 
