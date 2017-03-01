@@ -207,6 +207,7 @@ class Daili extends CI_Controller {
         $data['url_gong']=$this->uri->segment(4, 0);
         $data['url_reg']=$this->uri->segment(6, 0);
         $data['url_vip']=$this->uri->segment(8, 0);
+        $data['city']=$this->main_model->getcityName($_SESSION['daili_cityid']);
 
         $sql='';
 
