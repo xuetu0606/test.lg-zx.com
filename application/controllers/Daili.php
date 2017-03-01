@@ -201,8 +201,39 @@ class Daili extends CI_Controller {
             redirect('http://'.$_SERVER['HTTP_HOST'].'/daili/login');
         }
 
-        $data['users']=$this->daili_model->getMemberInfo($_SESSION['daili_uid']);
+        $data['localhost'] = $_SERVER['HTTP_HOST'];//获取当前域名
         $data['hytj_class']='active';
+        $data['class']='class="bg-green"';
+        $data['url_gong']=$this->uri->segment(4, 0);
+        $data['url_reg']=$this->uri->segment(6, 0);
+        $data['url_vip']=$this->uri->segment(8, 0);
+
+        $sql='';
+
+        if($data['url_gong']==1){
+            $sql.=' and is_co=0';
+        }
+        if($data['url_gong']==2){
+            $sql.=' and is_co=1';
+        }
+        if($data['url_reg']==1){
+            $sql.=" and (promotion_flag=1)";
+        }
+        if($data['url_reg']==2){
+            $sql.=" and (promotion_flag=0)";
+        }
+
+        $data['users']=$this->daili_model->getMemberInfo($_SESSION['daili_uid'],$sql);
+
+        if($data['url_vip']==1 and $data['users']){
+            foreach ($data['users'] as $v){
+                if($v['vip_starttime']-time()>2592000)
+                    $users[]=$v;
+            }
+            $data['users']=$users;
+        }
+
+        //var_dump($this->daili_model->getMemberInfo1($_SESSION['daili_uid']));
         $this->load->view('daili/templates/header',$data);
         $this->load->view('daili/hytj',$data);
         $this->load->view('daili/templates/footer');

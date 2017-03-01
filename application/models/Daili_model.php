@@ -14,11 +14,13 @@ class Daili_model extends CI_Model {
     /**
      * 获取当前代理商 注册会员信息列表
      * 参数：userid
-     * 返回值数组：no=>工号,name=>昵称/公司名,gong=>工种,is_vip=>零工状态/套餐期限,referrer=>注册类型(推介人id),vip_starttime=>充值时间,
+     * 返回值数组：no=>工号,name=>昵称/公司名,gong=>工种,is_vip=>零工状态/套餐期限,promotion_flag=>是否签约推广来的用户,referrer=>推介人username,vip_starttime=>充值时间,
      */
-    public function getMemberInfo($userid){
+    public function getMemberInfo($userid,$sql){
         $city_id=$this->getCityid($userid);
-        $sql = "select uid,userlist.no,is_co,referrer,addtime,mobile from userlist where city_id='$city_id'";
+        $sql = "select uid,userlist.no,is_co,referrer,addtime,mobile,address,promotion_flag 
+                from userlist 
+                where city_id='$city_id' {$sql}";
         $query = $this->db->query($sql);
         $arr = $query->result_array();
         foreach ($arr as $k => $v){
@@ -56,6 +58,26 @@ class Daili_model extends CI_Model {
             $arr[$k]['vip_starttime']= $arr['vip_starttime'];
 
         }
+        return $arr;
+    }
+
+    /**
+     * 获取当前代理商 注册会员信息列表
+     * 参数：userid
+     * 返回值数组：no=>工号,name=>昵称/公司名,gong=>工种,is_vip=>零工状态/套餐期限,referrer=>注册类型(推介人id),vip_starttime=>充值时间,
+     */
+    public function getMemberInfo1($userid){
+        $city_id=$this->getCityid($userid);
+        $time = time();
+        $sql = "select userlist.uid,userlist.no,user_co.coname,user_personal.realname,userlist.is_co,job_type.name,userlist.referrer,userlist.promotion_flag,user_service_log.starttime,userlist.addtime,userlist.mobile
+                from userlist 
+                inner join publish_list on job_type.id=publish_list.job_code 
+                INNER JOIN user_co on userlist.is_co=1 and userlist.uid=user_co.uid
+                INNER JOIN user_personal on userlist.is_co=0 and userlist.uid=user_personal.uid
+                INNER JOIN user_service_log on endtime>'{$time}' and userlist.uid=user_service_log.uid
+                where userlist.city_id='$city_id'";
+        $query = $this->db->query($sql);
+        $arr = $query->result_array();
         return $arr;
     }
 
