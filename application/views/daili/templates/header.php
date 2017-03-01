@@ -136,7 +136,7 @@
 
                                 <p>
                                     <?php echo $_SESSION['daili_coname']?>
-                                    <small><?php echo '代理城市:'.$city;?></small>
+                                    <small><?php echo '代理城市:'.$city['name'];?></small>
                                 </p>
                             </li>
                                 <!-- /.row -->
@@ -171,8 +171,8 @@
                     <img src="/static/daili/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
-                    <p><?php echo $_SESSION['daili_coname']?></p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> <?php echo $_SESSION['daili_username']?></a>
+                    <p><?php echo $_SESSION['daili_username']?></p>
+                    <a href="#"><i class="fa fa-circle text-success"></i> <?php echo '代理城市:'.$city['name'];?></a>
                 </div>
             </div>
             <!-- search form -->
