@@ -83,12 +83,15 @@ class Daili_model extends CI_Model {
         }else{
             $reg_sql='';
         }
-        if($vip){
+        if($vip==1){
             $time=time()+2592000;
             $time="and user_service_log.endtime>{$time}";
+        }elseif($vip==1){
+            $time='and user.list>{$time}';
         }else{
             $time='';
         }
+
         $sql = "select userlist.no,userlist.username,userlist.is_co,(select coname from user_co where uid=userlist.uid limit 1) as coname,
 (select nickname from user_personal where uid=userlist.uid limit 1) as nickname,
 GROUP_CONCAT( distinct job_type.name ) as gong,

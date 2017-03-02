@@ -313,12 +313,21 @@ class Daili extends CI_Controller {
             'vip'=>$data['url_vip'],
             'addsql'=>$sql
         );
+
+            $time=$this->input->post('time', TRUE);
+            var_dump($time) ;
+        $return["status"] = "success";
+        $return["msg"] = $time;
+            echo json_encode($return);
+
+
         $data2=array(
             'userid'=>$_SESSION['daili_uid'],
             'time'=>'',
             'gong'=>$data['url_gong'],
             'reg'=>$data['url_reg'],
             'vip'=>$data['url_vip'],
+            'starttime'=>[''],
         );
         $count=count($this->daili_model->getMemberInfo1($data2));
 

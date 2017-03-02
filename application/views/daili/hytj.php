@@ -230,20 +230,9 @@
         autoclose: true,
         todayHighlight: true
     });
+    
 
-    $('.applyBtn').click(function () {
-        alert($('#reservation').text());
-        alert('我被点了');
-    });
 
-    $(":button").find(".applyBtn").click(
-        function () {
-            alert('我被点了');
-        }
-    )
-    $(".field").change(function(){
-        $(this).css("background-color","#FFFFCC");
-    });
 
 
 </script>
