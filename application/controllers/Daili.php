@@ -191,7 +191,7 @@ class Daili extends CI_Controller {
     /**
      * 会员统计
      */
-    public function hytj(){
+    public function hytj1(){
         if ( ! file_exists(APPPATH.'views/daili/hytj.php')){
             show_404();
         }
@@ -207,6 +207,11 @@ class Daili extends CI_Controller {
         $data['url_gong']=$this->uri->segment(4, 0);
         $data['url_reg']=$this->uri->segment(6, 0);
         $data['url_vip']=$this->uri->segment(8, 0);
+
+        $page=$this->uri->segment(10, 0);
+        $this->load->library('pagination');
+        $fenye=5;//分页数
+
         $data['city']=$this->main_model->getcityName($_SESSION['daili_cityid']);
 
         $sql='';
@@ -223,6 +228,8 @@ class Daili extends CI_Controller {
         if($data['url_reg']==2){
             $sql.=" and (promotion_flag=0)";
         }
+        $count=count($this->daili_model->getMemberInfo($_SESSION['daili_uid'],$sql));
+        $sql.=" LIMIT {$page},{$fenye}";
 
         $data['users']=$this->daili_model->getMemberInfo($_SESSION['daili_uid'],$sql);
 
@@ -233,6 +240,117 @@ class Daili extends CI_Controller {
             }
             $data['users']=$users;
         }
+
+        $config['base_url'] = 'http://'.$_SERVER['HTTP_HOST'].'/daili/hytj/gong/'.$data['url_gong'].'/reg/'.$data['url_reg'].'/vip/'.$data['url_vip'].'/page/';
+        $config['total_rows'] = $count;
+        $config['per_page'] = $fenye;
+        $config['first_link'] = '第一页';
+        $config['prev_link'] = '上一页';
+        $config['next_link'] = '下一页';
+        $config['last_link'] = '最后一页';
+
+        //当前页链接的起始标签。
+        $config['cur_tag_open'] = '<li class="paginate_button active"><a>';
+        $config['cur_tag_close'] = '</a></li>';
+        //上一页标签
+        $config['prev_tag_open'] = '<li class="paginate_button previous" id="example2_previous">';
+        $config['prev_tag_close'] = '</li>';
+        //下一页标签
+        $config['next_tag_open'] = '<li class="paginate_button next" id="example2_next">';
+        $config['next_tag_close'] = '</li>';
+        //数字链接的起始标签
+        $config['num_tag_open'] = '<li class="paginate_button ">';
+        $config['num_tag_close'] = '</li>';
+
+
+        $this->pagination->initialize($config);
+
+        $data['page']=$this->pagination->create_links();
+
+        //var_dump($this->daili_model->getMemberInfo1($_SESSION['daili_uid']));
+        $this->load->view('daili/templates/header',$data);
+        $this->load->view('daili/hytj',$data);
+        $this->load->view('daili/templates/footer');
+
+    }
+
+    /**
+     * 会员统计
+     */
+    public function hytj(){
+        if ( ! file_exists(APPPATH.'views/daili/hytj.php')){
+            show_404();
+        }
+
+        //是否登录
+        if (!$this->hasLogin()){
+            redirect('http://'.$_SERVER['HTTP_HOST'].'/daili/login');
+        }
+
+        $data['localhost'] = $_SERVER['HTTP_HOST'];//获取当前域名
+        $data['hytj_class']='active';
+        $data['class']='class="bg-green"';
+        $data['url_gong']=$this->uri->segment(4, 0);
+        $data['url_reg']=$this->uri->segment(6, 0);
+        $data['url_vip']=$this->uri->segment(8, 0);
+
+        $page=$this->uri->segment(10, 0);
+        $this->load->library('pagination');
+        $fenye=10;//分页数
+
+        $data['city']=$this->main_model->getcityName($_SESSION['daili_cityid']);
+
+
+        //$count=count($this->daili_model->getMemberInfo1($_SESSION['daili_uid'],$sql));
+
+        $sql=" LIMIT {$page},{$fenye}";
+
+        $data1=array(
+            'userid'=>$_SESSION['daili_uid'],
+            'time'=>'',
+            'gong'=>$data['url_gong'],
+            'reg'=>$data['url_reg'],
+            'vip'=>$data['url_vip'],
+            'addsql'=>$sql
+        );
+        $data2=array(
+            'userid'=>$_SESSION['daili_uid'],
+            'time'=>'',
+            'gong'=>$data['url_gong'],
+            'reg'=>$data['url_reg'],
+            'vip'=>$data['url_vip'],
+        );
+        $count=count($this->daili_model->getMemberInfo1($data2));
+
+
+        $data['users']=$this->daili_model->getMemberInfo1($data1);
+
+
+        $config['base_url'] = 'http://'.$_SERVER['HTTP_HOST'].'/daili/hytj/gong/'.$data['url_gong'].'/reg/'.$data['url_reg'].'/vip/'.$data['url_vip'].'/page/';
+        $config['total_rows'] = $count;
+        $config['per_page'] = $fenye;
+        $config['first_link'] = '第一页';
+        $config['prev_link'] = '上一页';
+        $config['next_link'] = '下一页';
+        $config['last_link'] = '最后一页';
+
+        //当前页链接的起始标签。
+        $config['cur_tag_open'] = '<li class="paginate_button active"><a>';
+        $config['cur_tag_close'] = '</a></li>';
+        //上一页标签
+        $config['prev_tag_open'] = '<li class="paginate_button previous" id="example2_previous">';
+        $config['prev_tag_close'] = '</li>';
+        //下一页标签
+        $config['next_tag_open'] = '<li class="paginate_button next" id="example2_next">';
+        $config['next_tag_close'] = '</li>';
+        //数字链接的起始标签
+        $config['num_tag_open'] = '<li class="paginate_button ">';
+        $config['num_tag_close'] = '</li>';
+
+
+        $this->pagination->initialize($config);
+
+        $data['page']=$this->pagination->create_links();
 
         //var_dump($this->daili_model->getMemberInfo1($_SESSION['daili_uid']));
         $this->load->view('daili/templates/header',$data);

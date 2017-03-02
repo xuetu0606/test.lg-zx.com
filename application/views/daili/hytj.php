@@ -70,8 +70,8 @@
 
                                         <tr>
                                             <td><?= $item['no'] ?></td>
-                                            <td><?= $item['is_co'] ? '公司' : '个人' ?></td>
-                                            <td><?= $item['name'] ? $item['name'] : '未填写' ?></td>
+                                            <td><?= $item['is_co']==1 ? '公司' : '个人' ?></td>
+                                            <td><?= $item['is_co'] ? $item['coname'] : ($item['nickname']?$item['nickname']:'未填写')  ?></td>
                                             <td><?= $item['gong'] ? $item['gong'] : '无' ?></td>
                                             <td><?= $item['is_vip'] ? 'VIP' : '普通会员' ?></td>
                                             <td><?= $item['promotion_flag'] ? $item['referrer'] : '站内注册' ?></td>
@@ -102,12 +102,14 @@
                                 </tr>
                                 </tfoot>
                             </table>
-                            <!--
+
                             <div class="row">
 
                                 <div class="col-sm-7">
                                     <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
-                                        <ul class="pagination">
+
+                                        <ul class="pagination"><?php echo $page;?></ul>
+                                        <!--<ul class="pagination">
                                             <li class="paginate_button previous disabled" id="example2_previous">
                                                 <a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0">Previous</a>
                                             </li>
@@ -132,11 +134,11 @@
                                             <li class="paginate_button next" id="example2_next">
                                                 <a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0">Next</a>
                                             </li>
-                                        </ul>
+                                        </ul>-->
                                     </div>
                                 </div>
                             </div>
-                            -->
+
                         </div>
                         <!-- /.box-body -->
 
