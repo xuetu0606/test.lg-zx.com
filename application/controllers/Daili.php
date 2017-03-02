@@ -352,10 +352,12 @@ class Daili extends CI_Controller {
 
         $data['page']=$this->pagination->create_links();
 
+
+
         //var_dump($this->daili_model->getMemberInfo1($_SESSION['daili_uid']));
         $this->load->view('daili/templates/header',$data);
         $this->load->view('daili/hytj',$data);
-        $this->load->view('daili/templates/footer');
+
 
     }
 

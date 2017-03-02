@@ -1,4 +1,4 @@
-    <!-- Content Wrapper. Contains page content d-->
+<!-- Content Wrapper. Contains page content d-->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -21,7 +21,8 @@
                         <div class="box-header">
                             <h3 class="box-title">筛选条件</h3>
                         </div>
-                        <div class="box-header">
+
+                        <div class="box-header col-sm-5">
                             <p><b>零工类型:</b>
                                 <?php
                                     echo '<a '.($url_gong==0?$class:'').' href="/daili/hytj/gong/0/reg/'.$url_reg.'/vip/'.$url_vip.'">不限</a> 
@@ -45,6 +46,21 @@
                                 ?>
                             </p>
                         </div>
+
+                        <!-- Date range -->
+                        <div class="form-group col-sm-5">
+                            <label>选择日期:</label>
+
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="reservation">
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                        <!-- /.form group -->
+
                         <!-- /.box-header -->
                         <div class="box-body">
                             <table id="example2" class="table table-bordered table-hover">
@@ -155,3 +171,81 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+
+
+<!-- jQuery 2.2.3 -->
+<script src="/static/daili/plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+
+
+<!-- Bootstrap 3.3.6 -->
+<script src="/static/daili/bootstrap/js/bootstrap.min.js"></script>
+<!-- Select2 -->
+<script src="/static/daili/plugins/select2/select2.full.min.js"></script>
+<!-- InputMask -->
+
+
+<script src="/static/daili/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="/static/daili/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="/static/daili/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<!-- date-range-picker -->
+
+<script src="/static/daili/js/moment.min.js"></script>
+<script src="/static/daili/plugins/daterangepicker/daterangepicker.js"></script>
+
+
+<!-- bootstrap datepicker -->
+<script src="/static/daili/plugins/datepicker/bootstrap-datepicker.js"></script>
+<!-- bootstrap color picker -->
+<script src="/static/daili/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+
+
+
+<!-- bootstrap time picker -->
+<script src="/static/daili/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+<!-- SlimScroll 1.3.0 -->
+<script src="/static/daili/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- iCheck 1.0.1 -->
+<script src="/static/daili/plugins/iCheck/icheck.min.js"></script>
+<!-- FastClick -->
+<script src="/static/daili/plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/daili/dist/js/app.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/static/daili/dist/js/demo.js"></script>
+<!-- Page script -->
+
+<script src="/static/daili/plugins/daterangepicker/bootstrap-datepicker.js"></script>
+<script src="/static/daili/plugins/daterangepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
+<script>
+
+
+    $(function () {
+        //Date range picker
+        $('#reservation').daterangepicker();
+
+    });
+    $('.date-picker').datepicker({
+        language: 'zh-CN',
+        autoclose: true,
+        todayHighlight: true
+    });
+
+    $('.applyBtn').click(function () {
+        alert($('#reservation').text());
+        alert('我被点了');
+    });
+
+    $(":button").find(".applyBtn").click(
+        function () {
+            alert('我被点了');
+        }
+    )
+    $(".field").change(function(){
+        $(this).css("background-color","#FFFFCC");
+    });
+
+
+</script>
+</body>
+</html>
