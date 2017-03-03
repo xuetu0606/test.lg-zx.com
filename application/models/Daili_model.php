@@ -51,11 +51,11 @@ class Daili_model extends CI_Model {
 
             $time = time();
             //查看vip是否过期 有值则为vip
-            $sql3 = "select starttime as vip_starttime,endtime as vip_endtime from user_service_log where uid='{$arr[$k]['uid']}' and endtime>'$time'  ";
+            $sql3 = "select starttime as vip_starttime,endtime as vip_endtime from user_service_log where uid='{$arr[$k]['uid']}' and endtime < {$time} ";
             $query3 = $this->db->query($sql3);
             $arr3 = $query3->row_array();
-            $arr[$k]['is_vip']= $arr['vip_endtime'];
-            $arr[$k]['vip_starttime']= $arr['vip_starttime'];
+            $arr[$k]['is_vip']= $arr3['vip_endtime'];
+            $arr[$k]['vip_starttime']= $arr3['vip_starttime'];
 
         }
         return $arr;

@@ -59,7 +59,7 @@ class Daili extends CI_Controller {
                 $data['month_1_add_users'][]=$v;
             }
             //是否vip
-            if($v['is_vip']==1){
+            if($v['is_vip']){
                 $data['vip_users'][]=$v;
             }
             //是否公司会员
@@ -138,7 +138,7 @@ class Daili extends CI_Controller {
         $data['title'] = '代理商登录'; // Capitalize the first letter
         $data['localhost'] = $_SERVER['HTTP_HOST'];//获取当前域名
 
-        $this->form_validation->set_rules('username', '用户名', 'trim|required|min_length[5]|max_length[12]');
+        $this->form_validation->set_rules('username', '用户名', 'trim|required|min_length[3]|max_length[12]');
         $this->form_validation->set_rules('passwd', '密码', 'trim|required|min_length[6]');
         $this->form_validation->set_error_delimiters('<span>', '</span>');
 
