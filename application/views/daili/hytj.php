@@ -52,10 +52,12 @@
                             <label>选择日期:</label>
 
                             <div class="input-group">
-                                <form action="/daili/hytj" method="post">
+                                <form action="/daili/hytj" method="post" id="chaxun">
                                     <input name="riqi1" type="text" value="<?php echo $_SESSION['starttime']?date('Y-m-d',$_SESSION['starttime']):date('Y-m-d',time());?>">至
                                     <input name="riqi2" type="text" value="<?php echo $_SESSION['endtime']?date('Y-m-d',$_SESSION['endtime']):date('Y-m-d',time());?>">
+                                    <input type="hidden" id="quxiao_text" name="quxiao" value="0">
                                     <input type="submit">
+                                    <input type="button" id="quxiao" value="取消">
                                 </form>
                             </div>
                             <!-- /.input group -->
@@ -232,6 +234,10 @@
         todayHighlight: true
     });
 
+    $('#quxiao').click(function () {
+        $('#quxiao_text').val(1);
+        document.getElementById("chaxun").submit();
+    });
 
 
 

@@ -313,8 +313,17 @@ class Daili extends CI_Controller {
         if($_POST){
             $starttime=strtotime($riqi1);
             $endtime= strtotime($riqi2) + 86300;
-            $_SESSION['starttime']=$starttime;
-            $_SESSION['endtime']=$endtime;
+            if($this->input->post('quxiao',true)){
+                unset(
+                    $_SESSION['starttime'],
+                    $_SESSION['endtime']
+                );
+
+            }else{
+                $_SESSION['starttime']=$starttime;
+                $_SESSION['endtime']=$endtime;
+            }
+
         }
 
 
