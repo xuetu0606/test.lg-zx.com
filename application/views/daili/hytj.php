@@ -52,10 +52,11 @@
                             <label>选择日期:</label>
 
                             <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input type="text" class="form-control pull-right" id="reservation">
+                                <form action="/daili/hytj" method="post">
+                                    <input name="riqi1" type="text" value="<?php echo $_SESSION['starttime']?date('Y-m-d',$_SESSION['starttime']):date('Y-m-d',time());?>">至
+                                    <input name="riqi2" type="text" value="<?php echo $_SESSION['endtime']?date('Y-m-d',$_SESSION['endtime']):date('Y-m-d',time());?>">
+                                    <input type="submit">
+                                </form>
                             </div>
                             <!-- /.input group -->
                         </div>
@@ -230,7 +231,7 @@
         autoclose: true,
         todayHighlight: true
     });
-    
+
 
 
 

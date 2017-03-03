@@ -86,10 +86,13 @@ class Daili_model extends CI_Model {
         if($vip==1){
             $time=time()+2592000;
             $time="and user_service_log.endtime>{$time}";
-        }elseif($vip==1){
-            $time='and user.list>{$time}';
         }else{
             $time='';
+        }
+        if($starttime and $endtime){
+            $riqi="and {$starttime} < userlist.addtime and userlist.addtime < {$endtime} ";
+        }else{
+            $riqi='';
         }
 
         $sql = "select userlist.no,userlist.username,userlist.is_co,(select coname from user_co where uid=userlist.uid limit 1) as coname,
@@ -103,7 +106,7 @@ left join publish_list on publish_list.uid=userlist.uid
 left join job_type on job_type.id=publish_list.job_code
 left join user_service_log on userlist.uid=user_service_log.uid 
 left join vip_service_dic on user_service_log.vip_id=vip_service_dic.id
-where userlist.city_id='{$city_id}' {$reg_sql} {$gong_sql} {$time}
+where userlist.city_id='{$city_id}' {$reg_sql} {$gong_sql} {$time} {$riqi}
 group by userlist.uid {$addsql}";
         $query = $this->db->query($sql);
         $arr = $query->result_array();

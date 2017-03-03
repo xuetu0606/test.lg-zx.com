@@ -8,7 +8,8 @@ class Daili extends CI_Controller {
         ));
         $this->load->helper(array(
             'url_helper',
-            'form'
+            'form',
+            'cookie'
         ));
         $this->load->library(array(
             'session',
@@ -228,6 +229,7 @@ class Daili extends CI_Controller {
         if($data['url_reg']==2){
             $sql.=" and (promotion_flag=0)";
         }
+
         $count=count($this->daili_model->getMemberInfo($_SESSION['daili_uid'],$sql));
         $sql.=" LIMIT {$page},{$fenye}";
 
@@ -305,29 +307,35 @@ class Daili extends CI_Controller {
 
         $sql=" LIMIT {$page},{$fenye}";
 
+        $riqi1=$this->input->post('riqi1',true);
+        $riqi2=$this->input->post('riqi2',true);
+
+        if($_POST){
+            $starttime=strtotime($riqi1);
+            $endtime= strtotime($riqi2) + 86300;
+            $_SESSION['starttime']=$starttime;
+            $_SESSION['endtime']=$endtime;
+        }
+
+
         $data1=array(
             'userid'=>$_SESSION['daili_uid'],
-            'time'=>'',
+            'starttime'=>$_SESSION['starttime'],
+            'endtime'=>$_SESSION['endtime'],
             'gong'=>$data['url_gong'],
             'reg'=>$data['url_reg'],
             'vip'=>$data['url_vip'],
             'addsql'=>$sql
         );
 
-            $time=$this->input->post('time', TRUE);
-            var_dump($time) ;
-        $return["status"] = "success";
-        $return["msg"] = $time;
-            echo json_encode($return);
-
-
         $data2=array(
             'userid'=>$_SESSION['daili_uid'],
-            'time'=>'',
+            'starttime'=>$_SESSION['starttime'],
+            'endtime'=>$_SESSION['endtime'],
             'gong'=>$data['url_gong'],
             'reg'=>$data['url_reg'],
             'vip'=>$data['url_vip'],
-            'starttime'=>[''],
+            'addsql'=>'',
         );
         $count=count($this->daili_model->getMemberInfo1($data2));
 
