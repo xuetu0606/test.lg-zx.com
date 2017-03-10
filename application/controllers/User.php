@@ -9,8 +9,7 @@ class User extends CI_Controller
             'user_model',
             'list_model',
             'form_model',
-            'main_model',
-            'admin_model'
+            'main_model'
         ));
         $this->load->helper(array(
             'form',
@@ -26,12 +25,38 @@ class User extends CI_Controller
 
     }
 
+    /**
+     * 零工宝
+     *
+     */
+    public function index()
+    {
+        if (!file_exists(APPPATH . 'views/home/user/center.php')) {
+            show_404();
+        }
+        $data['title'] = '零工宝'; // 网页标题
+        $data['localhost'] = $_SERVER['HTTP_HOST'];// 当前域名
+        $citycode = $this->main_model->getCityCode();        //地区名
+        $city_arr = $this->main_model->getCityInfoByCode($citycode);
+        $data['cityname'] = $city_arr['name'];
+        if (!$this->hasLogin()) {
+            redirect('http://' . $_SERVER['HTTP_HOST'] . '/user/login');
+        }
+
+        $data['user'] = $this->user_model->getUserBaseInfo($_SESSION['uid']);
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('home/user/center', $data);
+        $this->load->view('templates/footer');
+    }
+
+
 
     /**
      * 用户登录
      *
      */
-    public function index()
+    public function login()
     {
         if (!file_exists(APPPATH . 'views/home/user/login.php')) {
             show_404();
@@ -57,7 +82,7 @@ class User extends CI_Controller
         $this->form_validation->set_rules('passwd', '密码', 'trim|required|min_length[6]');
         $this->form_validation->set_error_delimiters('<span>', '</span>');
 
-        $this->load->view('templates/head_simple', $data);
+        //$this->load->view('templates/head_simple', $data);
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('home/user/login', $data);
         } else {
@@ -91,7 +116,7 @@ class User extends CI_Controller
                 if($url){
                     redirect($url);
                 }else{
-                    redirect('http://' . $_SERVER['HTTP_HOST'] . '/user/center');
+                    redirect('http://' . $_SERVER['HTTP_HOST'] . '/user');
                 }
 
             } else {
@@ -104,7 +129,7 @@ class User extends CI_Controller
 
 
         }
-        $this->load->view('templates/footer2');
+        //$this->load->view('templates/footer2');
     }
 
     /**
@@ -219,6 +244,117 @@ class User extends CI_Controller
     }
 
     /**
+     * 所有省市联动下拉js
+     *
+     *
+     */
+    public function getProvinceCity_js(){
+        $sql = "select dist_id,name,level,pinyin,pre_dist_id from province_city  ";
+        $query = $this->db->query($sql);
+        $list = array();
+        while ($row = $query->unbuffered_row('array')) {
+            if($row['level']==1){
+                $list[$row['dist_id']] = array('name'=>$row['name']);
+            }elseif($row['level']==2){
+                $list[$row['pre_dist_id']][$row['dist_id']]['name']= $row['name'];
+                $list[$row['pre_dist_id']][$row['dist_id']]['pinyin']= $row['pinyin'];
+            }
+        }
+
+        foreach ($list as $k => $v){
+            foreach ($v as $k1 => $v1) {
+                if($k1!='name'){
+                    $city.='{
+                    "ct": "'.$v1['name'].'",
+                    "cv": "'.$k1.'"
+                },';
+                }
+            }
+            $list_js.='{
+            "p": "'.$v['name'].'",
+            "v": "'.$k.'",
+            "c": [
+                '.$city.'
+            ]
+        },';
+            $city='';
+        }
+
+        $js='
+        $(function() {
+            var list = [
+                '.$list_js.'
+            ];
+            var pro = $(\'#province\');
+            var city = $(\'#city\');
+            var proDiv = $(\'#proDiv\');
+            var cityDiv = $(\'#cityDiv\');
+            var index=0;
+            var divhtml2=\'\';
+            var cityhtml=\'\';
+            var proFun = function () {
+                var prohtml = \'\';
+                $.each(list, function (k, v) {
+                    //prohtml+= "<option value=\'"+v.p+"\'>"+v.p+"</option>";
+                    prohtml += "<a href=\'javascript:void(0);\' data-pro=\'"+v.v+"\' class=\'list-group-item\'>" + v.p + "</a>";
+                });
+                pro.html(prohtml);
+                //初始化省份、城市------------------------------------
+                var divhtml = proDiv.html() + "<span class=\'text\'>"+list[0].p+"</span>";
+                proDiv.html(divhtml);
+                console.log(proDiv.html());
+            };
+        
+            var cityFun=function(){
+                cityhtml=\'\';
+                $.each(list[index].c,function(k,v){
+                    cityhtml+= "<a href=\'javascript:void(0);\' data-city=\'"+v.cv+"\' class=\'list-group-item citya\'>" + v.ct + "</a>";
+                });
+                city.html(cityhtml);
+                cityDiv.parent().find(\'span.text\').eq(0).text(list[index].c[0].ct);
+                console.log(cityDiv.html());
+        
+            };
+            proFun();
+            cityFun();
+        
+          $(\'span.xl\').click(function(){
+              $(this).parent().find(\'ul\').toggle();
+              //$(\'#province\').toggle();
+          });
+            $(document).bind("click", function (e) {
+                var target = $(e.target);
+                if(target.closest("#province,#proDiv").length == 0){
+                    //进入if则表明点击的不是#province,#proDiv元素中的一个
+                    $("#province").hide();
+                }if(target.closest("#city,#cityDiv").length == 0){
+                    //进入if则表明点击的不是#province,#proDiv元素中的一个
+                    $("#city").hide();
+                }
+                e.stopPropagation();
+            });
+$(\'#province a\').click(function(){
+    $(\'#proDiv span.text\').text($(this).text());
+    $(\'#province\').hide();
+    index=$(this).index();
+    cityFun();
+    $(\'#pro_id\').val($(this).data("pro"));
+    $(\'#city_id\').val($("body").find(".citya").eq(0).data("city"));
+
+});
+    $(document).on(\'click\',\'.citya\', function() {
+        cityDiv.parent().find(\'span.text\').eq(0).text($(this).text());
+        $(\'#city\').hide();
+        $(\'#city_id\').val($(this).data("city"));
+
+    });
+});
+        ';
+
+        return $js;
+    }
+
+    /**
      * 注册
      *
      */
@@ -233,6 +369,8 @@ class User extends CI_Controller
             redirect('http://' . $_SERVER['HTTP_HOST'] . '/user/center');
         }
 
+        $data['js']=$this->getProvinceCity_js();
+
         $citycode = $this->main_model->getCityCode();//获取城市简码
 
         $city = $this->main_model->getCityInfoByCode($citycode);//根据简码获取城市信息
@@ -241,23 +379,16 @@ class User extends CI_Controller
         $data['title'] = '注册'; // 网页标题
         $data['area'] = array($this->user_model->getProvince(), $this->user_model->getAllCity());//获取全部省市信息
 
-        $this->load->view('templates/head_simple', $data);
+        //$this->load->view('templates/header', $data);
 
         $this->form_validation->set_rules('username', '用户名', 'trim|required|min_length[5]|max_length[12]');
         $this->form_validation->set_rules('password', '密码', 'trim|required|min_length[6]');
         $this->form_validation->set_rules('passconf', '确认密码', 'trim|required|matches[password]');
-        $this->form_validation->set_rules('email', 'Email', 'trim|valid_email');
-
-        if ($this->input->post('is_co', TRUE)) {
-            $this->form_validation->set_rules('coname', '公司名称', 'trim|required');
-        } else {
-            $this->form_validation->set_rules('realname', '姓名', 'trim|required');
-        }
 
         $this->form_validation->set_rules('mobile', '手机号', 'trim|required|numeric|exact_length[11]');
         $this->form_validation->set_rules('is_co', '', 'trim|required');
-        $this->form_validation->set_rules('referer', '推介人', 'trim|required|min_length[4]|max_length[12]');
-        $this->form_validation->set_error_delimiters('<p class="error">', '</p>');
+        $this->form_validation->set_rules('referer', '推介人', 'trim|min_length[4]|max_length[12]');
+        $this->form_validation->set_error_delimiters();
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('home/user/reg', $data);
@@ -287,16 +418,16 @@ class User extends CI_Controller
 //var_dump($return);exit;
                     //$data['info']=
                     $this->load->view('home/user/success', $data);
-                    $this->load->view('templates/footer');
+                    //$this->load->view('templates/footer');
                 } else {
                     $data['formError'] = $return['info'];
                     $this->load->view('home/user/reg', $data);
-                    $this->load->view('templates/footer2');
+                    //$this->load->view('templates/footer2');
                 }
             } else {
                 $data['codeError'] = '验证码错误';
                 $this->load->view('home/user/reg', $data);
-                $this->load->view('templates/footer2');
+                //$this->load->view('templates/footer');
             }
         }
 
@@ -353,67 +484,7 @@ class User extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    /**
-     * 手机验证码
-     *$page异步提交参数  reg注册页  res重置密码页 ksfb快速发布
-     */
-    public function getCode($page)
-    {
 
-        $mobile = $this->input->post('mobile', TRUE);
-        $page == 'res' && $username = $this->input->post('username', TRUE);
-        $return["status"] = "failed";
-
-        $uid = $this->user_model->checkMobile($mobile);//根据手机获取uid
-        $username_db = $this->user_model->username;
-        $ksfb = $this->form_model->checkQuickPublish($uid);//根据uid判断是否快速发布过
-
-        if (!$mobile) {
-            $return['msg'] = '请填写手机号码';
-        } else {
-            if (!$this->user_model->checkIsMobile($mobile)) {
-
-                $return['msg'] = '请填写有效手机号';
-
-            } elseif ($uid and $page == 'reg') {
-
-                $return['msg'] = '该手机号已被注册';
-
-            } elseif ($ksfb and $page == 'ksfb') {
-
-                $return['msg'] = '该手机号已发布';
-            } elseif ($username && $page == 'res' && $username != $username_db) {
-                $return['msg'] = '您填写的手机号码匹配的用户名有误，请检查后重新填写';
-
-            } else {
-                //重新发送时间限制
-                //if($this->sendTime($mobile)){
-                //生成随机验证码
-                $code = $this->random(6);
-                //发送内容
-                $content = '【零工在线】您的短信验证码：' . $code . '，请正确输入验证码完成操作。请勿向任何人提供您收到的短信验证码';
-                if ($this->sendSMS($mobile, $content)) {
-                    //if(1){
-                    $return["status"] = "success";
-                    $return['msg'] = '发送成功';
-                    $_SESSION[$page . 'code'] = $code;
-
-                } else {
-                    $return['msg'] = '发送失败';
-                }
-                // }else{
-                //$return['msg']='正在发送中';
-                //}
-
-
-            }
-
-
-        }
-
-        echo json_encode($return);
-
-    }
 
 
     /**
@@ -438,78 +509,7 @@ class User extends CI_Controller
     }
 
 
-    /**
-     * 发送手机验证码
-     *
-     */
-    public function sendSMS($mobile, $content, $time = '', $mid = '')
-    {
-        $uid = 'qdlgzx';    //用户账号
-        $pwd = '63827c906e4e2995130b96c6267ca3da';    //用户密码
-        $http = 'http://115.29.103.223:8080/smsServer/submit';        //发送地址
-        $data = array
-        (
-            'CORPID' => $uid,                //用户账号
-            'CPPW' => $pwd,                //密码
-            'PHONE' => $mobile,                //被叫号码
-            'CONTENT' => $content,                //内容
-        );
-        $re = '#' . $this->postSMS($http, $data);
-        if (strpos($re, "SUCCESS") > 0) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
-    }
 
-    public function postSMS($url, $data = '')
-    {
-        $row = parse_url($url);
-        $host = $row['host'];
-        $port = $row['port'] ? $row['port'] : 8080;
-        $file = $row['path'];
-        foreach ($data as $k => $v) {
-            $post .= rawurlencode($k) . "=" . rawurlencode($v) . "&";    //转URL标准码
-        }
-        $post = substr($post, 0, -1);
-        $len = strlen($post);
-        $fp = fsockopen($host, $port, $errno, $errstr, 10);
-        if (!$fp) {
-            return "$errstr ($errno)\n";
-        } else {
-            $receive = '';
-            $out = "POST $file HTTP/1.1\r\n";
-            $out .= "Host: $host\r\n";
-            $out .= "Content-type: application/x-www-form-urlencoded\r\n";
-            $out .= "Connection: Close\r\n";
-            $out .= "Content-Length: $len\r\n\r\n";
-            $out .= $post;
-            fwrite($fp, $out);
-            while (!feof($fp)) {
-                $receive .= fgets($fp, 128);
-            }
-            fclose($fp);
-            $receive = explode("\r\n\r\n", $receive);
-            unset($receive[0]);
-            return implode("", $receive);
-        }
-    }
-
-    /**
-     * 生成随机数
-     *
-     */
-    public function random($v)
-    {
-        srand((double)microtime() * 1000000);//create a random number feed.
-        $ychar = "0,1,2,3,4,5,6,7,8,9";
-        $list = explode(",", $ychar);
-        for ($i = 0; $i < $v; $i++) {
-            $randnum = rand(0, 10); // 10+26;
-            $authnum .= $list[$randnum];
-        }
-        return $authnum;
-    }
 
     /**
      * 获取城市下拉菜单  *不使用了

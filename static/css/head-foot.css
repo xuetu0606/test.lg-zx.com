@@ -1,421 +1,143 @@
-html,
-body,
-span,
-div,
-img,
-input,
-span,
-p {
-  margin: 0;
-  padding: 0;
-  color: #000000;
-  font-family: "微软雅黑", "Arial Narrow";
-}
-@media all and (min-width: 320px) and (max-width: 374px) {
-  html {
-    font-size: 12px !important;
-  }
-}
-@media all and (min-width: 375px) and (max-width: 413px) {
-  html {
-    font-size: 12px !important;
-  }
-}
-@media all and (min-width: 414px) and (max-width: 767px) {
-  html {
-    font-size: 12px !important;
-  }
-}
-@media all and (min-width: 768px) {
-  html {
-    font-size: 20px !important;
-  }
-  html body footer .div-top a.top img {
-    left: 18rem;
-  }
-}
-body a {
-  color: #000;
-  text-decoration: none;
-}
-body ul li {
-  display: inline-block;
-  list-style: none;
-}
-body .sanjiao {
-  width: 0;
-  height: 0;
-  display: inline-block;
-  border: solid .45rem;
-}
-body .sanjiao-down {
-  border-color: #aaaaaa transparent transparent  transparent;
-  position: relative;
-  top: .4rem;
-}
-body .sanjiao-up {
-  border-color: transparent transparent #aaaaaa transparent;
-}
-body .hide {
-  display: none;
-}
-body .vip {
-  color: gold !important;
-  margin-left: .5rem !important;
-}
-body .red {
-  color: #ff3c5a !important;
-}
-body .blue {
-  color: #00b4ff !important;
-}
-body .deepblue {
-  color: #0036ff !important;
-}
-body .hui {
-  color: #c4c4c4 !important;
-}
-body .left {
-  float: left;
-  margin-left: .01rem;
-}
-body .right {
-  float: right;
-  margin-right: .01rem;
-}
-body input {
-  outline: none;
-  box-shadow: none;
-  border: none;
-}
-input[type=button], input[type=submit], input[type=file],input[type=text]
-{
-  cursor: pointer;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  appearance: none !important;
-}
-body select,
-body input，option {
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  outline: medium none;
-}
-body header {
-  font-size: 1.1rem;
+header {
   width: 100%;
+  height: 30px;
+  margin: 0 auto;
+  background: #fff;
+  border-bottom: solid 1px #c6c6c6;
 }
-body header div {
+header div.main {
+  width: 1190px;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+header div.main div,
+header div.main span {
   display: inline-block;
 }
-body header #hidebg {
-  top: 3.2rem;
-}
-body header div.header-top {
-  width: 100%;
-  height: 3.2rem;
-  background-color: #ddddde;
-}
-body header div.header-top div.logo-address {
-  width: 62%;
-  height: inherit;
-}
-body header div.header-top div.logo-address img.logo {
-  width: 9rem;
-  height: 3rem;
+header div.main div.city {
   vertical-align: middle;
 }
-body header div.header-top div.logo-address span {
-  vertical-align: middle;
-  margin-top: .4rem;
-  display: inline-block;
+header div.main div.city a {
+  color: #888888;
+  font-size: 13px;
 }
-body header div.header-top div.logo-address span.fa {
-  font-size: 1.4rem;
-}
-body header div.header-top div.user {
-  text-align: right;
-  width: 36%;
-  height: inherit;
-  float: right;
-  margin-right: .4rem;
-}
-body header div.header-top div.user div.mine,
-body header div.header-top div.user div.publish,
-body header div.header-top div.user div.sign {
-  height: inherit;
-}
-body header div.header-top div.user div.mine a,
-body header div.header-top div.user div.publish a,
-body header div.header-top div.user div.sign a {
-  display: inline-block;
-  height: inherit;
-  line-height: 3.2rem;
-}
-body header div.header-top div.user div.mine a img,
-body header div.header-top div.user div.publish a img,
-body header div.header-top div.user div.sign a img {
-  width: 1.35rem;
-  height: 1.24rem;
+header div.main div.weather {
   vertical-align: middle;
 }
-body header div.header-top div.user div.mine a span,
-body header div.header-top div.user div.publish a span,
-body header div.header-top div.user div.sign a span {
+header div.main div.weather span {
+  font-size: 12px;
+}
+header div.main div.weather img.weather-condition {
   vertical-align: middle;
-  color: #ff3c5a;
-  margin: 0 4px;
+  width: 16px;
+  height: 16px;
 }
-body header div.header-top div.user div.publish a img {
-  width: 1.4rem;
-  height: 1.24rem;
-}
-body header div.header-top div.user div.publish a span {
-  color: #00b4ff;
-}
-body header div.header-top div.user span.line {
-  display: inline-block;
-  height: .82rem;
-  border: solid 1px #fcfcfc;
-  width: 0;
+header div.main div.weather span {
   vertical-align: middle;
-  box-shadow: 1px 0 1px #8e8e93;
 }
-body header div.header-top div.user div.sign a img {
-  width: 2.5rem;
-  height: 2.5rem;
+header div.main div.weather .liang {
+  background-color: #73d538;
 }
-body header div.header-top div.user:after {
-  content: '';
-  height: 0;
-  display: block;
-  clear: both;
-}
-body div.header-bottom {
-  position: relative;
-  width: 100%;
-  height: 2.8rem;
-  background-color: #ff3c5a;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-justify-content: space-around;
-      -ms-flex-pack: distribute;
-          justify-content: space-around;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-body div.header-bottom div.search {
-  width: 45%;
-  height: 2.8rem;
-  line-height: 2.8rem;
-}
-body div.header-bottom div.search form {
-  display: inline-block;
-  height: 2.8rem;
-  width: 85%;
-}
-body div.header-bottom div.search form input {
-  height: 2rem;
-  width: 90%;
-  border-radius: 1rem;
-  border-color: #ff3c5a;
-  font-size: 1rem;
-  background: url("../images/header/sousuo_03.gif") no-repeat 97% center;
-  background-size: 2rem;
-  background-color: #fff;
-  padding-right: 2.8rem;
-  padding-left: 1rem;
-  z-index: 1;
-}
-body div.header-bottom div.search form #sousuo {
-  padding: 0;
-  width: 2.4rem;
-  height: 2rem;
-  position: absolute;
-  top: .4rem;
-  z-index: 2;
-  background: transparent;
-  color: transparent;
-}
-body div.header-bottom div.hot {
-  width: 45%;
-  height: 2.8rem;
-  line-height: 2.8rem;
-}
-body div.header-bottom div.hot span,
-body div.header-bottom div.hot a {
+header div.main div.weather span.air-condition {
+  width: 15px;
+  height: 14px;
+  text-align: center;
+  line-height: 15px;
+  border-radius: 2px;
   color: #fff;
-  font-size: 1rem;
+  font-size: 12px;
   font-weight: bold;
 }
-body div.header-bottom #searchbg {
+header div.main div.fr {
+  float: right;
+  margin-right: 5px;
+}
+header div.main div.fr ul {
+  display: inline-block;
+  height: inherit;
+}
+header div.main div.fr ul li {
+  height: 30px;
+  margin-left: 10px;
+  line-height: 30px;
+}
+header div.main div.fr ul li a {
+  height: 30px;
+  line-height: 30px;
+  color: #888888;
+}
+header div.main div.fr ul li img {
+  width: 9px;
+  height: 6px;
+  margin-left: 4px;
+  margin-bottom: 2px;
+}
+header div.main div.fr ul li.wxb:hover {
+  cursor: pointer;
+}
+header div.main div.fr div.lgb {
+  position: absolute;
+  height: 120px;
+  width: 70px;
+  border: solid 1px #dadada;
+  background-color: #ffffff;
+  top: 0;
+  right: 324px;
   display: none;
-  width: 100%;
-  background-color: #fff;
-  position: absolute;
-  left: 0;
-  top: -4rem;
-  z-index: 2;
 }
-body div.header-bottom #hideSearch {
+header div.main div.fr div.lgb a {
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  color: #888888;
+  font-size: 12px;
+  text-align: center;
+  display: block;
+  box-sizing: border-box;
+}
+header div.main div.fr div.lgb a img {
+  width: 9px;
+  height: 6px;
+  margin-left: 4px;
+  margin-bottom: 2px;
+}
+header div.main div.fr div.lgb a:hover {
+  text-decoration: none;
+}
+header div.main div.fr div.lgb a:first-child {
+  display: inline-block;
+  font-size: 14px;
+}
+header div.main div.fr div.lgb .a-backcolor {
+  background-color: #dadada;
+}
+header div.main div.fr div.wx {
   position: absolute;
-  top: -4rem;
-  left: 0;
+  top: 31px;
+  right: 240px;
   display: none;
-  width: 100%;
-  z-index: 3;
 }
-body div.header-bottom #hideSearch div.shuru {
-  width: 100%;
-  height: 6.4rem;
-  background-color: #eeedec;
-  position: relative;
+footer {
+  height: 130px;
+  margin-top: 80px;
 }
-body div.header-bottom #hideSearch div.shuru input {
-  margin-left: 1.2rem;
-  width: 80%;
-  margin-top: 2rem;
-  height: 3.6rem;
-  border-radius: 6px;
-  padding-right: 2.8rem;
-  padding-left: 1rem;
-  box-sizing: border-box;
-  font-size: 1.4rem;
+footer div.main {
+  width: 1190px;
+  margin: 0 auto;
 }
-body div.header-bottom #hideSearch div.shuru img {
-  width: 2.3rem;
-  height: 2.3rem;
-  position: absolute;
-  top: 40%;
-  left: 75%;
+footer div.main ul {
+  text-align: center;
+  margin: 10px;
 }
-body div.header-bottom #hideSearch div.shuru a {
-  margin-left: .5rem;
-  color: #ff3c5a;
-  font-size: 1.2rem;
-}
-body div.header-bottom #hideSearch div.find {
-  width: 100%;
-}
-body div.header-bottom #hideSearch div.find .hui {
-  color: #b0b0b0;
-}
-body div.header-bottom #hideSearch div.find ul {
-  margin: 0;
-  padding: 0;
-}
-body div.header-bottom #hideSearch div.find ul li {
-  display: block;
-  height: 3.2rem;
-  line-height: 3.2rem;
-  box-sizing: border-box;
-  padding-left: 1rem;
-  border-bottom: solid 1px #b0b0b0;
-}
-body div.header-bottom #hideSearch div.find ul li a {
-  display: block;
-  height: 3.2rem;
-  line-height: 3.2rem;
-  font-size: 1.2rem;
-}
-body div.header-bottom #hideSearch div.find ul li a span {
-  margin-right: -0.3rem;
-}
-body div.header-bottom #hideSearch div.find ul li a .number {
-  color: #b0b0b0;
-  margin-left: 1rem;
-}
-body footer {
-  position: relative;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  margin-top: 4rem;
-}
-body footer a.top {
-  display: inline-block;
-  position: fixed;
-  bottom: 3%;
-  right: 3%;
-  margin-left: -1.3rem;
-  z-index: 1;
-}
-body footer a.top img {
-  width: 2.4rem;
-  height: 2.3rem;
-}
-body footer div.foot .line1 {
-  position: absolute;
-  top: .2rem;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 0;
-  display: inline-block;
-  border: dashed 1px #ffffff;
-}
-body footer div.foot .line2 {
-  position: absolute;
-  top: .28rem;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  height: 0;
-  display: inline-block;
-  border: dashed 1px #727171;
-}
-body footer div.foot nav {
-  height: 3.1rem;
-  background-color: #75d6ff;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-justify-content: space-around;
-      -ms-flex-pack: distribute;
-          justify-content: space-around;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 4px;
-}
-body footer div.foot nav a {
-  font-size: 1rem;
+footer div.main ul li a {
+  font-size: 18px;
   color: #333;
 }
-body footer div.foot nav .vertical-line {
-  display: inline-block;
-  width: 0;
-  border: solid 1px #fff;
-  height: 1rem;
-  box-shadow: 1px 2px 1px #727171;
-}
-body footer div.version {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-justify-content: space-around;
-      -ms-flex-pack: distribute;
-          justify-content: space-around;
-  height: 5.2rem;
-  background-color: #727171;
-}
-body footer div.version img {
-  width: 3.5rem;
-  height: 4.5rem;
-  margin-top: .5rem;
-}
-body footer p {
+footer div.main p {
+  margin-top: 20px;
   text-align: center;
-  margin: -1px auto;
-  padding: 0;
-  background-color: #727171;
-  color: #fff;
-  font-size: .7rem;
-  letter-spacing: 1px;
+  font-size: 18px;
+  color: #333;
 }

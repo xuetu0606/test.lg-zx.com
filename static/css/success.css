@@ -1,0 +1,19 @@
+section {
+  padding: 80px 0;
+  text-align: center;
+}
+section h1 {
+  font-size: 30px;
+}
+section p {
+  margin: 40px 0;
+  font-size: 24px;
+}
+section p span.stress {
+  font-size: 24px;
+}
+section p a {
+  margin: 0 20px;
+  font-size: 18px;
+  color: #2f2aff;
+}
