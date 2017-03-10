@@ -1,134 +1,224 @@
-<link rel="stylesheet" href="/static/css/tpls/register.css"/>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <link rel="stylesheet" href="/static/node_modules/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/static/css/common.css"/>
+    <link rel="stylesheet" href="/static/css/head-foot.css"/>
+    <link rel="stylesheet" href="/static/css/register.css"/>
+</head>
+<body>
+<header>
+    <div class="main">
+        <div class="city">
+            <span class="stress">青岛</span>
+            <a href="切换城市.html">[切换城市]</a>
+        </div>
+        <div class="fr">
+            <ul>
+                <li><a href="#">注册</a></li>
+                <li><a href="#">登录</a></li>
+                <li class="lgbxl"><a href="#">零工宝</a><img src="/static/images/xiala.png" alt=""/></li>
+                <li class="stress wxb">微信版</li>
+                <li><a href="#" class="stress">手机版</a></li>
+                <li><a href="#">帮助</a></li>
+            </ul>
+            <div class="lgb">
+                <a href="#">零工宝<img src="/static/images/xiala.png" alt="" /></a>
+                <a href="#" class="lgba">我的发布</a>
+                <a href="#" class="lgba">我的收藏</a>
+                <a href="#" class="lgba">我的资料</a>
+            </div>
+            <div class="wx">
+                <img src="/static/images/head-foot/weixin.png" alt=""/>
+            </div>
+        </div>
+    </div>
 
+</header>
 <section>
-    <p class="userRegister"><?php echo $title; ?></p>
-    <?php echo form_open('user/reg','name="register" id="registerForm"'); ?>
-        <div id="regarea" class="list" style="height: 4rem;">
-            <span>注册地<b> :</b></span>
-            <select name="p_id" class="province">
-            <?php foreach($province as $key => $value){ ?>
-                    <option value="<?php echo $key; ?>" <?php if($key == $city_arr['pro_id'])echo 'selected="selected"';?>><?php echo $value; ?></option>
-                <?php } ?>
-            </select>
-            <select name="c_id" class="city1">
-           		<?php foreach ($city_list as $key=>$value){?>
-                	<option value="<?php echo $key;?>" <?php if($key==$city_arr['id'])echo 'selected="selected"';?>><?php echo $value?></option>
-                <?php }?>
-            </select>
-            <p style="color: #ff0000; width: 19rem; font-size: 1rem;margin: .4rem 6.5rem;">请确认您当前所在城市，注册后不可修改！</p>
-        </div>
-        <div class="list">
-            <span><b class="red">*</b>注册类型<b> :</b></span>
-            <input type="radio" name="type" checked="checked" id="personCheck"/> 个人零工
-            <input type="radio" name="type" id="companyCheck"/> 公司零工
-            <input type="hidden" name="is_co" id="is_co" value="<?php echo set_value('is_co')?set_value('is_co'):'0'; ?>" />
-        </div>
-        <div class="list">
-            <span><b class="red">*</b>用户名<b> :</b></span>
-            <input type="text" name="username" required="required" value="<?php echo set_value('username'); ?>"/>
-            <?php echo form_error('username'); ?>
-        </div>
-        <div class="list">
-            <span><b class="red">*</b>密码<b> :</b></span>
-            <input type="password" name="password" required="required"/>
-            <?php echo form_error('password'); ?>
-        </div>
-        <div class="list">
-            <span><b class="red">*</b>确认密码<b> :</b></span>
-            <input type="password" name="passconf" required="required"/>
-            <?php echo form_error('passconf'); ?>
-        </div>
-        <div class="list">
-            <span>邮箱<b> :</b></span>
-            <input type="email" name="email"  value="<?php echo set_value('email'); ?>"/>
-            <?php echo form_error('email'); ?>
-        </div>
-        <div class="list">
-            <span>推介人<b> :</b></span>
-            <input type="text" name="referer" value="零工在线" value="<?php echo set_value('referer'); ?>"/>
-            <?php echo form_error('referer'); ?>
-        </div>
-        <div class="list">
-            <span id="nickname"><b class="red">*</b>姓名<b> :</b></span>
-            <input type="text" name="realname" id="realname" required="required" value="<?php echo set_value('is_co')?set_value('coname'):set_value('realname'); ?>"/>
-            <?php echo set_value('is_co')?form_error('coname'):form_error('realname'); ?>
-        </div>
-        <div class="list">
-            <span><b class="red">*</b>手机号<b> :</b></span>
-            <input type="tel" name="mobile" id="mobile" required="required" value="<?php echo set_value('mobile'); ?>"/>
-            <?php echo form_error('mobile'); ?><p class="error" id="mobileError"></p>
-        </div>
-        <div class="list">
-            <span></span>
+    <div class="logo">
+        <img src="/static/images/LOGObig.png" alt=""/>
+        <p>一个专业的分类信息网站</p>
+    </div>
+    <div class="form">
+        <form action="/user/reg" method="post" class="form-horizontal" onsubmit="return confirm();">
+            <div class="form-group" >
+                <label class="control-label col-sm-4">注册地</label>
+                <div class="col-sm-2" style="position: relative">
+                    <!--<select name="province"  class=" form-control" id="province">-->
+                    <!--</select>-->
+                    <div class="form-control" id="proDiv">
+                        <span class="xl"><img src="/static/images/form/xl.png" alt=""/></span>
+                        <ul class="list-group" id="province">
+                        </ul>
+                    </div>
 
-            <img src="/static/images/tpls/register/register_03.gif" alt="获取验证码" class="getcode"/>
-            <span id="gotcode">重新获取&#40;<span id="seconds" style="color: #fff;width: auto;margin: 0;">120</span>s&#41;</span>
-        </div>
-        <div class="list">
-            <span>短信验证码<b> :</b><b></b></span>
-            <input type="text" name="messagecode" required="required"/>
-            <p class="error"><?php echo $codeError; ?></p>
-        </div>
-        <!--<div class="list" style="display: none" id="contact">-->
-        <!--<span>联系电话<b> :</b><b></b></span>-->
-        <!--<input type="text" name="contact"/>-->
-        <!--</div>-->
-        <div class="list">
-            <p>
-                <input type="checkbox" name="agree" checked="checked" onchange="changeBox()"/>
-                <!--<img src="../../images/tpls/register/register_04.gif" alt=""/>-->
-                我已阅读并同意 <a href="/user/useragreement">《零工在线用户协议》</a>
-            </p>
-            <div class="check" onclick="changeDiv()"></div>
+                </div>
+                <div class="col-sm-2" style="position: relative">
+                    <span class="xl"><img src="/static/images/form/xl.png" alt=""/></span>
+                    <!--<select name="city" class=" form-control" id="city">-->
+                    <!--</select>-->
+                    <div class="form-control" id="cityDiv">
+                        <span class="text"></span>
+                        <span class="xl"><img src="/static/images/form/xl.png" alt=""/></span>
+                        <ul class="list-group" id="city">
+                        </ul>
+                    </div>
 
-        </div>
-        <div class="list">
-            <p>
-                <input type="submit" name="register" id="submit" value="注册"/>
-                <span><?php echo $formError;?></span>
-            </p>
-        </div>
-    </form>
+                </div>
+                <input type="hidden" name="province" id="pro_id" value="45052">
+                <input type="hidden" name="city" id="city_id" value="1">
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4">注册类型</label>
+                <div class="col-sm-4">
+                    <div class="radio-inline">
+                        <label style="font-weight: normal;">
+                            <input type="radio" name="type" id="companyCheck" value="1" checked="checked"/>
+                            公司
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight: normal;">
+                            <input type="radio" name="type" id="personCheck" value="0"/>
+                            个人
+                        </label>
+                    </div>
+                    <input type="hidden" name="is_co" id="is_co" value="<?php echo set_value('is_co')?set_value('is_co'):'0'; ?>" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label text-right">用户名</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="username" id="username" required="required" value="<?php echo set_value('username'); ?>"/>
+                </div>
+                <div class="col-sm-4">
+                    <p class="form-control-static text-danger errorname error">！用户名不正确</p>
+                    <p class="form-control-static duihaoname duihao"><img src="/static/images/form/dh.png" alt=""/></p>
+                    <p class="form-control-static text-primary noticename notice">4-20个字符，字母/数字/下划线和汉字组成</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4">密码</label>
+                <div class="col-sm-4">
+                    <input type="password" name="password" id="password" class="form-control" required="required"/>
+                </div>
+                <div class="col-sm-4">
+                    <p class="form-control-static text-danger errorpass error">！密码格式不正确</p>
+                    <p class="form-control-static duihaopass duihao"><img src="/static/images/form/dh.png" alt=""/></p>
+                    <p class="form-control-static text-primary noticepass notice">8-20个字符，不包含空格</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">确认密码</label>
+                <div class="col-sm-4">
+                    <input type="password" name="passconf" class="form-control" id="repass" required="required"/>
+                </div>
+                <div class="col-sm-4">
+                    <p class="form-control-static text-primary notice noticerepass">请再次输入密码</p>
+                    <p class="form-control-static text-danger error errorrepass">！两次密码输入不一致</p>
+                    <p class="form-control-static text-danger duihao duihaorepass"><img src="/static/images/form/dh.png" alt=""/></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">推介人</label>
+                <div class="col-sm-4">
+                    <input type="text" name="referer" class="form-control" placeholder="请输入推介人的工号，没有可不填"  value="<?php echo set_value('referer'); ?>"/>
+                </div>
+                <div class="col-sm-4">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">手机号</label>
+                <div class="col-sm-4">
+                    <input type="tel" name="mobile" class="form-control" placeholder="请输入手机号码" required="required" id="tel" value="<?php echo set_value('mobile'); ?>"/>
+                </div>
+                <div class="col-sm-2">
+                    <p class="form-control-static text-danger errortel error">！请输入正确手机号</p>
+                    <p class="form-control-static text-primary getyzm djq">点击获取验证码</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">验证码</label>
+                <div class="col-sm-4">
+                    <input type="tel" name="messagecode" class="form-control" placeholder="请输入手机验证码" required="required"/>
+                </div>
+                <div class="col-sm-2">
+                    <p class="form-control-static text-danger erroryzm" id="mobileError"><?php echo $codeError; ?></p>
+                    <p class="form-control-static  duihao duihaoyzm"><img src="/static/images/form/dh.png" alt=""/></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <div class="checkbox-inline">
+                        <label class="control-label" style="font-weight: normal">
+                            <input type="checkbox" id="agree"/>我已阅读并同意 <a href="#" class="xy"> 《零工在线用户协议》</a>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center;"><?php echo validation_errors(); ?></div>
+            <div class="form-group">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <input type="submit" value="注册" class=" btnprimary" id="submit"/>
+                </div>
+            </div>
+        </form>
+    </div>
 </section>
-
-
-<script src="/static/js/agree.js"></script>
-<script src="/static/js/jquery.cxselect.min.js"></script>
+<footer>
+    <div class="main">
+        <ul>
+            <li><a href="#">法律声明 |</a></li>
+            <li><a href="#">零工宝 |</a></li>
+            <li><a href="#">零工小参 |</a></li>
+            <li><a href="#">招贤纳士 |</a></li>
+            <li><a href="#">关注微博</a></li>
+        </ul>
+        <p>Copyright © 2016 lg-zx.com Corporation, All Rights Reserved 鲁ICP备16012134号-1 站长统计</p>
+    </div>
+</footer>
+</body>
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/head-foot.js"></script>
+<script src="/static/js/form.js"></script>
+<!--<script src="/static/js/getyzm.js"></script>-->
 <script>
-    if($('#is_co').val()=='1'){
-        $('#nickname').html('<b class="red">*</b>公司名称<b> :</b>');
-        $("#realname").attr("name","coname");
-        $("#companyCheck").attr("checked","checked");
-    }else{
-        $('#nickname').html('<b class="red">*</b>姓名<b> :</b>');
-        $("#realname").attr("name","realname");
-        $("#personCheck").attr("checked","checked");
-    }
-
-    $('#personCheck').click(function()
-    {
-//            $('#contact').css('display','none');
-        $('#nickname').html('<b class="red">*</b>姓名<b> :</b>');
-        $("#realname").attr("name","realname");
-        $('#is_co').val(0);
-
-    });
-    $('#companyCheck').click(function()
-    {
-
-        $(this).prop("checked","true");
-//        $('#contact').css('display','block');
-        $('#nickname').html('<b class="red">*</b>公司名称<b> :</b>');
-        $("#realname").attr("name","coname");
-        $('#is_co').val(1);
-    });
-
-        $('.getcode').click(function(){
+    /**
+     * Created by Administrator on 2017/3/1.
+     */
+    $(function(){
+        //点击获取
+        $('.getyzm').click(function(){
+            $(this).addClass('djh').removeClass('djq');
+            //$(this).text("重新获取（59s）");
+            var count=60;
+            var time=setInterval(countdown,1000);
+            function countdown(){
+                if(count>1){
+                    count--;
+                    $('.getyzm').text("重新获取（"+count+"s）");
+                }else{
+                    clearInterval(time);
+                    $('.getyzm').text("点击获取验证码");
+                    $('.getyzm').removeClass('djh').addClass('djq');
+                }
+            }
             $.ajax({
-                url: 'getcode/reg',
+                url: 'http://127.0.0.1/getcode/index/reg',
                 type: "POST",
                 dataType: 'json',
-                data: {mobile:$("#mobile").val()},
+                data: {mobile:$("#tel").val()},
                 cache: false,
                 error: function(){
                     alert('检测失败，请重试');
@@ -155,38 +245,18 @@
                     }
                 }
             });
-        })
-</script>
-<script>
-    $('#regarea').cxSelect({
-        selects: ['province', 'city1'],
-        required: true,
-        jsonValue: 'v',
-        jsonName: 'n',
-        jsonSub: 's',
-        data: [
-            <?php
-            foreach ($area[0] as $k1=>$v1) {
-                echo '{\'v\': \''.$k1.'\', \'n\': \''.$v1.'\', \'s\': [';
-                foreach($area[1][$k1] as $k2=>$v2){
 
-                    echo '{\'v\': \''.$k2.'\', \'n\': \''.$v2.'\'';
+        });
 
-                    if(end($area[1][$k1])==$v2){
-                        echo '}';
-                    }else{
-                        echo '},';
-                    }
-                }
-                if(end($area[0])==$v1){
-                    echo ']}';
-                }else{
-                    echo ']},';
-                }
-            }
-
-            ?>
-
-        ]
     });
+
+    if($('#is_co').val()=='1'){
+        $("#companyCheck").attr("checked","checked");
+    }else{
+        $("#personCheck").attr("checked","checked");
+    }
 </script>
+<script><?php
+echo $js;
+    ?></script>
+</html>

@@ -1,412 +1,60 @@
 html,
 body,
-span,
+section,
 div,
+p,
+span,
 img,
 input,
-span,
-p {
-  margin: 0;
+form,
+a {
   padding: 0;
-  color: #000000;
-  font-family: "微软雅黑", "Arial Narrow";
+  margin: 0;
+  font-size: 14px;
 }
-@media all and (min-width: 320px) and (max-width: 374px) {
-  html {
-    font-size: 12px !important;
-  }
-  html header div.head-t .mine a.qd {
-    margin-right: 4px;
-    height: 3rem;
-    width: 2.5rem;
-  }
-  html header div.head-t .mine a.qd img.qd {
-    margin-top: 2px;
-    width: 2.6rem;
-    height: 2.8rem;
-    margin-bottom: 1px;
-    margin-left: 2px;
-  }
-  html header div.head-t .mine a.qd span.txt-qd {
-    position: relative;
-    top: -4px;
-    font-size: .7rem;
-  }
-}
-@media all and (min-width: 375px) and (max-width: 413px) {
-  html {
-    font-size: 12px !important;
-  }
-  html header div.head-t .mine a.qd {
-    margin-right: 4px;
-    height: 3rem;
-    width: 2.5rem;
-  }
-  html header div.head-t .mine a.qd img.qd {
-    margin-top: 2px;
-    width: 2.6rem;
-    height: 2.8rem;
-    margin-bottom: 1px;
-    margin-left: 2px;
-  }
-  html header div.head-t .mine a.qd span.txt-qd {
-    position: relative;
-    top: -4px;
-    font-size: .7rem;
-  }
-  html body header div.head-b form div.search {
-    margin-left: 1rem;
-  }
-  html body header div.head-b form span {
-    margin-left: 0.5rem;
-  }
-}
-@media all and (min-width: 414px) and (max-width: 767px) {
-  html {
-    font-size: 12px !important;
-  }
-  html header div.head-t .mine a.qd {
-    margin-right: 4px;
-    height: 3rem;
-    width: 2.5rem;
-  }
-  html header div.head-t .mine a.qd img.qd {
-    margin-top: 2px;
-    width: 2.6rem;
-    height: 2.8rem;
-    margin-bottom: 1px;
-    margin-left: 2px;
-  }
-  html header div.head-t .mine a.qd span.txt-qd {
-    position: relative;
-    top: -4px;
-    font-size: .7rem;
-  }
-  html body header div.head-b form div.search {
-    margin-left: 1rem;
-    margin-right: 2rem;
-  }
-  html body header div.head-b form span {
-    margin-left: 0.5rem;
-    font-size: 1rem;
-  }
-}
-@media all and (min-width: 768px) {
-  html {
-    font-size: 20px !important;
-  }
-  html header div.head-t .mine a span.txt-qd {
-    position: relative;
-    top: -0.5rem;
-    left: .2rem;
-    font-size: .7rem;
-  }
-  html body header div.head-t .mine a img.qd {
-    margin-top: .28rem;
-    width: 2.2rem;
-    height: 2.4rem;
-  }
-  html body footer .div-top a.top img {
-    left: 18rem;
-  }
-  html body header div.head-b form div.search {
-    margin-left: 1rem;
-    margin-right: 2rem;
-  }
-  html body header div.head-b form div.search input {
-    width: 12.5rem;
-  }
-  html body header div.head-b form span {
-    margin-left: 0.5rem;
-    font-size: 1.2rem;
-  }
-}
-input[type=button], input[type=submit], input[type=file]
-{
-  cursor: pointer;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  appearance: none !important;
-}
-body a {
-  color: #000;
+a,
+span {
+  display: inline-block;
   text-decoration: none;
 }
-body ul li {
+a:hover {
+  cursor: pointer;
+}
+input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  appearance: none;
+  border-width: 0;
+}
+input:-moz-placeholder {
+  color: #dbdbdb;
+}
+input::-webkit-input-placeholder {
+  color: #dbdbdb;
+}
+input:-ms-input-placeholder {
+  color: #dbdbdb;
+}
+input::-moz-placeholder {
+  color: #dbdbdb;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+ul li {
   display: inline-block;
   list-style: none;
 }
-body .hide {
-  display: none;
+section {
+  width: 1190px;
+  margin: 0 auto;
 }
-body input {
-  outline: none;
-  box-shadow: none;
-  border: none;
+body {
+  font-family: "Lucida Grande", "宋体", "微软雅黑" !important;
+  background-color: #eeeeee !important;
 }
-body select,
-body input��option {
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  outline: medium none;
-}
-body header {
-  position: relative;
-  width: 100%;
-  height: 6.4rem;
-  overflow: hidden;
-  background-color: #ff3c5a;
-}
-body header div {
-  display: inline-block;
-}
-body header a {
-  color: #000000;
-  text-decoration: none;
-}
-body header div.head-t {
-  height: 3rem;
-  width: 100%;
-  background-color: #ddddde;
-  overflow: hidden;
-}
-body header div.head-t .logo {
-  width: 9rem;
-  height: 2.8rem;
-  margin-top: .05rem;
-}
-body header div.head-t .address {
-  position: absolute;
-  top: 1.4rem;
-  margin-left: .1rem;
-  width: 3.1rem;
-  height: inherit;
-  line-height: 1rem;
-}
-body header div.head-t .address a span {
-  display: inline-block;
-  font-size: 1.1rem;
-  position: absolute;
-  top: -0.3rem;
-}
-body header div.head-t .address a span.fa {
-  position: absolute;
-  left: 2.5rem;
-  top: -0.35rem;
-}
-body header div.head-t .mine {
-  height: inherit;
-  float: right;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  margin-right: .5rem;
-}
-body header div.head-t .mine a {
-  display: inline-block;
-}
-body header div.head-t .mine a span {
-  font-size: 1rem;
-  color: #ff3c5a;
-  position: relative;
-  top: -0.3rem;
-  left: -0.7rem;
-  font-weight: bold;
-}
-body header div.head-t .mine a .txt-fb {
-  color: #00b4ff;
-}
-body header div.head-t .mine a img {
-  width: 1.4rem;
-  height: 1.3rem;
-  margin-right: 4px;
-  margin-top: .5rem;
-}
-body header div.head-t .mine a img.fb {
-  margin-top: .65rem;
-}
-body header div.head-t .mine a span.txt-qd {
-  position: relative;
-  left: .2rem;
-  font-size: .7rem;
-}
-body header div.head-t .mine a.qd {
-  margin-right: 4px;
-  height: 3rem;
-  width: 2.5rem;
-}
-body header div.head-t .mine .line {
-  display: inline-block;
-  height: 1rem;
-  border: solid 1px #fcfcfc;
-  width: 0;
-  margin-right: .5rem;
-  margin-top: 4px;
-  box-shadow: 1px 0 1px #8e8e93;
-}
-body header div.head-b {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  height: 3rem;
-  width: 100%;
-  line-height: 3rem;
-}
-body header div.head-b form div.search {
-  display: inline-block;
-  height: 2rem;
-  margin-top: -0.3rem;
-}
-body header div.head-b form div.search input {
-  margin-left: 1rem;
-  height: 2rem;
-  width: 10.5rem;
-  border-radius: 10px;
-  border-color: #ff3c5a;
-  font-size: 1rem;
-  padding-left: 10px;
-  padding-right: 1.7rem;
-}
-body header div.head-b form div.search .sousuo {
-  position: relative;
-  top: .7rem;
-  left: -2rem;
-  height: 2rem;
-  width: 2rem;
-  border-radius: 10px;
-  background-color: #ffffff;
-  background: url("../images/header/sousuo.png") no-repeat;
-  background-size: contain;
-}
-body header div.head-b form div.search .sousuo img {
-  width: 1.5rem;
-  height: 2rem;
-}
-body header div.head-b form input:-moz-placeholder {
-  /* Mozilla Firefox 4 to 18 */
-  font-size: .9rem;
-}
-body header div.head-b form span {
-  display: inline-block;
-  color: #ffffff;
-  font-size: .84rem;
-  font-weight: bold;
-}
-body header div.head-b form input::-moz-placeholder {
-  /* Mozilla Firefox 19+ */
-  font-size: .9rem;
-}
-body header div.head-b form input:-ms-input-placeholder {
-  font-size: .9rem;
-}
-body header div.head-b form input::-webkit-input-placeholder {
-  font-size: .9rem;
-}
-body footer {
-  position: relative;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  margin-top: 1.6rem;
-}
-body footer a.top {
-  display: inline-block;
-  position: absolute;
-  top: -11%;
-  left: 50%;
-  margin-left: -1.3rem;
-  z-index: 1;
-}
-body footer a.top img {
-  width: 2.4rem;
-  height: 2.3rem;
-}
-body footer div.foot .line1 {
-  position: absolute;
-  top: .2rem;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 0;
-  display: inline-block;
-  border: dashed 1px #ffffff;
-}
-body footer div.foot .line2 {
-  position: absolute;
-  top: .28rem;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  height: 0;
-  display: inline-block;
-  border: dashed 1px #727171;
-}
-body footer div.foot nav {
-  height: 3.1rem;
-  background-color: #75d6ff;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-justify-content: space-around;
-      -ms-flex-pack: distribute;
-          justify-content: space-around;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 4px;
-}
-body footer div.foot nav a {
-  font-size: 1rem;
-  color: #333;
-}
-body footer div.foot nav .vertical-line {
-  display: inline-block;
-  width: 0;
-  border: solid 1px #fff;
-  height: 1rem;
-  box-shadow: 1px 2px 1px #727171;
-}
-body footer div.version {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-justify-content: space-around;
-      -ms-flex-pack: distribute;
-          justify-content: space-around;
-  height: 5.2rem;
-  background-color: #727171;
-}
-body footer div.version img {
-  width: 3.5rem;
-  height: 4.5rem;
-  margin-top: .5rem;
-}
-body footer p {
-  text-align: center;
-  margin: -1px auto;
-  padding: 0;
-  background-color: #727171;
-  color: #fff;
-  font-size: .7rem;
-  letter-spacing: 1px;
+body .stress {
+  color: #ff3c5a !important;
 }

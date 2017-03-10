@@ -1,29 +1,223 @@
-@media all and (min-width: 768px) {
-  html body section div.detail-industry div .head img {
-    margin-top: 8px;
-  }
-}
-body a {
-  text-decoration: none;
-  color: #000000;
-}
-body .red {
-  color: #ff3c5a;
-}
-body input {
-  outline: none;
-  box-shadow: none;
-  border: none;
-}
-body section {
-  width: 100%;
-  background-color: #ffffff;
-}
-body section div.industry {
-  width: 100%;
-  height: 21rem;
+section {
+  width: 1190px;
   margin: 0 auto;
+  height: auto;
+}
+section div.head {
+  background-color: #fff;
+  height: 183px;
+  border-bottom: solid 2px #ff3c5a;
+}
+section div.head div.logoSearchP div.logo {
+  vertical-align: middle;
+  display: inline-block;
+  width: 410px;
+  height: 100px;
+  line-height: 100px;
+}
+section div.head div.logoSearchP div.logo img {
+  vertical-align: middle;
+  margin-left: 15px;
+  margin-bottom: 20px;
+  margin-right: 10px;
+}
+section div.head div.logoSearchP div.logo span {
+  vertical-align: middle;
+  margin-top: 10px;
+  color: #999999;
+  font-weight: bold;
+  font-family: "黑体";
+}
+section div.head div.logoSearchP form {
+  vertical-align: middle;
+  width: auto;
+  height: 100px;
+  display: inline-block;
+}
+section div.head div.logoSearchP form div.search {
+  display: inline-block;
+}
+section div.head div.logoSearchP form div.search input {
+  margin-top: 10px;
+  vertical-align: middle;
+  border: solid 2px #ff3c5a;
+  width: 466px;
+  height: 50px;
+  padding-left: 30px;
+  box-sizing: border-box;
+}
+section div.head div.logoSearchP form div.search a.sousuo {
+  margin-left: -8px;
+  margin-top: 10px;
+  cursor: pointer;
+  vertical-align: middle;
+  display: inline-block;
+  width: 85px;
+  height: 50px;
+  line-height: 50px;
+  background-color: #ff3c5a;
+  color: #ffffff;
   text-align: center;
+  font-size: 16px;
+  letter-spacing: 10px;
+  padding-left: 10px;
+  box-sizing: border-box;
+  border: solid 2px #ff3c5a;
+}
+section div.head div.logoSearchP form div.search ul {
+  margin-top: 10px;
+}
+section div.head div.logoSearchP form div.search ul li {
+  margin: 0 5px;
+}
+section div.head div.logoSearchP form div.search ul li a {
+  color: #c6c6c6;
+}
+section div.head div.logoSearchP div.publish {
+  width: 140px;
+  margin-left: 35px;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 10px;
+}
+section div.head div.logoSearchP div.publish a.fabu {
+  width: 140px;
+  height: 50px;
+  background-color: #ff3c5a;
+  color: #ffffff;
+  text-align: center;
+  line-height: 50px;
+  font-size: 16px;
+}
+section div.head div.logoSearchP div.publish a.xiugai {
+  width: 140px;
+  color: #c6c6c6;
+  text-align: center;
+  margin-top: 10px;
+}
+section div.head nav ul {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+section div.head nav ul li a {
+  color: #6a5293;
+  width: 100px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  font-size: 18px;
+  font-family: "黑体";
+}
+section div.head nav ul li .active {
+  background-color: #ff3c5a !important;
+  color: #fff !important;
+}
+section div.body {
+  width: 1190px;
+  margin: 10px auto;
+  overflow: hidden;
+}
+section div.body div.main {
+  width: 390px;
+  display: inline-block;
+  float: left;
+}
+section div.body div.main div.demo {
+  width: 390px;
+  height: auto;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+section div.body div.main div.demo p.h1,
+section div.body div.main div.demo div.h2,
+section div.body div.main div.demo div.h3 {
+  box-sizing: border-box;
+  padding-left: 15px;
+  background-color: #ffffff;
+  color: #333;
+}
+section div.body div.main div.demo p.h1 {
+  margin-bottom: 2px;
+  height: 45px;
+  line-height: 45px;
+}
+section div.body div.main div.demo p.h1 a {
+  color: #ff3c5a;
+  font-size: 18px;
+}
+section div.body div.main div.demo div.type div.h2 {
+  margin: 1px 0;
+  min-height: 40px;
+  line-height: 40px;
+}
+section div.body div.main div.demo div.type div.h2 span {
+  vertical-align: middle;
+}
+section div.body div.main div.demo div.type div.h2 span a {
+  color: #333;
+}
+section div.body div.main div.demo div.type div.h2 img {
+  vertical-align: middle;
+  margin-left: 130px;
+}
+section div.body div.main div.demo div.type div.h3 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+section div.body div.main div.demo div.type div.h3 ul li {
+  width: 88px;
+  height: 40px;
+  line-height: 40px;
+}
+section div.body div.main div.demo div.type div.h3 ul li a {
+  color: #333;
+  overflow: hidden;
+  width: 88px;
+  text-overflow: ellipsis;
+  white-space: nowrap
+  /*强制不换行*/
+}
+section div.body div.main div.ads {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
+  padding-bottom: 10px;
+  box-sizing: border-box;
+}
+section div.body div.main div.ads img {
+  height: 167px;
+  width: 390px;
+  display: block;
+}
+section div.body div.main1,
+section div.body div.main2 {
+  margin-right: 10px;
+}
+section div.body div.about {
+  width: 1190px;
+  height: 300px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  float: left;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -31,110 +225,88 @@ body section div.industry {
   -webkit-justify-content: space-around;
       -ms-flex-pack: distribute;
           justify-content: space-around;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
 }
-body section div.industry .industry-intro {
-  width: 33%;
-  height: 30%;
+section div.body div.about ul {
+  display: inline-block;
+  margin: 40px;
 }
-body section div.industry .industry-intro img {
+section div.body div.about ul li {
   display: block;
-  margin: 0 auto;
-  height: 4.15rem;
-  width: 4.25rem;
+  font-size: 18px;
+  color: #333;
+  margin: 30px;
 }
-body section div.industry .industry-intro span {
-  margin-top: .5rem;
-  display: block;
-  font-size: 1.1rem;
+section div.body div.about ul li a {
+  font-size: 14px;
+  color: #999999;
 }
-body section div.detail-industry div .head {
-  height: 2.5rem;
-  line-height: 2.5rem;
+section div.foot {
+  width: 1190px;
+  margin: 20px auto;
 }
-body section div.detail-industry div .head .txt {
-  color: #ff3c5a;
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin-left: 12px;
+section div.foot nav span {
+  font-size: 18px;
 }
-body section div.detail-industry div .head img {
-  float: right;
-  margin-right: 1px;
-  margin-top: 5px;
-  width: 1.3rem;
-  height: 1.3rem;
+section div.foot nav a {
+  font-size: 18px;
+  color: #999;
+  margin-top: 10px;
 }
-body section div.detail-industry div .head .fb {
-  float: right;
-  font-size: .8rem;
-  font-weight: bold;
-  color: #00b4ff;
-  margin-right: 10px;
-}
-body section div.detail-industry div .middle ul {
-  margin: 4px 0;
-  padding: 0;
-  min-height: 2.5rem;
+div.hiddenHeader {
+  height: 50px;
   width: 100%;
-}
-body section div.detail-industry div .middle ul li {
-  padding: 0;
-  list-style: none;
-  display: inline-block;
-  width: 23%;
-  height: 2.5rem;
-  line-height: 2.5rem;
-}
-body section div.detail-industry div .middle ul li a {
-  font-size: 1rem;
-}
-body section div.detail-industry div .middle ul li:nth-child(1) {
-  margin-left: 1rem;
-}
-body section div.detail-industry div .middle ul.zxfb {
-  border-bottom: solid 1px #edeeee;
-  height: auto;
-}
-body section div.detail-industry div .middle ul.zxfb li {
-  width: 96%;
-  overflow: hidden;
-  position: relative;
-  height: auto;
-}
-body section div.detail-industry div .middle ul.zxfb li span.area {
-  position: absolute;
+  background-color: #ff3c5a;
+  position: fixed;
   top: 0;
+  display: none;
 }
-body section div.detail-industry div .middle ul.zxfb li a.txt-a {
+div.hiddenHeader div.hiddenSearchP {
+  width: 1190px;
+  margin: 0 auto;
+  height: 0px;
+}
+div.hiddenHeader div.hiddenSearchP div.logo {
   display: inline-block;
-  width: 67%;
-  margin-left: 2.4rem;
+  height: 50px;
+  line-height: 50px;
+  vertical-align: middle;
 }
-body section div.detail-industry div .middle ul.zxfb li a img {
-  position: absolute;
-  left: 90%;
-  top: .4rem;
-  width: 1.6rem;
-  height: 1.6rem;
+div.hiddenHeader div.hiddenSearchP div.logo img {
+  width: 135px;
+  height: 40px;
+  margin-top: 5px;
+  margin-left: 50px;
 }
-body section div.detail-industry div .middle ul.zxfb li .date {
-  position: absolute;
-  left: 78%;
-  top: 0rem;
+div.hiddenHeader div.hiddenSearchP form {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 150px;
 }
-body section div.detail-industry div .middle .hui {
-  background-color: #edeeee;
+div.hiddenHeader div.hiddenSearchP form input {
+  width: 500px;
+  height: 30px;
+  vertical-align: middle;
+  padding-left: 30px;
+  box-sizing: border-box;
+  border: solid 1px #ffffff;
 }
-body section div.detail-industry div .middle .hui li a {
-  color: #939090;
+div.hiddenHeader div.hiddenSearchP form a.sousuo {
+  height: 30px;
+  vertical-align: middle;
+  line-height: 36px;
+  width: 50px;
+  border: solid 1px #ffffff;
+  text-align: center;
+  margin-left: -7px;
+  box-sizing: border-box;
 }
-body section div.detail-industry div .dxs {
-  background-color: #edeeee;
+div.hiddenHeader div.hiddenSearchP a.fabu {
+  vertical-align: middle;
+  margin-left: 150px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  background-color: #ffffff;
+  color: #ff3c5a;
+  width: 120px;
 }
