@@ -14,11 +14,13 @@ class Daili_model extends CI_Model {
     /**
      * 获取当前代理商 注册会员信息列表
      * 参数：userid
-     * 返回值数组：no=>工号,name=>昵称/公司名,gong=>工种,is_vip=>零工状态/套餐期限,referrer=>注册类型(推介人id),vip_starttime=>充值时间,
+     * 返回值数组：no=>工号,name=>昵称/公司名,gong=>工种,is_vip=>零工状态/套餐期限,promotion_flag=>是否签约推广来的用户,referrer=>推介人username,vip_starttime=>充值时间,
      */
-    public function getMemberInfo($userid){
+    public function getMemberInfo($userid,$sql){
         $city_id=$this->getCityid($userid);
-        $sql = "select uid,userlist.no,is_co,referrer,addtime,mobile from userlist where city_id='$city_id'";
+        $sql = "select uid,userlist.no,is_co,referrer,addtime,mobile,address,promotion_flag 
+                from userlist 
+                where city_id='$city_id' {$sql}";
         $query = $this->db->query($sql);
         $arr = $query->result_array();
         foreach ($arr as $k => $v){
@@ -27,12 +29,12 @@ class Daili_model extends CI_Model {
                 $sql1 = "select coname from user_co where uid='{$arr[$k]['uid']}'";
                 $query1 = $this->db->query($sql1);
                 $arr1 = $query1->row_array();
-                $arr[$k]['name']=$arr1['coname'];
+                $arr[$k]['coname']=$arr1['coname'];
             }else{
-                $sql1 = "select realname from user_personal where uid='{$arr[$k]['uid']}'";
+                $sql1 = "select nickname from user_personal where uid='{$arr[$k]['uid']}'";
                 $query1 = $this->db->query($sql1);
                 $arr1 = $query1->row_array();
-                $arr[$k]['name']=$arr1['realname'];
+                $arr[$k]['nickname']=$arr1['nickname'];
             }
             $sql2 = "select job_type.name 
                      from job_type 
@@ -49,13 +51,65 @@ class Daili_model extends CI_Model {
 
             $time = time();
             //查看vip是否过期 有值则为vip
-            $sql3 = "select starttime as vip_starttime,endtime as vip_endtime from user_service_log where uid='{$arr[$k]['uid']}' and endtime>'$time'  ";
+            $sql3 = "select starttime as vip_starttime,endtime as vip_endtime from user_service_log where uid='{$arr[$k]['uid']}' and endtime < {$time} ";
             $query3 = $this->db->query($sql3);
             $arr3 = $query3->row_array();
-            $arr[$k]['is_vip']= $arr['vip_endtime'];
-            $arr[$k]['vip_starttime']= $arr['vip_starttime'];
+            $arr[$k]['is_vip']= $arr3['vip_endtime'];
+            $arr[$k]['vip_starttime']= $arr3['vip_starttime'];
 
         }
+        return $arr;
+    }
+
+    /**
+     * 获取当前代理商 注册会员信息列表
+     * 参数：$data array(userid=>用户id,time=>查询vip截止,gong=>公司类型0不限 1个人 2公司,reg=>注册类型0不限 1推广注册 2站内注册,addsql=>增加分页sql语句)
+     * 返回值数组：no=>工号,name=>昵称/公司名,gong=>工种,is_vip=>零工状态/套餐期限,referrer=>注册类型(推介人id),vip_starttime=>充值时间,
+     */
+    public function getMemberInfo1($data){
+        extract($data);
+        $city_id=$this->getCityid($userid);//查询代理商城市id
+        if($gong==1){
+            $gong_sql="and userlist.is_co!='1'";
+        }elseif($gong==2){
+            $gong_sql="and userlist.is_co='1'";
+        }else{
+            $gong_sql='';
+        }
+        if($reg==2){
+            $reg_sql="and userlist.promotion_flag='0'";
+        }elseif($reg==1){
+            $reg_sql="and userlist.promotion_flag='1'";
+        }else{
+            $reg_sql='';
+        }
+        if($vip==1){
+            $time=time()+2592000;
+            $time="and user_service_log.endtime>{$time}";
+        }else{
+            $time='';
+        }
+        if($starttime and $endtime){
+            $riqi="and {$starttime} < userlist.addtime and userlist.addtime < {$endtime} ";
+        }else{
+            $riqi='';
+        }
+
+        $sql = "select userlist.no,userlist.username,userlist.is_co,(select coname from user_co where uid=userlist.uid limit 1) as coname,
+(select nickname from user_personal where uid=userlist.uid limit 1) as nickname,
+GROUP_CONCAT( distinct job_type.name ) as gong,
+
+userlist.addtime,userlist.referrer,userlist.promotion_flag,userlist.mobile,
+user_service_log.vip_id,user_service_log.starttime as vip_starttime,user_service_log.endtime as is_vip,vip_service_dic.name
+ from userlist 
+left join publish_list on publish_list.uid=userlist.uid
+left join job_type on job_type.id=publish_list.job_code
+left join user_service_log on userlist.uid=user_service_log.uid 
+left join vip_service_dic on user_service_log.vip_id=vip_service_dic.id
+where userlist.city_id='{$city_id}' {$reg_sql} {$gong_sql} {$time} {$riqi}
+group by userlist.uid {$addsql}";
+        $query = $this->db->query($sql);
+        $arr = $query->result_array();
         return $arr;
     }
 

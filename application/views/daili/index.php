@@ -53,7 +53,7 @@
                         <div class="inner">
                             <h3><?php
                                 if(count($month_1_add_users)>count($month_add_users)){
-                                    echo round((count($month_1_add_users)/count($month_add_users)),1).'<sup style="font-size: 20px">%</sup>';
+                                    echo (count($month_add_users)?round((count($month_1_add_users)/count($month_add_users)),1):'0').'<sup style="font-size: 20px">%</sup>';
                                     $p='同比上月减少';
                                 }else{
                                     echo round((count($month_add_users)/count($month_1_add_users)),1)   .'<sup style="font-size: 20px">%</sup>';
