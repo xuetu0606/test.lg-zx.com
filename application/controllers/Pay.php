@@ -37,7 +37,7 @@ class Pay extends CI_Controller
         //$this->form_validation->set_rules('fee', '充值金额', 'trim|required');//测试用
         $this->form_validation->set_error_delimiters('<span class="red" style="width:9rem;">','</span>');
 
-        $this->load->view('templates/head_simple', $data);
+        //$this->load->view('templates/header', $data);
         if ($this->form_validation->run() == FALSE)
         {
             $this->load->view('home/user/recharge',$data);
@@ -48,7 +48,7 @@ class Pay extends CI_Controller
                     $this->weiXin($this->input->post('fee', TRUE), $_SESSION['username']);
                     break;
                 case '02':
-                    $this->alipay($this->input->post('fee', TRUE), $_SESSION['username']);
+                    $this->aliPay_pc($this->input->post('fee', TRUE), $_SESSION['username']);
                     break;
                 default:
                     $data['payError'] = "请重新选择支付方式";
@@ -57,7 +57,7 @@ class Pay extends CI_Controller
             }
 
         }
-        $this->load->view('templates/footer2', $data);
+        //$this->load->view('templates/footer', $data);
 
     }
 
@@ -267,6 +267,48 @@ class Pay extends CI_Controller
             return ;
 
 
+    }
+
+    /**
+     * aliPay 【支付宝支付接口】
+     * @param  int $id 订单ID
+     * @author lyne
+     */
+    public function aliPay_pc($total_fee,$username){
+        // 调用支付宝支付接口配置信息
+        $this->load->config('alipay_config',TRUE);
+        //require_once dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'../libraries/alipay_pc/alipay_config.php';
+        /*>>>>>>>>>>>>> 查预先生成的订单信息,根据自己情况 <<<<<<<<<<<<<<
+            根据订单ID查询预订单信息
+            包括：
+            订单总额、订单编号、订单商品等。
+        >>>>>>>>>>>>> 根据自己情况 END <<<<<<<<<<<<<<<<<*/
+
+        // 加载支付宝支付请求类库
+        $this->load->library('PC_Alipay',$this->config->item('alipay_config'));
+        $parameter = array(
+            'service'           => $this->config->item('service','alipay_config'),
+            'partner'           => $this->config->item('partner','alipay_config'),
+            'payment_type'      => $this->config->item('payment_type','alipay_config'),
+            'notify_url'        => $this->config->item('notify_url','alipay_config'),
+            'return_url'        => $this->config->item('return_url','alipay_config'),
+            'seller_id'         => $this->config->item('seller_id','alipay_config'),
+            'out_trade_no'      => $this->getTradeNo(),     // 订单编号
+            'subject'           => '账户充值', // 订单商品
+            'total_fee'         => $total_fee,     // 订单总额
+            'body'              => $_SESSION['uid'],     // 商品描述
+            'show_url'          => '',             // 选填
+            'anti_phishing_key' => '',             // 选填
+            'exter_invoke_ip'   => '',             // 选填
+            '_input_charset'    => $this->config->item('input_charset','alipay_config')
+        );
+
+        var_dump($parameter);
+        //die();
+
+        $body = $this->pc_alipay->buildRequestForm($parameter,"get","确认");
+
+        echo $body;
     }
 
 
