@@ -48,6 +48,7 @@ class Admin extends CI_Controller {
      * 登录
      */
     public function login(){
+		
         if ( ! file_exists(APPPATH.'views/admin/login.php')){
             show_404();
         }
@@ -147,6 +148,7 @@ class Admin extends CI_Controller {
      * 会员统计
      */
     public function hylb(){
+		echo '哈哈';
         if ( ! file_exists(APPPATH.'views/admin/hylb.php')){
             show_404();
         }
