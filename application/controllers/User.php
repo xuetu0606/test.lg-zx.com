@@ -631,9 +631,9 @@ $(\'#province a\').click(function(){
         $data['localhost'] = $_SERVER['HTTP_HOST'];// 当前域名
         $data['title'] = '零工币充值'; // 网页标题
 
-        $this->load->view('templates/head_simple', $data);
+        //$this->load->view('templates/head_simple', $data);
         $this->load->view('home/user/recharge', $data);
-        $this->load->view('templates/footer2', $data);
+        //$this->load->view('templates/footer2', $data);
 
     }
 
