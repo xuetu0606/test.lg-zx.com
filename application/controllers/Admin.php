@@ -48,6 +48,7 @@ class Admin extends CI_Controller {
      * 登录
      */
     public function login(){
+		echo '哈哈';
         if ( ! file_exists(APPPATH.'views/admin/login.php')){
             show_404();
         }
