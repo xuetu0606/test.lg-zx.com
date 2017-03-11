@@ -89,13 +89,13 @@
                                 <th>工号</th>
                                 <th>零工类型</th>
                                 <th>昵称/公司名称</th>
-                                <th>工种</th>
                                 <th>零工状态</th>
                                 <th>注册类型/推广ID</th>
                                 <th>注册时间</th>
                                 <th>充值时间</th>
                                 <th>套餐期限</th>
                                 <th>联系电话</th>
+                                <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -108,13 +108,13 @@
                                         <td><?= $item['no'] ?></td>
                                         <td><?= $item['is_co']==1 ? '公司' : '个人' ?></td>
                                         <td><?= $item['is_co'] ? $item['coname'] : ($item['nickname']?$item['nickname']:'未填写')  ?></td>
-                                        <td><?= $item['gong'] ? $item['gong'] : '无' ?></td>
                                         <td><?= $item['is_vip'] ? 'VIP' : '普通会员' ?></td>
                                         <td><?= $item['promotion_flag'] ? $item['referrer'] : '站内注册' ?></td>
                                         <td><?= date('Y-m-d', $item['addtime']) ?></td>
                                         <td><?= $item['is_vip'] ? date('Y-m-d', $item['vip_starttime']) : '无' ?></td>
                                         <td><?= $item['is_vip'] ? date('Y-m-d', $item['is_vip']) : '无' ?></td>
                                         <td><?= $item['mobile'] ?></td>
+                                            <td><a href="/admin/edit/<?= $item['no'] ?>">编辑</a> <a href="/admin/del/<?= $item['no'] ?>">删除</a> </td>
                                     </tr>
                                     <?php
                                 }
