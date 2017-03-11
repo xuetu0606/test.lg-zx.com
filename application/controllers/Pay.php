@@ -277,6 +277,7 @@ class Pay extends CI_Controller
     public function aliPay_pc($total_fee,$username){
         // 调用支付宝支付接口配置信息
         $this->load->config('alipay_config',TRUE);
+        //require_once dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'../libraries/alipay_pc/alipay_config.php';
         /*>>>>>>>>>>>>> 查预先生成的订单信息,根据自己情况 <<<<<<<<<<<<<<
             根据订单ID查询预订单信息
             包括：
@@ -284,7 +285,7 @@ class Pay extends CI_Controller
         >>>>>>>>>>>>> 根据自己情况 END <<<<<<<<<<<<<<<<<*/
 
         // 加载支付宝支付请求类库
-        $this->load->library('CI_Alipay',$this->config->item('alipay_config'));
+        $this->load->library('PC_Alipay',$this->config->item('alipay_config'));
         $parameter = array(
             'service'           => $this->config->item('service','alipay_config'),
             'partner'           => $this->config->item('partner','alipay_config'),
@@ -302,7 +303,10 @@ class Pay extends CI_Controller
             '_input_charset'    => $this->config->item('input_charset','alipay_config')
         );
 
-        $body = $this->PC_Alipay->buildRequestForm($parameter,"get","确认");
+        var_dump($parameter);
+        //die();
+
+        $body = $this->pc_alipay->buildRequestForm($parameter,"get","确认");
 
         echo $body;
     }
