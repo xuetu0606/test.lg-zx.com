@@ -275,4 +275,40 @@ echo '</pre>';
 
     }
 
+    /**
+     * 会员资料修改
+     */
+    public function edit()
+    {
+        if (!file_exists(APPPATH . 'views/admin/edit.php')) {
+            show_404();
+        }
+
+        //是否登录
+        if (!$this->hasLogin()) {
+            redirect('http://' . $_SERVER['HTTP_HOST'] . '/admin/login');
+        }
+
+        $data['title'] = '会员信息';
+        $data['localhost'] = $_SERVER['HTTP_HOST'];//获取当前域名
+        $data['hytj_class']='active';
+
+        $no=$this->uri->segment(3, 0);
+
+        $data['member']=$memberinfo=$this->admin_model->getMemberInfo($no);
+        $data['provinceCity']=$this->admin_model->getProvinceCity($data['member']['city_id']);
+        $data['scale']=$this->admin_model->getScale();
+
+        var_dump($_POST);
+        if($_POST){
+
+            $return=$this->admin_model->seveMemberInfo($_POST);
+        }
+
+        $this->load->view('admin/templates/header',$data);
+        $this->load->view('admin/edit',$data);
+        $this->load->view('admin/templates/footer');
+
+    }
+
 }
