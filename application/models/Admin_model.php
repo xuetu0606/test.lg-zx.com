@@ -157,4 +157,76 @@ group by userlist.uid {$addsql}";
     }
 
 
+    /**
+     * 获取会员信息
+     */
+    public function getMemberInfo($no){
+        $sql = "select *
+                from userlist 
+                left join user_personal on user_personal.uid=userlist.uid 
+                left join user_co on user_co.uid=userlist.uid 
+                where no = '$no'";
+        $query = $this->db->query($sql);
+        $arr = $query->row_array();
+        if($arr){
+            return $arr;
+        }else{
+            return false;
+        }
+    }
+
+
+    /**
+     * 根据城市id获取省市名
+     *
+     * 返回值数组：province=>省,city=>市
+     */
+    public  function getProvinceCity($city_id){
+        if(empty($city_id)){
+            return false;
+        }
+        $sql = "select name AS city,pre_dist_id,pinyin from province_city where level=2 and dist_id={$city_id}";
+        $query = $this->db->query($sql);
+        $row = $query->unbuffered_row('array');
+
+        $sql2 = "select name AS province from province_city where level=1 and dist_id={$row['pre_dist_id']}";
+        $query2 = $this->db->query($sql2);
+        $row2 = $query2->unbuffered_row('array');
+
+        return array_merge($row,$row2);
+    }
+
+    /**
+     * 获取所有公司规模
+     *
+     * 返回值数组
+     */
+    public  function getScale(){
+        $sql = "select * from co_scale";
+        $query = $this->db->query($sql);
+        $list = array();
+        while ($row = $query->unbuffered_row('array')) {
+            $list[$row['code']] = $row['name'];
+        }
+
+        return $list;
+    }
+
+    /**
+     * 获取所有公司规模
+     *
+     * 返回值数组
+     */
+    public  function seveMemberInfo(){
+        $sql = "select * from co_scale";
+        $query = $this->db->query($sql);
+        $list = array();
+        while ($row = $query->unbuffered_row('array')) {
+            $list[$row['code']] = $row['name'];
+        }
+
+        return $list;
+    }
+
+
 }
