@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="./css/common.css"/>
+    <link rel="stylesheet" href="./css/head-foot.css"/>
+    <link rel="stylesheet" href="./css/register.css"/>
+</head>
+<body>
+<header>
+    <div class="main">
+        <div class="city">
+            <span class="stress">青岛</span>
+            <a href="切换城市.html">[切换城市]</a>
+        </div>
+        <div class="fr">
+            <ul>
+                <li><a href="#">注册</a></li>
+                <li><a href="#">登录</a></li>
+                <li class="lgbxl"><a href="#">零工宝</a><img src="./images/xiala.png" alt=""/></li>
+                <li class="stress wxb">微信版</li>
+                <li><a href="#" class="stress">手机版</a></li>
+                <li><a href="#">帮助</a></li>
+            </ul>
+            <div class="lgb">
+                <a href="#">零工宝<img src="./images/xiala.png" alt="" /></a>
+                <a href="#" class="lgba">我的发布</a>
+                <a href="#" class="lgba">我的收藏</a>
+                <a href="#" class="lgba">我的资料</a>
+            </div>
+            <div class="wx">
+                <img src="./images/head-foot/weixin.png" alt=""/>
+            </div>
+        </div>
+    </div>
+
+</header>
+<section>
+    <div class="logo">
+        <img src="./images/LOGObig.png" alt=""/>
+        <p>一个专业的分类信息网站</p>
+    </div>
+    <div class="form">
+        <form action="./注册成功.html" class="form-horizontal" onsubmit="return confirm();">
+            <div class="form-group" >
+                <label class="control-label col-sm-4">注册地</label>
+                <div class="col-sm-2" style="position: relative">
+                    <!--<select name="province"  class=" form-control" id="province">-->
+                    <!--</select>-->
+                    <div class="form-control" id="proDiv">
+                        <span class="xl"><img src="./images/form/xl.png" alt=""/></span>
+                        <ul class="list-group" id="province">
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="col-sm-2" style="position: relative">
+                    <span class="xl"><img src="./images/form/xl.png" alt=""/></span>
+                    <!--<select name="city" class=" form-control" id="city">-->
+                    <!--</select>-->
+                    <div class="form-control" id="cityDiv">
+                        <span class="text"></span>
+                        <span class="xl"><img src="./images/form/xl.png" alt=""/></span>
+                        <ul class="list-group" id="city">
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4">注册类型</label>
+                <div class="col-sm-4">
+                    <div class="radio-inline">
+                        <label style="font-weight: normal;">
+                            <input type="radio" name="type" value="公司" checked="checked"/>
+                            公司
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label style="font-weight: normal;">
+                            <input type="radio" name="type" value="公司"/>
+                            个人
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label text-right">用户名</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="username" required="required"/>
+                </div>
+                <div class="col-sm-4">
+                    <p class="form-control-static text-danger errorname error">！用户名不正确</p>
+                    <p class="form-control-static duihaoname duihao"><img src="./images/form/dh.png" alt=""/></p>
+                    <p class="form-control-static text-primary noticename notice">4-20个字符，字母/数字/下划线和汉字组成</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4">密码</label>
+                <div class="col-sm-4">
+                    <input type="password" id="password" class="form-control" required="required"/>
+                </div>
+                <div class="col-sm-4">
+                    <p class="form-control-static text-danger errorpass error">！密码格式不正确</p>
+                    <p class="form-control-static duihaopass duihao"><img src="./images/form/dh.png" alt=""/></p>
+                    <p class="form-control-static text-primary noticepass notice">8-20个字符，不包含空格</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">确认密码</label>
+                <div class="col-sm-4">
+                    <input type="password" class="form-control" id="repass" required="required"/>
+                </div>
+                <div class="col-sm-4">
+                    <p class="form-control-static text-primary notice noticerepass">请再次输入密码</p>
+                    <p class="form-control-static text-danger error errorrepass">！两次密码输入不一致</p>
+                    <p class="form-control-static text-danger duihao duihaorepass"><img src="./images/form/dh.png" alt=""/></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">推介人</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" placeholder="请输入推介人的工号，没有可不填"/>
+                </div>
+                <div class="col-sm-4">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">手机号</label>
+                <div class="col-sm-4">
+                    <input type="tel" class="form-control" placeholder="请输入手机号码" required="required" id="tel"/>
+                </div>
+                <div class="col-sm-2">
+                    <p class="form-control-static text-danger errortel error">！请输入正确手机号</p>
+                    <p class="form-control-static text-primary getyzm djq">点击获取验证码</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">验证码</label>
+                <div class="col-sm-4">
+                    <input type="tel" class="form-control" placeholder="请输入手机验证码" required="required"/>
+                </div>
+                <div class="col-sm-2">
+                    <p class="form-control-static text-danger erroryzm error">！验证码错误</p>
+                    <p class="form-control-static  duihao duihaoyzm"><img src="./images/form/dh.png" alt=""/></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                   <div class="checkbox-inline">
+                       <label class="control-label" style="font-weight: normal">
+                           <input type="checkbox" id="agree"/>我已阅读并同意 <a href="#" class="xy"> 《零工在线用户协议》</a>
+                       </label>
+                   </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <input type="submit" value="注册" class=" btnprimary" id="submit"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<footer>
+    <div class="main">
+        <ul>
+            <li><a href="#">法律声明 |</a></li>
+            <li><a href="#">零工宝 |</a></li>
+            <li><a href="#">零工小参 |</a></li>
+            <li><a href="#">招贤纳士 |</a></li>
+            <li><a href="#">关注微博</a></li>
+        </ul>
+        <p>Copyright © 2016 lg-zx.com Corporation, All Rights Reserved 鲁ICP备16012134号-1 站长统计</p>
+    </div>
+</footer>
+</body>
+<script src="js/jquery.js"></script>
+<script src="js/head-foot.js"></script>
+<script src="js/form.js"></script>
+<script src="js/getyzm.js"></script>
+<script src="js/city.js"></script>
+</html>

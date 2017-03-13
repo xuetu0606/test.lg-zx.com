@@ -29,5 +29,8 @@ $(function(){
         var h=parseFloat(adsH)+parseFloat(demoH)+'px';
         $('.ads').css('height',adsH);
         $('.main2').css('height',h);
+        console.log(mainH);
+        console.log(demoH);
+        console.log(adsH);
     }
 });
