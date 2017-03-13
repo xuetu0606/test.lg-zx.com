@@ -156,5 +156,93 @@ group by userlist.uid {$addsql}";
         }
     }
 
-
+	//获取所有招聘信息
+    public function getReveal(){
+        //查询所有招聘信息
+        $sql = "select id,uid,job_code,city_id,district_id,title,pay,pay_unit,pay_circle,sum,worktime,contacts,mobile,address,info,flag,pv,addtime,updatetime,flushtime from invite_list";
+        $result = $this->db->query($sql);
+        $users = $result->result_array();
+        //循环查询所有的工种名称
+        for($i = 0 ; $i < count($users) ; $i++){
+            $sql = "select name from job_type where id=".$users[$i]['job_code'];
+            $result = $this->db->query($sql);
+            $name = $result->result_array();
+            $users[$i]['job_name'] = $name[0]['name'];
+        }
+        //循环查询所有的区县名称
+        for($i = 0 ; $i < count($users) ; $i++){
+            $sql = "select name from district_dic where id=".$users[$i]['district_id'];
+            $result = $this->db->query($sql);
+            $name = $result->result_array();
+            $users[$i]['district_name'] = $name[0]['name'];
+        }
+		//查询薪资单位
+		for($i = 0 ; $i < count($users) ; $i++){
+            $sql = "select name from pay_unit_dic where id=".$users[$i]['pay_unit'];
+            $result = $this->db->query($sql);
+            $name = $result->result_array();
+            $users[$i]['pay_unit_name'] = $name[0]['name'];
+        }
+		//查询结算周期
+		for($i = 0 ; $i < count($users) ; $i++){
+            $sql = "select name from pay_circle_dic where id=".$users[$i]['pay_circle'];
+            $result = $this->db->query($sql);
+            $name = $result->result_array();
+            $users[$i]['pay_circle_name'] = $name[0]['name'];
+        }
+        return $users;
+    }
+    //删除一条招聘信息
+    public function deleteReveal($id){
+        $sql = "delete from invite_list where id=".$id;
+        $this->db->query($sql);
+    }
+    //查询一条信息
+    public function findReveal($id){
+        
+		$sql = "select id,uid,job_code,city_id,district_id,title,pay,pay_unit,pay_circle,sum,worktime,contacts,mobile,address,info,flag,pv,addtime,updatetime,flushtime from invite_list where id=".$id;
+        $result = $this->db->query($sql);
+        $user = $result->result_array();
+		
+		$sql = "select name from district_dic where id=".$user[0]['district_id'];
+		$result = $this->db->query($sql);
+		$name = $result->result_array();
+		$user[0]['district_name'] = $name[0]['name'];
+		
+		$sql = "select name from pay_unit_dic where id=".$user[0]['pay_unit'];
+		$result = $this->db->query($sql);
+		$name = $result->result_array();
+		$user[0]['pay_unit_name'] = $name[0]['name'];
+		
+		$sql = "select name from pay_circle_dic where id=".$user[0]['pay_circle'];
+		$result = $this->db->query($sql);
+		$name = $result->result_array();
+		$user[0]['pay_circle_name'] = $name[0]['name'];
+		
+		$sql = "select name from job_type where id=".$user[0]['job_code'];
+		$result = $this->db->query($sql);
+		$name = $result->result_array();
+		$user[0]['job_name'] = $name[0]['name'];
+        
+		return $user[0];
+    }
+    //修改一条信息
+    public function updateReveal($id,$job_code,$district_id,$title,$pay,$pay_unit,$pay_circle,$sum,$worktime,$contacts,$mobile,$address,$info,$flag){
+        $sql = "update invite_list set 
+            job_code=".$job_code."
+            district_id=".$district_id."
+            title='".$title."'
+            pay=".$pay."
+            pay_unit=".$pay_unit."
+            pay_circle=".$pay_circle."
+            sum=".$sum."
+            worktime='".$worktime."'
+            contacts='".$contacts."'
+            mobile='".$mobile."'
+            address='".$address."'
+            info='".$info."'
+            where id=".$id."
+            ";
+        $this->db->query($sql);
+    }
 }
