@@ -171,7 +171,7 @@
                 <a href="#">冠县路</a>
             </div>
             <div class="type xinzi">
-                <span>区域：</span>
+                <span>工资：</span>
                 <ul>
                     <li><a href="#">不限</a></li>
                     <li><a href="#">50元以下/天（次、时）</a></li>
