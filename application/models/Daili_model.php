@@ -229,17 +229,17 @@ group by userlist.uid {$addsql}";
     //修改一条信息
     public function updateReveal($id,$job_code,$district_id,$title,$pay,$pay_unit,$pay_circle,$sum,$worktime,$contacts,$mobile,$address,$info,$flag){
         $sql = "update invite_list set 
-            job_code=".$job_code."
-            district_id=".$district_id."
-            title='".$title."'
-            pay=".$pay."
-            pay_unit=".$pay_unit."
-            pay_circle=".$pay_circle."
-            sum=".$sum."
-            worktime='".$worktime."'
-            contacts='".$contacts."'
-            mobile='".$mobile."'
-            address='".$address."'
+            job_code=".$job_code.",
+            district_id=".$district_id.",
+            title='".$title."',
+            pay=".$pay.",
+            pay_unit=".$pay_unit.",
+            pay_circle=".$pay_circle.",
+            sum=".$sum.",
+            worktime='".$worktime."',
+            contacts='".$contacts."',
+            mobile='".$mobile."',
+            address='".$address."',
             info='".$info."'
             where id=".$id."
             ";

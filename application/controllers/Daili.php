@@ -479,6 +479,7 @@ class Daili extends CI_Controller {
         $address = $_POST['address'];
         $info = $_POST['info'];
         $this->daili_model->updateReveal($id,$job_code,$district_id,$title,$pay,$pay_unit,$pay_circle,$sum,$worktime,$contacts,$mobile,$address,$info,$flag);
+		$this->reveal();
     }
 	
 }
