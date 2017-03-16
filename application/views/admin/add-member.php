@@ -26,13 +26,13 @@
                                     <input type="password" name="password" id="password"/><br/><br/>
                                     
                                     <label for="province_id">省　份　:</label>
-                                    <select name="province_id">
+                                    <select style="width:150px; height:26px;" class="myselect" name="province_id">
                                         <option value="1">男</option>
                                     </select>
                                     <br/><br/>
                                     
                                     <label for="city_id">城　市　:</label>
-                                    <select name="city_id">
+                                    <select style="width:150px; height:26px;" class="myselect" name="city_id">
                                         <option value="1">男</option>
                                     </select>
                                     <br/><br/>
@@ -85,13 +85,13 @@
                                     <input type="password" name="password" id="password"/><br/><br/>
                                     
                                     <label for="province_id">省　份　:</label>
-                                    <select name="province_id">
+                                    <select style="width:150px; height:26px;" class="myselect" name="province_id">
                                         <option value="1">男</option>
                                     </select>
                                     <br/><br/>
                                     
                                     <label for="city_id">城　市　:</label>
-                                    <select name="city_id">
+                                    <select style="width:150px; height:26px;" class="myselect" name="city_id">
                                         <option value="1">男</option>
                                     </select>
                                     <br/><br/>
@@ -121,7 +121,7 @@
                                     <input type="text" name="nickname" id="nickname"/><br/><br/>
                                     
                                     <label for="sex">性　别　:</label>
-                                    <select name="sex">
+                                    <select style="width:150px; height:26px;" class="myselect" name="sex">
                                         <option value="1">男</option>
                                         <option value="2">女</option>
                                     </select>
