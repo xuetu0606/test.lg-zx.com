@@ -26,10 +26,16 @@
                                     <input type="password" name="password" id="password"/><br/><br/>
                                     
                                     <label for="province_id">省　份　:</label>
-                                    <input type="text" name="province_id" id="province_id"/><br/><br/>
+                                    <select name="province_id">
+                                        <option value="1">男</option>
+                                    </select>
+                                    <br/><br/>
                                     
                                     <label for="city_id">城　市　:</label>
-                                    <input type="text" name="city_id" id="city_id"/><br/><br/>
+                                    <select name="city_id">
+                                        <option value="1">男</option>
+                                    </select>
+                                    <br/><br/>
                                     
                                     <label for="address">详细地址:</label>
                                     <input type="text" name="address" id="address"/><br/><br/>
