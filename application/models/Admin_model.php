@@ -155,7 +155,19 @@ group by userlist.uid {$addsql}";
         }
         return $list;
     }
-
+    /**
+     * 根据省分获取城市
+     * 返回值数组：城市编码=>城市名称
+     */
+    public  function getAllCityByProvinceId($Province_id){
+        $sql = "select pre_dist_id,dist_id,name from province_city where level=2 ";
+        $query = $this->db->query($sql);
+        $list = array();
+        while ($row = $query->unbuffered_row('array')) {
+            $list[$row['pre_dist_id']][$row['dist_id']] = $row['name'];
+        }
+        return $list;
+    }
 
     /**
      * 获取会员信息

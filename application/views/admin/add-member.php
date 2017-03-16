@@ -138,9 +138,7 @@
                                     <input type="submit" value="提交"/>
                                 </form>
                         </div>
-                        
                         <div class="row">
-
                             <div class="col-sm-7">
                                 <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
                                     <ul class="pagination"><?php echo $page;?></ul>
