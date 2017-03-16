@@ -374,7 +374,9 @@ echo '</pre>';
 		$this->reveal();
     }
     public function toaddMember(){
-        $this->load->view('admin/addMember');
+        $this->load->view('admin/templates/header');
+        $this->load->view('admin/add-member');
+        $this->load->view('admin/templates/footer');
     }
     public function addMember(){
         $this->admin_model->addMember();
