@@ -13,37 +13,97 @@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div id="gongsi">
-                                <label for="">用户名:</label><input type="text" name=""/>
-                                <label for="">密码:</label><input type="text" name=""/>
-                                <label for="">省份:</label><input type="text" name=""/>
-                                <label for="">城市:</label><input type="text" name=""/>
-                                <label for="">详细地址:</label><input type="text" name=""/>
-                                <label for="">手机:</label><input type="text" name=""/>
-                                <label for="">固话:</label><input type="text" name=""/>
-                                <label for="">邮箱:</label><input type="text" name=""/>
-                                <label for="">QQ号:</label><input type="text" name=""/>
-                                <label for="">微信号:</label><input type="text" name=""/>
-                                <label for="">公司名称:</label><input type="text" name=""/>
-                                <label for="">公司规模:</label><input type="text" name=""/>
-                                <label for="">公司网址:</label><input type="text" name=""/>
-                                <label for="">证件号:</label><input type="text" name=""/>
+                                <h3>公司用户</h3>
+                                
+                                <label for="username">用户名　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">密　码　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">省　份　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">城　市　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">详细地址:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">手　机　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">固　话　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">邮　箱　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">QQ　号　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">微信号　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">公司名称:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">公司规模:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">公司网址:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">证件号　:</label>
+                                <input type="text" name="" id=""/><br/>
                             </div>
                             <div id="geren">
-                                <label for="">用户名:</label><input type="text" name=""/>
-                                <label for="">密码:</label><input type="text" name=""/>
-                                <label for="">省份:</label><input type="text" name=""/>
-                                <label for="">城市:</label><input type="text" name=""/>
-                                <label for="">详细地址:</label><input type="text" name=""/>
-                                <label for="">手机:</label><input type="text" name=""/>
-                                <label for="">固话:</label><input type="text" name=""/>
-                                <label for="">邮箱:</label><input type="text" name=""/>
-                                <label for="">QQ号:</label><input type="text" name=""/>
-                                <label for="">微信号:</label><input type="text" name=""/>
-                                <label for="">真实姓名:</label><input type="text" name=""/>
-                                <label for="">昵称:</label><input type="text" name=""/>
-                                <label for="">男/女:</label><input type="text" name=""/>
-                                <label for="">身份证号:</label><input type="text" name=""/>
-                                <label for="">个人简介:</label><input type="text" name=""/>
+                                <h3>个人用户</h3>
+                                
+                                <label for="">用户名　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">密　码　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">省　份　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">城　市　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">详细地址:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">手　机　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">固　话　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">邮　箱　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">QQ　号　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">微信号　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">真实姓名:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">昵　称　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">性　别　:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">身份证号:</label>
+                                <input type="text" name="" id=""/><br/>
+                                
+                                <label for="">个人简介:</label>
+                                <input type="text" name="" id=""/><br/>
                             </div>
                             
                             <div class="row">
