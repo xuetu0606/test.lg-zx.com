@@ -110,13 +110,12 @@ section div.head nav ul {
           align-items: center;
 }
 section div.head nav ul li a {
-  color: #6a5293;
+  color: #ff3c5a;
   width: 100px;
   height: 30px;
   text-align: center;
   line-height: 30px;
   font-size: 18px;
-  font-family: "黑体";
 }
 section div.head nav ul li .active {
   background-color: #ff3c5a !important;
@@ -152,8 +151,9 @@ section div.body div.main div.demo p.h1 {
   line-height: 45px;
 }
 section div.body div.main div.demo p.h1 a {
-  color: #ff3c5a;
+  color: #333;
   font-size: 18px;
+  font-weight: bold;
 }
 section div.body div.main div.demo div.type div.h2 {
   margin: 1px 0;
@@ -165,6 +165,7 @@ section div.body div.main div.demo div.type div.h2 span {
 }
 section div.body div.main div.demo div.type div.h2 span a {
   color: #333;
+  font-weight: bold;
 }
 section div.body div.main div.demo div.type div.h2 img {
   vertical-align: middle;
@@ -176,8 +177,8 @@ section div.body div.main div.demo div.type div.h3 {
 }
 section div.body div.main div.demo div.type div.h3 ul li {
   width: 88px;
-  height: 40px;
-  line-height: 40px;
+  height: 30px;
+  line-height: 30px;
 }
 section div.body div.main div.demo div.type div.h3 ul li a {
   color: #333;
@@ -204,7 +205,7 @@ section div.body div.main div.ads {
   box-sizing: border-box;
 }
 section div.body div.main div.ads img {
-  height: 167px;
+  height: 134px;
   width: 390px;
   display: block;
 }
@@ -225,6 +226,8 @@ section div.body div.about {
   -webkit-justify-content: space-around;
       -ms-flex-pack: distribute;
           justify-content: space-around;
+  position: relative;
+  z-index: 1;
 }
 section div.body div.about ul {
   display: inline-block;
@@ -240,15 +243,48 @@ section div.body div.about ul li a {
   font-size: 14px;
   color: #999999;
 }
+section div.body div.about div.gwwxdiv {
+  width: 260px;
+  height: 140px;
+  position: absolute;
+  border: solid 1px #dadada;
+  background-color: #ffffff;
+  top: 118px;
+  left: 172px;
+  display: none;
+}
+section div.body div.about div.gwwxdiv img {
+  margin-left: 10px;
+  vertical-align: middle;
+  width: 100px;
+  height: 100px;
+}
+section div.body div.about div.gwwxdiv div.r {
+  width: 140px;
+  height: 140px;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 20px 0;
+  box-sizing: border-box;
+}
+section div.body div.about div.gwwxdiv div.r p {
+  line-height: 38px;
+  text-align: center;
+}
+section div.body div.about div.gwwxdiv div.r p.p2 {
+  color: #999;
+  font-size: 12px;
+}
 section div.foot {
   width: 1190px;
   margin: 20px auto;
+  font-family: "黑体";
 }
 section div.foot nav span {
-  font-size: 18px;
+  font-size: 12px;
 }
 section div.foot nav a {
-  font-size: 18px;
+  font-size: 12px;
   color: #999;
   margin-top: 10px;
 }
@@ -259,6 +295,7 @@ div.hiddenHeader {
   position: fixed;
   top: 0;
   display: none;
+  z-index: 2;
 }
 div.hiddenHeader div.hiddenSearchP {
   width: 1190px;

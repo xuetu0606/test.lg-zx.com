@@ -330,7 +330,7 @@ class User_model extends CI_Model {
     	}
     }
     /**
-     * 根据uid获取用户基础信息
+     * 根据username获取用户基础信息
      */
     public function getUserinfoByUsername($username){
     	$sql = "select uid,mobile,address from userlist where username='$username'";
@@ -367,10 +367,12 @@ class User_model extends CI_Model {
 
     /**
      * 给用户重置默认密码
+     * 参数： mobile-用户手机；password-密码
+     * 返回值：有该用户则返回uid，否则返回false
      */
-    public function modifyPwd($uid){
-    	$pwd = $this->encryptPwd('123456');
-    	$sql = "update userlist set password='$pwd' where uid='$uid'";
+    public function modifyPwd($mobile,$password){
+    	$pwd = $this->encryptPwd($password);
+    	$sql = "update userlist set password='$pwd' where mobile='$mobile'";
     	$query = $this->db->query($sql);
     	if($query){
     		return true;
@@ -521,7 +523,7 @@ class User_model extends CI_Model {
     public  function isVip($uid){
     	$time = time();
     	//查看vip是否过期 有值则为vip
-		$sql = "select endtime as vip_endtime from user_service_log where uid='$uid' and endtime>'$time'  ";	
+		$sql = "select endtime as vip_endtime from user_service_log where uid='$uid' and endtime>'$time'";
 		$query = $this->db->query($sql);
 		$arr = $query->row_array();
     	return $arr['vip_endtime'];
@@ -648,7 +650,7 @@ class User_model extends CI_Model {
 				from userlist inner join user_personal on user_personal.uid=userlist.uid
 				inner join province_city as pro_t on userlist.province_id=pro_t.dist_id
 				inner join province_city  as city_t on userlist.city_id=city_t.dist_id
-				where userlist.uid=$uid";
+				where userlist.uid='$uid'";
     	$query = $this->db->query($sql);
 		$arr = $query->row_array();
 		return $arr;
@@ -1054,15 +1056,46 @@ class User_model extends CI_Model {
     }
 
 
-    /*
+    /**
     *   根据城市id获取城市简码
-    *
-     */
+    **/
     public function getCityCode($city_id){
         $sql = "select pinyin from province_city where dist_id='{$city_id}'";
         $query = $this->db->query($sql);
         $arr = $query->row_array();
         return $arr;
     }
+
+
+    /**
+     *   获取所有行业职业
+     **/
+    public function getJobType($data){
+        extract($data);
+        $sql = "select id,name,pre_id,pre_pre_id,level from job_type where level='$level' and pre_id='$pre_id' and pre_pre_id='$pre_pre_id'";
+        $query = $this->db->query($sql);
+        $list = array();
+        while ($row = $query->unbuffered_row('array')) {
+            $list[$row['id']] = $row['name'];
+        }
+        return $list;
+    }
+
+
+    /**
+     * 判断用户是否已经登录
+     *
+     */
+    public function hasLogin()
+    {
+        /** 检查session，并与数据库里的数据相匹配 */
+        if (!empty($_SESSION) and NULL !== $_SESSION['uid']) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+
 
 }

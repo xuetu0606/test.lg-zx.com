@@ -92,7 +92,7 @@ $(function() {
         if(target.closest("#province,#proDiv").length == 0){
             //进入if则表明点击的不是#province,#proDiv元素中的一个
             $("#province").hide();
-        }else if(target.closest("#city,#cityDiv").length == 0){
+        } if(target.closest("#city,#cityDiv").length == 0){
             //进入if则表明点击的不是#province,#proDiv元素中的一个
             $("#city").hide();
         }

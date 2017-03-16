@@ -15,7 +15,7 @@
  
 //↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 //合作身份者ID，签约账号，以2088开头由16位纯数字组成的字符串，查看地址：https://openhome.alipay.com/platform/keyManage.htm?keyType=partner
-$alipay_config['partner']		= '2016071801635130';
+$alipay_config['partner']		= '2088321046561938';
 
 //收款支付宝账号，以2088开头由16位纯数字组成的字符串，一般情况下收款账号就是签约账号
 $alipay_config['seller_id']	= $alipay_config['partner'];
@@ -24,7 +24,7 @@ $alipay_config['seller_id']	= $alipay_config['partner'];
 $alipay_config['private_key']	= 'MIICXgIBAAKBgQDK2884b/mWSMKpu5pxwfAgyTRGItCwO+vw6kNwKwxAbd2wpqjZbxhGXHUwRrLJe9lAMbF7PZlnwtf13ddKh3lxN5fSCJFkid7V6gQCJH1I0pHp6/LynrIoAjTTmG5Dn8cLt3Epm9inBNhp1oPVe2YI0LdHVircRKBjVdOcTerUDwIDAQABAoGBAMUFVa5Hus3GXyIArhDcPj9pi1avC6aOnCoBLHxtotmUmyKtywJbDuWPeNXpZE2h9q+NVAYRHsQTDjKiQi4Fg+C/oF+kDtpV+tI1ht2hbAhaWxgMam5SvfcuQFIKpjXDLcmxkomE7tJGm4KsyZZoY8P2rK15wG6Uk3gB/I7FotXxAkEA/uG1ZzIPBI/a57YyycvsdHfeglcpGbT9TNS8NWiLsk+JGQTPMphEQlwpr/NwhB3HUCBiN2Js5L88G/Pb9rs2OQJBAMu/qrguzMFvjrFk+cW97iUc+ZXU75UVYyCWAyDiegU8/uMVsj190/ei0+xbiplo31AnnZalGuXYiTDCD/lbHIcCQF9tcDaf1mGV3pasb52AHRqKGqPgMEIwsjmG2KSCbPMotiLI2y6NNdlGmlEHKxQ79fi49yzXS//k3YN1rOBWvXkCQQCacP2qQSdJ1RL3mo/N+SskDLOPhGnauux5zdwvOBzADb0zSsXh4Jgk1NMJDVag9KKZcn38q8gYw6syP1e2bv7PAkEA1FVREbzc0QlyfbuOufAYpr5KhmDHmrvM7xS3wdR/bZ2NhOmutIwF+qdSBouKUEEaMFg2Y9nybae1gV2z+Xov0Q==';
 
 //支付宝的公钥，查看地址：https://b.alipay.com/order/pidAndKey.htm 
-$alipay_config['alipay_public_key']= 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsraprwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUrCmZYI/FCEa3/cNMW0QIDAQAB';
+$alipay_config['alipay_public_key']= 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB';
 
 // 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
 $alipay_config['notify_url'] = "http://". $_SERVER['HTTP_HOST'] ."/pay/notify_url";
@@ -40,7 +40,7 @@ $alipay_config['input_charset']= strtolower('utf-8');
 
 //ca证书路径地址，用于curl中ssl校验
 //请保证cacert.pem文件在当前文件夹目录中
-$alipay_config['cacert']    = getcwd().'\\cacert.pem';
+$config['cacert']    =  APPPATH.'libraries/alipay_pc/cacert.pem';
 
 //访问模式,根据自己的服务器是否支持ssl访问，若支持请选择https；若不支持请选择http
 $alipay_config['transport']    = 'http';
@@ -63,5 +63,3 @@ $alipay_config['anti_phishing_key'] = "";
 $alipay_config['exter_invoke_ip'] = "";
 		
 //↑↑↑↑↑↑↑↑↑↑请在这里配置防钓鱼信息，如果没开通防钓鱼功能，为空即可 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-
-?>

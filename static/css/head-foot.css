@@ -83,8 +83,7 @@ header div.main div.fr div.lgb {
   width: 70px;
   border: solid 1px #dadada;
   background-color: #ffffff;
-  top: 0;
-  right: 324px;
+  top: 0px;
   display: none;
 }
 header div.main div.fr div.lgb a {
@@ -116,12 +115,13 @@ header div.main div.fr div.lgb .a-backcolor {
 header div.main div.fr div.wx {
   position: absolute;
   top: 31px;
-  right: 240px;
   display: none;
 }
 footer {
   height: 130px;
   margin-top: 80px;
+  font-size: 14px;
+  font-family: "黑体";
 }
 footer div.main {
   width: 1190px;
@@ -132,12 +132,10 @@ footer div.main ul {
   margin: 10px;
 }
 footer div.main ul li a {
-  font-size: 18px;
   color: #333;
 }
 footer div.main p {
   margin-top: 20px;
   text-align: center;
-  font-size: 18px;
   color: #333;
 }

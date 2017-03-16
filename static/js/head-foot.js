@@ -28,17 +28,25 @@ $(function(){
     });
     //判断滚动条，设置下拉框位置
     {
-        console.log($(document).height());
-        console.log($(document.body).height());
-        if($(document).height()<=$(document.body).height()+2)//有滚动条
-        {
-            $('div.lgb').css('right','322px');
-            $('div.wx').css('right','240px');
-        }
-        else{
-            $('div.lgb').css('right','332px');
-            $('div.wx').css('right','250px');
-        }
+        var w=($(document).width()-1190)/2+160;
+        $('div.lgb').css('right',w+'px');
+        $('div.wx').css('right',w-80+'px');
+        //console.log(w);
+        //if($(document).height()<=$(document.body).height()+2)//有滚动条
+        //{
+        //    $('div.lgb').css('right',w+'px');
+        //    $('div.wx').css('right',w-80+'px');
+        //}
+        //else{
+        //    $('div.lgb').css('right',w+'px');
+        //    $('div.wx').css('right',w-80+'px');
+        //}
 
     }
+    $(window).resize(function(){
+        w=($(document).width()-1190)/2+160;
+        //console.log(w);
+        $('div.lgb').css('right',w+'px');
+        $('div.wx').css('right',w-80+'px');
+    });
 });
