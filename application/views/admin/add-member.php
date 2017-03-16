@@ -16,7 +16,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <div id="gongsi" align="center" style="width:600px; height:610px; ">
+                        <div id="gongsi" align="center" style="width:600px; height:710px; ">
                             <h3>公司用户</h3>
                                 <form action="" method="">
                                     <label for="username">用户名　:</label>
@@ -62,7 +62,7 @@
                                     <input type="text" name="" id=""/><br/><br/>
                                 </form>
                         </div>
-                        <div id="geren" align="center" style="width:600px; height:610px; display:none">
+                        <div id="geren" align="center" style="width:600px; height:710px; display:none">
                             <h3>个人用户</h3>
                                 <form action="" method="">    
                                     <label for="">用户名　:</label>
