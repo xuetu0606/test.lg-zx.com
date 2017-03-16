@@ -23,7 +23,7 @@
                                     <input type="text" name="username" id="username"/><br/><br/>
                                     
                                     <label for="password">密　码　:</label>
-                                    <input type="text" name="password" id="password"/><br/><br/>
+                                    <input type="password" name="password" id="password"/><br/><br/>
                                     
                                     <label for="province_id">省　份　:</label>
                                     <input type="text" name="province_id" id="province_id"/><br/><br/>
@@ -76,7 +76,7 @@
                                     <input type="text" name="username" id="username"/><br/><br/>
                                     
                                     <label for="password">密　码　:</label>
-                                    <input type="text" name="password" id="password"/><br/><br/>
+                                    <input type="password" name="password" id="password"/><br/><br/>
                                     
                                     <label for="province_id">省　份　:</label>
                                     <input type="text" name="province_id" id="province_id"/><br/><br/>
