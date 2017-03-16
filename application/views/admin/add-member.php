@@ -11,8 +11,8 @@
             </ol>
         </section>
                     <div align="center">
-                        <button onclick="cutover(this);" name="gongsi">添加公司用户</button>
-                        <button onclick="cutover(this);" name="geren">添加个人用户</button>
+                        <button onclick="cutover(this);" name="gongsi">打开添加公司用户</button>
+                        <button onclick="cutover(this);" name="geren">打开添加个人用户</button>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -193,7 +193,6 @@
 <!-- Page script -->
 <script>
     function cutover(obj){
-        console.log(obj);
         if(obj.name == 'gongsi'){
             document.getElementById('gongsi').style.display="block";
             document.getElementById('geren').style.display="none";
