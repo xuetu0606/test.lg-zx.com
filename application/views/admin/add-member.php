@@ -16,7 +16,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <div id="gongsi" align="center" style="width:600px; height:710px; ">
+                        <div id="gongsi" align="center" style="width:600px; height:1200px; ">
                             <h3>公司用户</h3>
                                 <form action="" method="">
                                     <label for="username">用户名　:</label>
@@ -69,7 +69,7 @@
                                     <input type="submit" value="提交"/>
                                 </form>
                         </div>
-                        <div id="geren" align="center" style="width:600px; height:710px; display:none">
+                        <div id="geren" align="center" style="width:600px; height:1200px; display:none">
                             <h3>个人用户</h3>
                                 <form action="" method="">    
                                     <label for="username">用户名　:</label>
@@ -194,11 +194,11 @@
 <script>
     function cutover(obj){
         if(obj.name == 'gongsi'){
-            document.getElementById('gongsi').display="block";
-            document.getElementById('geren').display="none";
-        }else if(obj.name == 'geren'){
             document.getElementById('gongsi').display="none";
             document.getElementById('geren').display="block";
+        }else if(obj.name == 'geren'){
+            document.getElementById('gongsi').display="block";
+            document.getElementById('geren').display="none";
         }
     }
 </script>
