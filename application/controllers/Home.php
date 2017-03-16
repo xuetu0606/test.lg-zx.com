@@ -14,37 +14,84 @@ class Home extends CI_Controller {
 	        show_404();
 	    }
 
-	    if($_SERVER['HTTP_HOST']=='m.lg-zx.com'){//选择城市页面
-			$data['title'] = '选择城市页'; // 定义标题
-//			$data['localhost'] = $_SERVER['HTTP_HOST'];//获取当前域名
+	    if($_SERVER['HTTP_HOST']=='pc.lg-zx.com'){//选择城市页面
+
 			if(strpos($_SERVER['HTTP_REFERER'], 'lg-zx.com')){//判断来源是来自本站
-				$data['getCityGroup'] = $this->main_model->getCityGroup();//获取城市拼音首字母
-				$arr2 = $this->main_model->getCityList();//获取城市根据拼音分组的详细列表
+				$data['title'] = '选择城市页'; // 定义标题
+				$data['citylist'] = $this->main_model->get_provinc_city();
+
+				$citycode = $this->main_model->getCityCode2();		//获取当前地区名，放到首页头部
+				$city_arr = $this->main_model->getCityInfoByCode($citycode);
+			    $data['cityname'] = $city_arr['name'];
+				$this->load->view('templates/header',$data);
+				$this->load->view('home/header/city',$data);
+			    $this->load->view('templates/footer');
 				
-			 $citycode = $this->main_model->getCityCode();		//地区名
-			 $city_arr = $this->main_model->getCityInfoByCode($citycode);
-			 $data['cityname'] = $city_arr['name'];
-				
-				$data['grouplist'] = $arr2[0];
-				$data['citylist'] = $arr2[1];
-				
-				$this->load->view('templates/head_simple',$data);
-				$this->load->view('home/city',$data);
-				$this->load->view('templates/footer2');
 			}else{//判断来源非本站
-				$data['flag'] = 1;
-				$arr2 = $this->main_model->getCityList();//获取城市根据拼音分组的详细列表
-				$data['grouplist'] = $arr2[0];
-				$data['citylist'] = $arr2[1];
-				$data['citylist_json'] = strval(json_encode($data['citylist']));
-				//var_dump($data['citylist_json']);die();
-				$this->load->view('home/city',$data);
+				$data['flag'] = 1;//定一个开关
+
+				$data['citylist'] = $this->main_model->get_provinc_city();
+				foreach($data['citylist'] as $k => $v){
+					if($v['sub']!=''){
+						$data['citylist_json'][] = strval(json_encode($v['sub']));
+					}
+				}
+				$this->load->view('home/header/city',$data);
 			}
 			
 
 		}else{//城市首页
 	    	$data['first_level'] = $this->list_model->get_first_level();
 		     $data['two_level'] = $this->list_model->get_two_level();
+
+		     foreach($data['two_level'] as $key => $value){
+		     	$row[] = $this->list_model->getTwoThreeList($key);//获取二级三级分类列表
+		     }
+		     foreach($row as $key => $value){
+		     	$data['list'][] = $value['list'];
+				$data['list_hot'][] = $value['list_hot'];
+		     }
+		     $aaa = $this->list_model->get_one_two_three();
+
+		     		 $data['lists'] = array();//调换在数据库里查出来的顺序    /**********
+				     foreach($aaa as $key => $value){
+				     	if($key == 1){
+				     		$data['lists'][$key] = $value;
+				     	}
+				     }
+				     foreach($aaa as $key => $value){
+				     	if($key == 257){
+				     		$data['lists'][$key] = $value;
+				     	}
+				     }
+				     foreach($aaa as $key => $value){
+				     	if($key == 412){
+				     		$data['lists'][$key] = $value;
+				     	}
+				     }
+				     foreach($aaa as $key => $value){
+				     	if($key == 33){
+				     		$data['lists'][$key] = $value;
+				     	}
+				     }
+				     foreach($aaa as $key => $value){
+				     	if($key == 218){
+				     		$data['lists'][$key] = $value;
+				     	}
+				     }
+				     foreach($aaa as $key => $value){
+				     	if($key == 328){
+				     		$data['lists'][$key] = $value;
+				     	}
+				     }
+				     foreach($aaa as $key => $value){
+				     	if($key == 375){
+				     		$data['lists'][$key] = $value;
+				     	}
+				     }
+				     // *********************/调换顺序结束
+
+
 		     $data['new_list'] = $this->list_model->getLastList();
 		     $c_name = array();
 		     foreach($data['new_list'] as $key => $value){ 
@@ -52,27 +99,45 @@ class Home extends CI_Controller {
 		     		$data['c_name'] = $c_name;
 		     }
 
-		     //$data['cityName'] = $this->main_model->getcityName($city_id);
-		     //var_dump($data['new_list']);
-		     //var_dump($data['cityName']);
 			 $citycode = $this->main_model->getCityCode();		//获取当前地区名，放到首页头部
 			 $city_arr = $this->main_model->getCityInfoByCode($citycode);
 			 $data['cityname'] = $city_arr['name'];
 			
-			
-			//print_r($data['two_level']);exit;
-		    // echo "<hr/>";
-		    // var_dump($first_level);
 		    $data['title'] = '首页'; // Capitalize the first letter
 			$data['localhost'] = $_SERVER['HTTP_HOST'];//获取当前域名
 			
 			$this->load->view('templates/header',$data);
-			$this->load->view('templates/head_search');
 		    $this->load->view('home/index',$data);
 		    $this->load->view('templates/footer');
 	    }
 
 	     
+	}
+	//根据当前城市名，获取城市简码
+	public function currentCity(){
+		$city = $_POST['city'];//接收ajax传过来的城市名
+
+		$citycode = $this->main_model->cnameGetCcode($city);//根据城市名获取城市简码
+		//redirect('http://qd.lg-zx.com');
+		echo $return = json_encode($citycode);
+		
+	}
+
+	//城市页搜索框逻辑
+	public function searchCity(){
+		if( ! file_exists(APPPATH.'views/home/header/city.php')){
+			show_404();
+		}
+		$city = $_POST['city']; 
+		$citycode = $this->main_model->cnameGetCcode($city);
+		var_dump($citycode);
+		var_dump($city);die();
+			$data['title'] = '选择城市页'; // 定义标题
+			$data['citylist'] = $this->main_model->get_provinc_city();
+
+			$this->load->view('templates/header',$data);
+			$this->load->view('home/header/city',$data);
+		    $this->load->view('templates/footer');
 	}
 	
 	//根据一级分类，点击跳到二级分类列表
@@ -82,7 +147,6 @@ class Home extends CI_Controller {
 	    }
 		
 		$data['title'] = '分类页'; // 定义标题
-//		$data['localhost'] = $_SERVER['HTTP_HOST'];//获取当前域名
 		
 	    $data['l1'] = $id = $this->uri->segment(3);//获取URL传过来的一级分类的参数
 		$row = $this->list_model->getTwoThreeList($id);

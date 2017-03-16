@@ -1,182 +1,254 @@
-<?php
-echo $error;
-?>
-<link rel="stylesheet" href="/static/css/publish/personal.publish.css"/>
-<link rel="stylesheet" href="/static/css/lgb/title.css">
+<link rel="stylesheet" href="/static/css/publish.css"/>
+<link rel="stylesheet" href="/static/css/form.css"/>
+<style>
+    .gb {
+        position: relative;
+        top: -85px;
+        right: -130px;
+    }
+</style>
 
 <section>
-    <p class="title2">
-        <a href="/user/mypublish"><</a>
-        <span>填写信息</span>
-    </p>
-    <?php echo $edit?form_open('user/publish/edit/'.$this->uri->segment(4, 0)):form_open('user/publish'); ?>
-        <div>
-            <span>标题</span>
-            <input type="text" name="title" class="iptlong" placeholder="请输入标题，限20字以内" value="<?php echo $baseinfo?$baseinfo['info1']:set_value('title'); ?>"/>
-        </div>
-        <div id="custom_data">
-            <span>服务工种</span>
-
-            <select class="first select">
-                <?php echo $baseinfo?'<option value="'.$baseinfo['job_level_1'].'" selected>'.$three_level[0][$baseinfo['job_level_1']].'</option>':''; ?>
-            </select>
-
-            <select class="second select">
-                <?php echo $baseinfo?'<option value="'.$baseinfo['job_level_2'].'" selected>'.$three_level[1][$baseinfo['job_level_2']].'</option>':''; ?>
-            </select>
-
-            <select name="job_code" class="third select">
-                <?php echo $baseinfo?'<option value="'.$baseinfo['job_level_3'].'" selected>'.$three_level[2][$baseinfo['job_level_3']].'</option>':''; ?>
-            </select>
-
-        </div>
-        <div id="area">
-            <input type="hidden" name="city" value="<?php echo $city; ?>">
-            <span>服务区域</span><?php echo $city; ?>市
-            <select name="districtid" class="districtid">
-                <?php echo $qyinfo?('<option value="'.$qyinfo[0]['district_id'].'" selected>'.$dist[$qyinfo[0]['district_id']].'</option>'):set_value('districtid'); ?>
-
-            </select>
-            <select name="areaid" class="areaid">
-                <?php echo $qyinfo?'<option value="'.$qyinfo[0]['area_id'].'" selected>'.$dist[$qyinfo[0]['area_id']].'</option>':set_value('areaid'); ?>
-
-            </select>
-        </div>
-        <div>
-            <span>大学生零工</span>
-            <input type="radio" name="is_student" value="1" <?php echo $baseinfo['is_student']==1?'checked':''; ?>/>是
-            <input type="radio" name="is_student" value="no" <?php echo $baseinfo['is_student']==0?'checked':''; ?>/>否
-        </div>
-        <div>
-            <span>涉外零工</span>
-            <input type="radio" name="is_for_foreign" value="1" <?php echo $baseinfo['is_for_foreign']==1?'checked':''; ?>/>是
-            <input type="radio" name="is_for_foreign" value="no" <?php echo $baseinfo['is_for_foreign']==0?'checked':''; ?>/>否
-        </div>
-        <div>
-            <span>上门服务</span>
-            <input type="radio" name="is_onsite_service" value="1" <?php echo $baseinfo['is_onsite_service']==1?'checked':''; ?>/>是
-            <input type="radio" name="is_onsite_service" value="no" <?php echo $baseinfo['is_onsite_service']==0?'checked':''; ?>/>否
-        </div>
-    <?php if($_SESSION['is_co']){ ?>
-        <div>
-            <span>用户名</span>
-                <a href="<?php echo site_url('user/myinfo'); ?>" class="deepblue"><?php echo $user['username']; ?></a>
-        </div>
-    <?php }else{  ?>
-        <div>
-            <span>用户名</span>
-            <a href="<?php echo site_url('user/myinfo'); ?>" class="deepblue"><?php echo $user['username']; ?></a>
-        </div>
-    <?php } ?>
-
-        <div>
-            <span>联系电话</span>
-            <input type="text" name="mobile" value="<?php echo $baseinfo?$baseinfo['mobile']:$user['mobile']; ?>"/>
-        </div>
-        <div>
-            <span>联系地址</span>
-            <input type="text" name="address" value="<?php echo $baseinfo?$baseinfo['address']:$user['address']; ?>" class="iptlong"/>
-        </div>
-        <div>
-            <span>自我简介</span>
-            <textarea name="zwjj" cols="30" rows="6" class="summaryNum"><?php echo $baseinfo?$baseinfo['info2']:set_value('zwjj'); ?></textarea>
-            <span class="number"><span class="currentNum">200</span>/200</span>
-        </div>
-        <div>
-            <span>服务介绍</span>
-            <textarea name="fwjs" cols="30" rows="6" class="summaryNum1"><?php echo $baseinfo?$baseinfo['info3']:set_value('fwjs'); ?></textarea>
-            <span class="number"><span class="currentNum">200</span>/200</span>
-        </div>
-        <div>
-            <span>联系方式</span>
-            <textarea name="lxfs" cols="30" rows="6" class="summaryNum2"><?php echo $baseinfo?$baseinfo['info4']:set_value('lxfs'); ?></textarea>
-            <span class="number"><span class="currentNum">200</span>/200</span>
-        </div>
-    <div class="error">
-        <?php echo validation_errors(); ?>
-        <?php echo $formerror; ?>
+    <div class="position">
+        <span>青岛零工在线</span>
+        <span> > </span>
+        <span>发布信息</span>
     </div>
-        <div style="text-align: center;">
-            <input type="submit" value="发布"/>
+    <div class="main">
+        <div class="middle">
+            <div class="buzhou">
+                <span class="step step1"><?php echo $hang[$this->uri->segment(3, 0)];?> <a href="/pub/selest">重写</a></span>
+                <span class="step b"> > </span>
+                <span class="step step2"><?php echo $zhi[$this->uri->segment(4, 0)];?> <a href="/pub/selest/<?php echo $this->uri->segment(3, 0);?>">重写</a></span>
+                <span class="step b"> > </span>
+                <span class="step step3 stress"> 填写信息 </span>
+                <span class="step b"> > </span>
+                <span class="step step4"> 完成发布 </span>
+            </div>
         </div>
-    </form>
+        <div class="infor">
+            <h1>填写信息</h1>
+
+            <form method="post" action="<?php echo base_url();?>pub/index/<?php echo $this->uri->segment(3, 0);?>/<?php echo $this->uri->segment(4, 0);?>" enctype="multipart/form-data">
+                <div class="form-group">
+                    <div class="form-control">
+                        <label><span class="xing">*</span>标题：</label>
+                        <input name="title" type="text" class="input-normal" value="<?php echo $baseinfo?$baseinfo['info1']:set_value('title'); ?>"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-control wrap">
+                        <label><span class="xing">*</span>服务内容：</label>
+                        <div class="check">
+                            <?php foreach ($gong as $k => $v):?>
+                            <div class="marginr">
+                                <input type="checkbox" name="job_code[]" value="<?php echo $k;?>"/><span><?php echo $v;?></span>
+                            </div>
+                            <?php endforeach;?>
+                            <div class="margin-right">
+                                <span class="allcheck allcheck1">全选</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-control wrap">
+                        <label><span class="xing">*</span>服务区域：</label>
+                        <div class="check">
+                            <?php foreach ($area[0] as $k => $v):?>
+                            <div class="marginr">
+                                <input type="checkbox" name="areaid[]" value="<?php echo $k;?>"/><span><?php echo $v;?></span>
+                            </div>
+                            <?php endforeach;?>
+
+                            <div class="margin-right">
+                                <span class="allcheck allcheck2">全选</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-control wrap">
+                        <label>服务介绍：</label>
+                        <textarea name="fwjs"><?php echo $baseinfo?$baseinfo['info3']:set_value('fwjs'); ?></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="upload_box form-control wrap">
+                        <label>上传图片：</label>
+                        <div class="upload_main imgs">
+                            <div id="preview" class="upload_preview"></div>
+
+                            <div class="upload_choose">
+                                <label for="fileImage" style="display: block"> <img src="/static/images/publish/xz.png" alt="" class="sctp"/></label>
+                                <input type="file" id="fileImage" name="fileselect[]" style="display: none;" multiple="multiple"/>
+                                <p style="margin-top: 20px;color: #888888;font-size: 14px">最多可上传8张图片，每张不超过12M</p>
+                            </div>
+
+                        </div>
+
+                        <input type="hidden" name="delfile" id="delfile">
+                    </div>
+                </div>
+                <?php if($_SESSION['is_co']==1):?>
+                <div class="form-group">
+                    <div class="form-control wrap">
+                        <label>公司名称：</label>
+                        <span><?php echo $user['coname']?></span>
+
+                    </div>
+                </div>
+                <?php endif;?>
+                <div class="form-group">
+                    <div class="form-control wrap">
+                        <label><?php echo $user['is_co']==1?'公司地址':'联系地址'?>：</label>
+                        <input type="text" name="address" class="input-normal" value="<?php echo $user['address']?>"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-control wrap">
+                        <label>微信号：</label>
+                        <input type="text" name="wechat" class="input-normal" value="<?php echo $user['wechat']?>"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-control wrap">
+                        <label>QQ号：</label>
+                        <input type="text" name="wechat" class="input-normal" value="<?php echo $user['qq']?>"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-control wrap">
+                        <label><span class="xing">*</span> 联系人：</label>
+                        <input type="text" class="input-normal" value="<?php echo $user['realname']?>"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-control wrap">
+                        <label><span class="xing">*</span> 联系电话：</label>
+                        <input type="text" name="mobile" class="input-normal" value="<?php echo $user['mobile']?>"/>
+                    </div>
+                </div>
+
+                <div class="form-group" style="text-align: center;  "><?php echo validation_errors()?validation_errors():($formerror?$formerror:''); ?></div>
+
+                <div class="form-group">
+                    <div class="form-control wrap">
+                        <label></label>
+                        <input type="submit" class="btn btn-main" id="fileSubmit" value="发布" style="font-size: 16px"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </section>
-<script src="/static/js/limitNum.js"></script>
-<script src="/static/js/jquery.cxselect.min.js"></script>
+<footer>
+    <div class="main">
+        <ul>
+            <li><a href="#">法律声明 |</a></li>
+            <li><a href="#">零工宝 |</a></li>
+            <li><a href="#">零工小参 |</a></li>
+            <li><a href="#">招贤纳士 |</a></li>
+            <li><a href="#">关注微博</a></li>
+        </ul>
+        <p>Copyright © 2016 lg-zx.com Corporation, All Rights Reserved 鲁ICP备16012134号-1 站长统计</p>
+    </div>
+</footer>
+</body>
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/ajaxfileupload.js"></script>
+<script src="/static/js/head-foot.js"></script>
+<script src="/static/js/publish.js"></script>
 <script>
-    $('#custom_data').cxSelect({
-        selects: ['first', 'second', 'third'],
-        required: true,
-        jsonValue: 'v',
-        jsonName: 'n',
-        jsonSub: 's',
-        data: [
-            <?php
-                    foreach ($gong[0] as $k1=>$v1) {
-                        echo '{\'v\': \''.$k1.'\', \'n\': \''.$v1.'\', \'s\': [';
-                        foreach($gong[1][$k1] as $k2=>$v2){
-                            echo '{\'v\': \''.$k2.'\', \'n\': \''.$v2.'\', \'s\': [';
-                                foreach($gong[2][$k1][$k2] as $k3=>$v3){
-                                    echo '{\'v\': \''.$k3.'\', \'n\': \''.$v3.'\'';
-                                    if(end($gong[2][$k1][$k2])==$v3){
-                                        echo '}';
-                                    }else{
-                                        echo '},';
-                                    }
-                                }
-                            if(end($gong[1][$k1])==$v2){
-                                    echo ']}';
-                                }else{
-                                    echo ']},';
-                            }
-                        }
-                        if(end($gong[0])==$v1){
-                            echo ']}';
-                        }else{
-                            echo ']},';
-                        }
+    var params = {
+        fileInput: $("#fileImage").get(0),
+        dragDrop: $("#fileDragArea").get(0),
+        upButton: $("#fileSubmit").get(0),
+        url: $("#uploadForm").attr("action"),
+        filter: function(files) {
+            var arrFiles = [];
+            for (var i = 0, file; file = files[i]; i++) {
+                if (file.type.indexOf("image") == 0) {
+                    if (file.size >= 512000) {
+                        alert('您这张"'+ file.name +'"图片大小过大，应小于500k');
+                    } else {
+                        arrFiles.push(file);
                     }
-
-            ?>
-
-        ]
-    });
-</script>
-<script>
-    $('#area').cxSelect({
-        selects: ['districtid', 'areaid'],
-        required: true,
-        jsonValue: 'v',
-        jsonName: 'n',
-        jsonSub: 's',
-        data: [
-            {'v':'','n':'全部','s':[
-                {'v':'','n':'全部'}
-                ]},
-            <?php
-            foreach ($area[0] as $k1=>$v1) {
-                echo '{\'v\': \''.$k1.'\', \'n\': \''.$v1.'\', \'s\': [';
-                echo '{\'v\':\'\',\'n\':\'全部\'},';
-                foreach($area[1][$k1] as $k2=>$v2){
-
-                    echo '{\'v\': \''.$k2.'\', \'n\': \''.$v2.'\'';
-
-                    if(end($area[1][$k1])==$v2){
-                        echo '}';
-                    }else{
-                        echo '},';
-                    }
-                }
-                if(end($area[0])==$v1){
-                    echo ']}';
-                }else{
-                    echo ']},';
+                } else {
+                    alert('文件"' + file.name + '"不是图片。');
                 }
             }
+            return arrFiles;
+        },
+        onSelect: function(files) {
+            var html = '', i = 0;
+            $("#preview").html('<div class="upload_loading"></div>');
+            var funAppendImage = function() {
+                file = files[i];
+                if (file) {
+                    var reader = new FileReader()
+                    reader.onload = function(e) {
+                        html = html + '<div id="uploadList_'+ i +'" class="upload_append_list zhtp"><a href="javascript:" class="upload_delete gb" title="删除" data-index="'+ i +'"><img src="/static/images/publish/gb.png" alt=""></a>' + '<img id="uploadImage_' + i + '" src="' + e.target.result + '" class="upload_image tp" /></div>';
 
-            ?>
+                        //html = html + '<div id="uploadList_'+ i +'" class="upload_append_list zhtp">' + '<img id="uploadImage_' + i + '" src="' + e.target.result + '" class="upload_image tp" /></div>';
 
-        ]
-    });
+                        i++;
+                        funAppendImage();
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    $("#preview").html(html);
+                    if (html) {
+                        //删除方法
+                        $(".upload_delete").click(function() {
+                            ZXXFILE.funDeleteFile(files[parseInt($(this).attr("data-index"))]);
+                            //alert($(this).attr("data-index"));
+                            return false;
+                        });
+                        //提交按钮显示
+                        $("#fileSubmit").show();
+                    } else {
+                        //提交按钮隐藏
+                        $("#fileSubmit").hide();
+                    }
+                }
+            };
+            funAppendImage();
+        },
+        onDelete: function(file) {
+            $("#uploadList_" + file.index).fadeOut();
+            $("#delfile").val(file.index);
+        },
+        onDragOver: function() {
+            $(this).addClass("upload_drag_hover");
+        },
+        onDragLeave: function() {
+            $(this).removeClass("upload_drag_hover");
+        },
+        onProgress: function(file, loaded, total) {
+            var eleProgress = $("#uploadProgress_" + file.index), percent = (loaded / total * 100).toFixed(2) + '%';
+            eleProgress.show().html(percent);
+        },
+        onSuccess: function(file, response) {
+            $("#uploadInf").append("<p>上传成功，图片地址是：" + response + "</p>");
+        },
+        onFailure: function(file) {
+            $("#uploadInf").append("<p>图片" + file.name + "上传失败！</p>");
+            $("#uploadImage_" + file.index).css("opacity", 0.2);
+        },
+        onComplete: function() {
+            //提交按钮隐藏
+            $("#fileSubmit").hide();
+            //file控件value置空
+            $("#fileImage").val("");
+            $("#uploadInf").append("<p>当前图片全部上传完毕，可继续添加上传。</p>");
+        }
+    };
+    ZXXFILE = $.extend(ZXXFILE, params);
+    ZXXFILE.init();
 </script>
-
+</html>

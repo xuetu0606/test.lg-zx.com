@@ -30,6 +30,25 @@ class List_model extends CI_Model {
 
         return $arr;
     }
+
+    public function get_one_two_three(){
+        $sql = "select job_type.id as id_1,job_type.name as name_1,job_type2.id as id_2,job_type2.name as name_2,job_type3.id as id_3,
+job_type3.name as name_3,job_type2.sort 
+from job_type
+inner join job_type as job_type2 on job_type.id = job_type2.pre_id
+inner join job_type as job_type3 on job_type2.id = job_type3.pre_id
+where  1
+order by job_type3.sort,id_3";
+
+$query = $this->db->query($sql);
+        while($row = $query->unbuffered_row('array')){
+            $arr[$row['id_1']]['name'] =  $row['name_1'];
+            $arr[$row['id_1']]['sub'][$row['id_2']]['name'] = $row['name_2'];
+            $arr[$row['id_1']]['sub'][$row['id_2']]['sub'] [$row['id_3']]['name']= $row['name_3'];
+
+        }
+        return $arr;
+    }
     /**
      * 获取行业职业工种三级列表
      *

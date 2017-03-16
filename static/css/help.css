@@ -10,8 +10,9 @@ p.line {
   border: solid 1px #c6c6c6;
 }
 section div.main {
-  padding: 40px 140px;
+  padding: 80px 140px;
   background-color: #ffffff;
+  min-height: 1000px;
 }
 section div.main p.h1 {
   font-size: 16px;

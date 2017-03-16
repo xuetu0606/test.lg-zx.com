@@ -53,7 +53,7 @@
         <span>零工币充值</span>
     </div>
     <div class="lgbcz-main">
-        <?php echo form_open('pay','style="margin: 3rem 0"'); ?>
+        <?php echo form_open('pay'); ?>
             <input type="hidden" name="paymethod" id="paymethod" value="01">
             <div class="form-group">
                 <label><span>充值金额 </span></label>

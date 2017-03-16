@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/static/css/head-foot.css"/>
     <link rel="stylesheet" href="/static/css/common.css"/>
     <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/head-foot.js"></script>
 </head>
 <body>
 <header>
@@ -50,7 +51,10 @@ $city = getIPLoc_sina($SA_IP);  //城市名
     function findWeather() {  
         var cityUrl = 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js';  
         $.getScript(cityUrl, function(script, textStatus, jqXHR) {  
-            var citytq = remote_ip_info.city ;// 获取当前城市（'北京'，'上海'等市级字符串）  
+            //var citytq = remote_ip_info.city ;
+            var citytq = "<?php echo $cityname?$cityname:$city; ?>";
+            //alert(citytq);
+            // 获取当前城市（'北京'，'上海'等市级字符串）  
             var url = "http://php.weather.sina.com.cn/iframe/index/w_cl.php?code=js&city=" + citytq + "&day=0&dfc=3";  
             $.ajax({  
                 url : url,  
@@ -66,12 +70,12 @@ $city = getIPLoc_sina($SA_IP);  //城市名
                     $('.weather').prepend(img);
                     var tq = citytq + " " + img + " " + _w.s1 + " " + _w.t1 + "℃～" + _w.t2 + "℃  " + _w.d1 + _w.p1 + "级";  
                    var w = _w.s1 + "  " + _w.t1 + "℃～" + _w.t2 + "℃  " + _w.d1 + _w.p1 + "级";
-                    $('#w').html(w);
+                    $('#w').html(w);//拼上天气、温度、风速，并写入标签中
                     if(new Date().getHours() > 17){  
                         _f= _w.f2+"_1.png";  
                         tq = citytq + " " + img + " " + _w.s2 + " " + _w.t1 + "℃～" + _w.t2 + "℃  " + _w.d2 + _w.p2 + "级";  
                     }  
-                    alert(tq)  
+                    //alert(tq)  
                 }  
             });  
         });  
@@ -80,8 +84,8 @@ $city = getIPLoc_sina($SA_IP);  //城市名
 </script>
     <div class="main">
         <div class="city">
-            <span class="stress"><?php echo $city; ?></span>
-            <a href="<?php echo site_url('home/selectCity'); ?>">[切换城市]</a>
+            <span class="stress"><?php echo $cityname?$cityname:$city; ?></span>
+            <a href="http://pc.lg-zx.com">[切换城市]</a>
         </div>
         <div class="weather">
             <!-- <img class="weather-condition" src="/static/images/head-foot/weather.png"/> -->
@@ -90,13 +94,22 @@ $city = getIPLoc_sina($SA_IP);  //城市名
         </div>
         <div class="fr">
             <ul>
-                <li><a href="#">注册</a></li>
-                <li><a href="#">登录</a></li>
-                <li><a href="#">零工宝</a><a href="#"><img src="/static/images/xiala.png" alt=""/></a></li>
-                <li class="stress">微信版</li>
+                <li><a href="<?php echo site_url('user/reg'); ?>">注册</a></li>
+                <li><a href="<?php echo site_url('user/login'); ?>">登录</a></li>
+                <li class="lgbxl"><a href="#">零工宝</a><img src="/static/images/xiala.png" alt=""/></li>
+                <li class="stress wxb">微信版</li>
                 <li><a href="#" class="stress">手机版</a></li>
                 <li><a href="#">帮助</a></li>
             </ul>
+            <div class="lgb">
+                <a href="#">零工宝<img src="/static/images/xiala.png" alt="" /></a>
+                <a href="#" class="lgba">我的发布</a>
+                <a href="#" class="lgba">我的收藏</a>
+                <a href="#" class="lgba">我的资料</a>
+            </div>
+            <div class="wx">
+                <img src="/static/images/head-foot/weixin.png" alt=""/>
+            </div>
         </div>
     </div>
 </header>

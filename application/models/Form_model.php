@@ -52,27 +52,28 @@ class Form_model extends CI_Model {
     	$sql_check = "select addtime from publish_list where uid='$uid' order by id desc limit 1 ";
     	$query_check = $this->db->query($sql_check);
     	$arr_check = $query_check->row_array();
-    	if($arr_check&&($now-$arr_check['addtime']<60)){
-    		return array('flag'=>-1,'info'=>'您的操作过于频繁，请休息一下再操作吧~');
-    	}
+    	//if($arr_check&&($now-$arr_check['addtime']<60)){
+    	//	return array('flag'=>-1,'info'=>'您的操作过于频繁，请休息一下再操作吧~');
+    	//}
     	
   		$sql = "insert into publish_list
 				set uid='$uid', info1='$title',job_code='$job_code',is_student='".($is_student?$is_student:0)."',is_for_foreign='".($is_for_foreign?$is_for_foreign:0)."',
 				is_onsite_service='".($is_onsite_service?$is_onsite_service:0)."',mobile='$mobile',address='$address',info2='$zwjj',info3='$fwjs',info4='$lxfs',
-				addtime='$now',flag=1,city_id='{$cityid['id']}'";
+				addtime='$now',flag=1,city_id='{$cityid['id']}',img='$img'";
   		if($query = $this->db->query($sql)){
 	    		$query_u = $this->db->query("select id from publish_list where city_id='{$cityid['id']}' and uid='$uid' order by id desc limit 1");
 	    		$arr = $query_u->row_array();
 
 	    		if($districtid||$areaid){
-	    			$sql1 = "insert into publish_list_service_district set publish_id='{$arr['id']}',district_id='{$districtid}',area_id='$areaid'";
-	    			if($query1 = $this->db->query($sql1)){
-	    				return array('flag'=>1,'info'=>$arr['id']);
-	    			}else{
-	    				return array('flag'=>-1,'info'=>'插入信息异常，请稍后处理');
-	    			}
-	    		}else{
-	    			return array('flag'=>1,'info'=>$arr['id']);
+	    		    foreach ($districtid as $v){
+                        $sql1 = "insert into publish_list_service_district set publish_id='{$arr['id']}',district_id='{$v}',area_id='$areaid'";
+                        if($query1 = $this->db->query($sql1)){
+                            //return array('flag'=>1,'info'=>$arr['id']);
+                        }else{
+                            return array('flag'=>-1,'info'=>'插入信息异常，请稍后处理');
+                        }
+                    }
+                    return array('flag'=>1,'info'=>$arr['id']);
 	    		}
   					
   		}else{
