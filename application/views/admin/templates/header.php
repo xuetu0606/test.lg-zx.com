@@ -211,6 +211,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li class="<?php echo $hytj_class; ?>"><a href="/admin/hylb"><i class="fa fa-circle-o"></i> 会员列表</a></li>
+                        <li class="<?php echo $hytj_class; ?>"><a href="/admin/toaddMember"><i class="fa fa-circle-o"></i> 会员添加</a></li>
                     </ul>
                 </li>
 
