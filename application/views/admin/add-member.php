@@ -61,7 +61,7 @@
                                     <label for="">证件号　:</label>
                                     <input type="text" name="" id=""/><br/><br/>
 
-                                    <inpur type="submit" value="提交"/>
+                                    <input type="submit" value="提交"/>
                                 </form>
                         </div>
                         <div id="geren" align="center" style="width:600px; height:710px; display:none">
@@ -112,7 +112,7 @@
                                     <label for="">个人简介:</label>
                                     <input type="text" name="" id=""/><br/><br/>
 
-                                    <inpur type="submit" value="提交"/>
+                                    <input type="submit" value="提交"/>
                                 </form>
                         </div>
                         
