@@ -11,19 +11,19 @@
             </ol>
         </section>
                     <div align="center">
-                        <button onclick="cutover(this);" name="gongsi">添加公司用户</button>
-                        <button onclick="cutover(this);" name="geren">添加个人用户</button>
+                        <button onclick="cutover(this);" name="gongsi">打开添加公司用户</button>
+                        <button onclick="cutover(this);" name="geren">打开添加个人用户</button>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
                         <div id="gongsi" align="center" style="width:600px; height:980px; ">
                             <h3>公司用户</h3>
-                                <form action="" method="">
+                                <form action="<?php echo site_url('admin/addMember'); ?>" method="post">
                                     <label for="username">用户名　:</label>
                                     <input type="text" name="username" id="username"/><br/><br/>
                                     
                                     <label for="password">密　码　:</label>
-                                    <input type="text" name="password" id="password"/><br/><br/>
+                                    <input type="password" name="password" id="password"/><br/><br/>
                                     
                                     <label for="province_id">省　份　:</label>
                                     <input type="text" name="province_id" id="province_id"/><br/><br/>
@@ -71,12 +71,12 @@
                         </div>
                         <div id="geren" align="center" style="width:600px; height:980px; display:none">
                             <h3>个人用户</h3>
-                                <form action="" method="">    
+                                <form action="<?php echo site_url('admin/addMember'); ?>" method="post">    
                                     <label for="username">用户名　:</label>
                                     <input type="text" name="username" id="username"/><br/><br/>
                                     
                                     <label for="password">密　码　:</label>
-                                    <input type="text" name="password" id="password"/><br/><br/>
+                                    <input type="password" name="password" id="password"/><br/><br/>
                                     
                                     <label for="province_id">省　份　:</label>
                                     <input type="text" name="province_id" id="province_id"/><br/><br/>
@@ -193,7 +193,6 @@
 <!-- Page script -->
 <script>
     function cutover(obj){
-        console.log(obj);
         if(obj.name == 'gongsi'){
             document.getElementById('gongsi').style.display="block";
             document.getElementById('geren').style.display="none";
