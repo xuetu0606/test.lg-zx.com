@@ -11,8 +11,8 @@
             </ol>
         </section>
                     <div align="center">
-                        <button onclick="">添加公司用户</button>
-                        <button onclick="">添加个人用户</button>
+                        <button onclick="cutover(this);" name="gongsi">添加公司用户</button>
+                        <button onclick="cutover(this);" name="geren">添加个人用户</button>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -20,46 +20,51 @@
                             <h3>公司用户</h3>
                                 <form action="" method="">
                                     <label for="username">用户名　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <input type="text" name="username" id="username"/><br/><br/>
                                     
-                                    <label for="">密　码　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="password">密　码　:</label>
+                                    <input type="text" name="password" id="password"/><br/><br/>
                                     
-                                    <label for="">省　份　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="province_id">省　份　:</label>
+                                    <input type="text" name="province_id" id="province_id"/><br/><br/>
                                     
-                                    <label for="">城　市　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="city_id">城　市　:</label>
+                                    <input type="text" name="city_id" id="city_id"/><br/><br/>
                                     
-                                    <label for="">详细地址:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="address">详细地址:</label>
+                                    <input type="text" name="address" id="address"/><br/><br/>
                                     
-                                    <label for="">手　机　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="mobile">手　机　:</label>
+                                    <input type="text" name="mobile" id="mobile"/><br/><br/>
                                     
-                                    <label for="">固　话　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="tel">固　话　:</label>
+                                    <input type="text" name="tel" id="tel"/><br/><br/>
                                     
-                                    <label for="">邮　箱　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="email">邮　箱　:</label>
+                                    <input type="text" name="email" id="email"/><br/><br/>
                                     
-                                    <label for="">QQ　号　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="qq">QQ　号　:</label>
+                                    <input type="text" name="qq" id="qq"/><br/><br/>
                                     
-                                    <label for="">微信号　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="wechat">微信号　:</label>
+                                    <input type="text" name="wechat" id="wechat"/><br/><br/>
                                     
-                                    <label for="">公司名称:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="coname">公司名称:</label>
+                                    <input type="text" name="coname" id="coname"/><br/><br/>
                                     
-                                    <label for="">公司规模:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="scale_code">公司规模:</label>
+                                    <input type="text" name="scale_code" id="scale_code"/><br/><br/>
                                     
-                                    <label for="">公司网址:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="weburl">公司网址:</label>
+                                    <input type="text" name="weburl" id="weburl"/><br/><br/>
                                     
-                                    <label for="">证件号　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="idno" title="营业执照号">证件号　:</label>
+                                    <input type="text" name="idno" id="idno"/><br/><br/>
+
+                                    <label for="info">公司简介:</label>
+                                    <textarea name="info" id="info" rows="6" cols="40"></textarea><br/><br/>
+
+                                    <input type="hidden" name="is_co" value="gongsi"> 
 
                                     <input type="submit" value="提交"/>
                                 </form>
@@ -67,50 +72,56 @@
                         <div id="geren" align="center" style="width:600px; height:710px; display:none">
                             <h3>个人用户</h3>
                                 <form action="" method="">    
-                                    <label for="">用户名　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="username">用户名　:</label>
+                                    <input type="text" name="username" id="username"/><br/><br/>
                                     
-                                    <label for="">密　码　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="password">密　码　:</label>
+                                    <input type="text" name="password" id="password"/><br/><br/>
                                     
-                                    <label for="">省　份　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="province_id">省　份　:</label>
+                                    <input type="text" name="province_id" id="province_id"/><br/><br/>
                                     
-                                    <label for="">城　市　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="city_id">城　市　:</label>
+                                    <input type="text" name="city_id" id="city_id"/><br/><br/>
                                     
-                                    <label for="">详细地址:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="address">详细地址:</label>
+                                    <input type="text" name="address" id="address"/><br/><br/>
                                     
-                                    <label for="">手　机　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="mobile">手　机　:</label>
+                                    <input type="text" name="mobile" id="mobile"/><br/><br/>
                                     
-                                    <label for="">固　话　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="tel">固　话　:</label>
+                                    <input type="text" name="tel" id="tel"/><br/><br/>
                                     
-                                    <label for="">邮　箱　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="email">邮　箱　:</label>
+                                    <input type="text" name="email" id="email"/><br/><br/>
                                     
-                                    <label for="">QQ　号　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="qq">QQ　号　:</label>
+                                    <input type="text" name="qq" id="qq"/><br/><br/>
                                     
-                                    <label for="">微信号　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="wechat">微信号　:</label>
+                                    <input type="text" name="wechat" id="wechat"/><br/><br/>
                                     
-                                    <label for="">真实姓名:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="realname">真实姓名:</label>
+                                    <input type="text" name="realname" id="realname"/><br/><br/>
                                     
-                                    <label for="">昵　称　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="nickname">昵　称　:</label>
+                                    <input type="text" name="nickname" id="nickname"/><br/><br/>
                                     
-                                    <label for="">性　别　:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="sex">性　别　:</label>
+                                    <select name="sex">
+                                        <option value="1">男</option>
+                                        <option value="2">女</option>
+                                    </select>
+                                    <br/><br/>
                                     
-                                    <label for="">身份证号:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="idno" title="身份证号">证件号　:</label>
+                                    <input type="text" name="idno" id="idno"/><br/><br/>
                                     
-                                    <label for="">个人简介:</label>
-                                    <input type="text" name="" id=""/><br/><br/>
+                                    <label for="info">个人简介:</label>
+                                    <textarea name="info" id="info" rows="6" cols="40"></textarea><br/><br/>
+
+                                    <input type="hidden" name="is_co" value="geren"> 
 
                                     <input type="submit" value="提交"/>
                                 </form>
@@ -180,6 +191,16 @@
 <!-- AdminLTE for demo purposes -->
 <script src="/static/daili/dist/js/demo.js"></script>
 <!-- Page script -->
-
+<script>
+    function cutover(obj){
+        if(obj.name == 'gongsi'){
+            document.getElementById('gongsi').display="block";
+            document.getElementById('geren').display="none";
+        }else if(obj.name == 'geren'){
+            document.getElementById('gongsi').display="none";
+            document.getElementById('geren').display="block";
+        }
+    }
+</script>
 </body>
 </html>
