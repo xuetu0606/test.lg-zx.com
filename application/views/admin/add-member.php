@@ -18,7 +18,7 @@
                     <div class="box-body">
                         <div id="gongsi" align="center" style="width:600px; height:980px; ">
                             <h3>公司用户</h3>
-                                <form action="" method="">
+                                <form action="<?php echo site_url('admin/addMember'); ?>" method="post">
                                     <label for="username">用户名　:</label>
                                     <input type="text" name="username" id="username"/><br/><br/>
                                     
@@ -71,7 +71,7 @@
                         </div>
                         <div id="geren" align="center" style="width:600px; height:980px; display:none">
                             <h3>个人用户</h3>
-                                <form action="" method="">    
+                                <form action="<?php echo site_url('admin/addMember'); ?>" method="post">    
                                     <label for="username">用户名　:</label>
                                     <input type="text" name="username" id="username"/><br/><br/>
                                     

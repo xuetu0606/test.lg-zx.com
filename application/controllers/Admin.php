@@ -379,6 +379,7 @@ echo '</pre>';
         $this->load->view('admin/templates/footer');
     }
     public function addMember(){
-        $this->admin_model->addMember();
+        var_dump($_POST);
+        //$this->admin_model->addMember();
     }
 }
