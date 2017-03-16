@@ -195,11 +195,11 @@
     function cutover(obj){
         console.log(obj);
         if(obj.name == 'gongsi'){
-            document.getElementById('gongsi').style.display="none";
-            document.getElementById('geren').style.display="block";
-        }else if(obj.name == 'geren'){
             document.getElementById('gongsi').style.display="block";
             document.getElementById('geren').style.display="none";
+        }else if(obj.name == 'geren'){
+            document.getElementById('gongsi').style.display="none";
+            document.getElementById('geren').style.display="block";
         }
     }
 </script>
