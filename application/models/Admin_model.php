@@ -317,4 +317,7 @@ group by userlist.uid {$addsql}";
             ";
         $this->db->query($sql);
     }
+    public function add(){
+        
+    }
 }
