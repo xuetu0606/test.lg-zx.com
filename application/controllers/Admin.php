@@ -373,7 +373,10 @@ echo '</pre>';
         $this->admin_model->updateReveal($id,$job_code,$district_id,$title,$pay,$pay_unit,$pay_circle,$sum,$worktime,$contacts,$mobile,$address,$info,$flag);
 		$this->reveal();
     }
+    public function toaddMember(){
+        $this->load->view('admin/addMember');
+    }
     public function addMember(){
-        $this->admin_model->
+        $this->admin_model->addMember();
     }
 }
