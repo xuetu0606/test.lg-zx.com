@@ -224,7 +224,7 @@
             </span>
                     </a>
                 </li>
-
+				<li><a href="/admin/reveal"><i class="fa fa-circle-o text-red"></i> <span>招聘展示</span></a></li>
                 <!--预留
                 <li class="header">LABELS</li>
                 <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>

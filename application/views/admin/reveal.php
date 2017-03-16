@@ -6,8 +6,8 @@
                 招聘信息展示
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/daili"><i class="fa fa-dashboard"></i> 首页</a></li>
-                <li><a href="/daili/reveal">招聘展示</a></li>
+                <li><a href="/admin"><i class="fa fa-dashboard"></i> 首页</a></li>
+                <li><a href="/admin/reveal">招聘展示</a></li>
             </ol>
         </section>
                         <!-- /.box-header -->
@@ -63,9 +63,9 @@
                                             <td><?= date("Y-m-d",$item['flushtime']) ?></td>
                                             <td><?= $item['info'] ?></td>
                                             <td>
-                                            	<a href="<?php echo site_url('daili/toUpdateReveal'); ?>/<?= $item['id'] ?>">修改</a>
+                                            	<a href="<?php echo site_url('admin/toUpdateReveal'); ?>/<?= $item['id'] ?>">修改</a>
                                             	|
-                                            	<a href="<?php echo site_url('daili/deleteReveal'); ?>/<?= $item['id'] ?>">删除</a>
+                                            	<a href="<?php echo site_url('admin/deleteReveal'); ?>/<?= $item['id'] ?>">删除</a>
                                             </td>
                                         </tr>
                                         <?php

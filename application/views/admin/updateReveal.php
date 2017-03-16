@@ -7,8 +7,8 @@
                 
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/daili"><i class="fa fa-dashboard"></i> 首页</a></li>
-                <li><a href="/daili/reveal">招聘展示</a></li>
+                <li><a href="/admin"><i class="fa fa-dashboard"></i> 首页</a></li>
+                <li><a href="/admin/reveal">招聘展示</a></li>
                 <li class="active">招聘信息修改</li>
             </ol>
         </section>
@@ -18,7 +18,7 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form class="form-horizontal" action="<?php echo site_url('daili/updateReveal'); ?>" method="post">
+            <form class="form-horizontal" action="<?php echo site_url('admin/updateReveal'); ?>" method="post">
 				<input type="hidden" name="id" value="<?= $user['id'] ?>"/>
 				<label for="inputEmail3">标题</label>
 				<input type="text" id="inputEmail3" name="title" value="<?= $user['title'] ?>"/>
