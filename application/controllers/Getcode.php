@@ -48,9 +48,6 @@ class Getcode extends CI_Controller {
             } elseif ($ksfb and $page == 'ksfb') {
 
                 $return['msg'] = '该手机号已发布';
-            } elseif ($username && $page == 'res' && $username != $username_db) {
-                $return['msg'] = '您填写的手机号码匹配的用户名有误，请检查后重新填写';
-
             } else {
                 //重新发送时间限制
                 //if($this->sendTime($mobile)){
@@ -58,10 +55,11 @@ class Getcode extends CI_Controller {
                 $code = $this->random(6);
                 //发送内容
                 $content = '【零工在线】您的短信验证码：' . $code . '，请正确输入验证码完成操作。请勿向任何人提供您收到的短信验证码';
-                if ($this->sendSMS($mobile, $content)) {
-                    //if(1){
+                //if ($this->sendSMS($mobile, $content)) {
+                    if(1){
                     $return["status"] = "success";
-                    $return['msg'] = '发送成功';
+                    //$return['msg'] = '发送成功';
+                    $return['msg'] = $code;
                     $_SESSION[$page . 'code'] = $code;
 
                 } else {
@@ -148,7 +146,7 @@ class Getcode extends CI_Controller {
         $ychar = "0,1,2,3,4,5,6,7,8,9";
         $list = explode(",", $ychar);
         for ($i = 0; $i < $v; $i++) {
-            $randnum = rand(0, 10); // 10+26;
+            $randnum = rand(0, 9); // 10+26;
             $authnum .= $list[$randnum];
         }
         return $authnum;

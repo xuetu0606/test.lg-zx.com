@@ -275,69 +275,95 @@ class Pay extends CI_Controller
      * @author lyne
      */
     public function aliPay_pc($total_fee,$username){
-        // 调用支付宝支付接口配置信息
-        $this->load->config('alipay_config',TRUE);
-        //require_once dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'../libraries/alipay_pc/alipay_config.php';
-        /*>>>>>>>>>>>>> 查预先生成的订单信息,根据自己情况 <<<<<<<<<<<<<<
-            根据订单ID查询预订单信息
-            包括：
-            订单总额、订单编号、订单商品等。
-        >>>>>>>>>>>>> 根据自己情况 END <<<<<<<<<<<<<<<<<*/
+        /* *
+ * 功能：即时到账交易接口接入页
+ * 版本：3.5
+ * 日期：2016-06-25
+ * 说明：
+ * 以下代码只是为了方便商户测试而提供的样例代码，商户可以根据自己网站的需要，按照技术文档编写,并非一定要使用该代码。
+ * 该代码仅供学习和研究支付宝接口使用，只是提供一个参考。
 
-        // 加载支付宝支付请求类库
-        $this->load->library('PC_Alipay',$this->config->item('alipay_config'));
+ *************************注意*****************
+
+ *如果您在接口集成过程中遇到问题，可以按照下面的途径来解决
+ *1、开发文档中心（https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.KvddfJ&treeId=62&articleId=103740&docType=1）
+ *2、商户帮助中心（https://cshall.alipay.com/enterprise/help_detail.htm?help_id=473888）
+ *3、支持中心（https://support.open.alipay.com/alipay/support/index.htm）
+
+ *如果想使用扩展功能,请按文档要求,自行添加到parameter数组即可。
+ **********************************************
+ */
+
+        require_once dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'../libraries/alipay_pc/alipay.config.php';
+        require_once dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'../libraries/alipay_pc/lib/alipay_submit.class.php';
+
+        /**************************请求参数**************************/
+        //商户订单号，商户网站订单系统中唯一订单号，必填
+        $out_trade_no = $this->getTradeNo();
+
+        //订单名称，必填
+        $subject = $username.'账户充值';
+
+        //付款金额，必填
+        //$total_fee = $_POST['WIDtotal_fee'];
+
+        //商品描述，可空
+        $body = $_SESSION['uid'];
+
+        /************************************************************/
+
+//构造要请求的参数数组，无需改动
         $parameter = array(
-            'service'           => $this->config->item('service','alipay_config'),
-            'partner'           => $this->config->item('partner','alipay_config'),
-            'payment_type'      => $this->config->item('payment_type','alipay_config'),
-            'notify_url'        => $this->config->item('notify_url','alipay_config'),
-            'return_url'        => $this->config->item('return_url','alipay_config'),
-            'seller_id'         => $this->config->item('seller_id','alipay_config'),
-            'out_trade_no'      => $this->getTradeNo(),     // 订单编号
-            'subject'           => '账户充值', // 订单商品
-            'total_fee'         => $total_fee,     // 订单总额
-            'body'              => $_SESSION['uid'],     // 商品描述
-            'show_url'          => '',             // 选填
-            'anti_phishing_key' => '',             // 选填
-            'exter_invoke_ip'   => '',             // 选填
-            '_input_charset'    => $this->config->item('input_charset','alipay_config')
+            "service"       => $alipay_config['service'],
+            "partner"       => $alipay_config['partner'],
+            "seller_id"  => $alipay_config['seller_id'],
+            "payment_type"	=> $alipay_config['payment_type'],
+            "notify_url"	=> $alipay_config['notify_url'],
+            "return_url"	=> $alipay_config['return_url'],
+
+            "anti_phishing_key"=>$alipay_config['anti_phishing_key'],
+            "exter_invoke_ip"=>$alipay_config['exter_invoke_ip'],
+            "out_trade_no"	=> $out_trade_no,
+            "subject"	=> $subject,
+            "total_fee"	=> $total_fee,
+            "body"	=> $body,
+            "_input_charset"	=> trim(strtolower($alipay_config['input_charset']))
+            //其他业务参数根据在线开发文档，添加参数.文档地址:https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.kiX33I&treeId=62&articleId=103740&docType=1
+            //如"参数名"=>"参数值"
+
         );
 
-        var_dump($parameter);
-        //die();
+//建立请求
+        $alipaySubmit = new AlipaySubmit($alipay_config);
+        $html_text = $alipaySubmit->buildRequestForm($parameter,"get", "确认");
+        echo $html_text;
 
-        $body = $this->pc_alipay->buildRequestForm($parameter,"get","确认");
-
-        echo $body;
     }
 
 
     public function return_url(){
+
         /* *
-         * 功能：支付宝页面跳转同步通知页面
-         * 版本：2.0
-         * 修改日期：2016-11-01
-         * 说明：
-         * 以下代码只是为了方便商户测试而提供的样例代码，商户可以根据自己网站的需要，按照技术文档编写,并非一定要使用该代码。
+ * 功能：支付宝页面跳转同步通知页面
+ * 版本：3.5
+ * 日期：2016-06-25
+ * 说明：
+ * 以下代码只是为了方便商户测试而提供的样例代码，商户可以根据自己网站的需要，按照技术文档编写,并非一定要使用该代码。
+ * 该代码仅供学习和研究支付宝接口使用，只是提供一个参考。
 
-         *************************页面功能说明*************************
-         * 该页面可在本机电脑测试
-         * 可放入HTML等美化页面的代码、商户业务逻辑程序代码
-         */
-        require_once dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'../libraries/alipay/config.php';
-        require_once dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'../libraries/alipay/wappay/service/AlipayTradeService.php';
+ *************************页面功能说明*************************
+ * 该页面可在本机电脑测试
+ * 可放入HTML等美化页面的代码、商户业务逻辑程序代码
+ * 该页面可以使用PHP开发工具调试，也可以使用写文本函数logResult，该函数已被默认关闭，见alipay_notify_class.php中的函数verifyReturn
+ */
 
-        $arr=$_GET;
-        $alipaySevice = new AlipayTradeService($config);
-        $result = $alipaySevice->check($arr);
+        require_once dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'../libraries/alipay_pc/alipay.config.php';
+        require_once dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'../libraries/alipay_pc/lib/alipay_notify.class.php';
 
-        /* 实际验证过程建议商户添加以下校验。
-        1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
-        2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
-        3、校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email）
-        4、验证app_id是否为该商户本身。
-        */
-        if($result) {//验证成功
+        //计算得出通知验证结果
+        $alipayNotify = new AlipayNotify($alipay_config);
+        $verify_result = $alipayNotify->verifyReturn();
+        if($verify_result) {//验证成功
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //请在这里加上商户的业务逻辑程序代码
 
@@ -345,16 +371,25 @@ class Pay extends CI_Controller
             //获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表
 
             //商户订单号
-
-            $out_trade_no = htmlspecialchars($_GET['out_trade_no']);
+            $out_trade_no = $_GET['out_trade_no'];
 
             //支付宝交易号
+            $trade_no = $_GET['trade_no'];
 
-            $trade_no = htmlspecialchars($_GET['trade_no']);
+            //交易状态
+            $trade_status = $_GET['trade_status'];
 
-           // echo "验证成功<br />外部订单号：".$out_trade_no;
 
-            //$this->main_model->alert('充值成功', '/user/center');
+            if($_GET['trade_status'] == 'TRADE_FINISHED' || $_GET['trade_status'] == 'TRADE_SUCCESS') {
+                //判断该笔订单是否在商户网站中已经做过处理
+                //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
+                //如果有做过处理，不执行商户的业务程序
+            }
+            else {
+                echo "trade_status=".$_GET['trade_status'];
+            }
+
+            //echo "验证成功<br />";
             redirect('http://' . $_SERVER['HTTP_HOST'] . '/user/center');
 
             //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
@@ -363,6 +398,7 @@ class Pay extends CI_Controller
         }
         else {
             //验证失败
+            //如要调试，请看alipay_notify.php页面的verifyReturn函数
             echo "验证失败";
         }
     }
@@ -370,32 +406,29 @@ class Pay extends CI_Controller
 
     public function notify_url(){
         /* *
-         * 功能：支付宝服务器异步通知页面
-         * 版本：2.0
-         * 修改日期：2016-11-01
-         * 说明：
-         * 以下代码只是为了方便商户测试而提供的样例代码，商户可以根据自己网站的需要，按照技术文档编写,并非一定要使用该代码。
+ * 功能：支付宝服务器异步通知页面
+ * 版本：3.5
+ * 日期：2016-06-25
+ * 说明：
+ * 以下代码只是为了方便商户测试而提供的样例代码，商户可以根据自己网站的需要，按照技术文档编写,并非一定要使用该代码。
+ * 该代码仅供学习和研究支付宝接口使用，只是提供一个参考。
 
-         *************************页面功能说明*************************
-         * 创建该页面文件时，请留心该页面文件中无任何HTML代码及空格。
-         * 该页面不能在本机电脑测试，请到服务器上做测试。请确保外部可以访问该页面。
-         * 如果没有收到该页面返回的 success 信息，支付宝会在24小时内按一定的时间策略重发通知
-         */
-        require_once dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'../libraries/alipay/config.php';
-        require_once dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'../libraries/alipay/wappay/service/AlipayTradeService.php';
 
-        $arr=$_POST;
-        $alipaySevice = new AlipayTradeService($config);
-        $alipaySevice->writeLog(var_export($_POST,true));
-        $result = $alipaySevice->check($arr);
+ *************************页面功能说明*************************
+ * 创建该页面文件时，请留心该页面文件中无任何HTML代码及空格。
+ * 该页面不能在本机电脑测试，请到服务器上做测试。请确保外部可以访问该页面。
+ * 该页面调试工具请使用写文本函数logResult，该函数已被默认关闭，见alipay_notify_class.php中的函数verifyNotify
+ * 如果没有收到该页面返回的 success 信息，支付宝会在24小时内按一定的时间策略重发通知
+ */
 
-        /* 实际验证过程建议商户添加以下校验。
-        1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
-        2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
-        3、校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email）
-        4、验证app_id是否为该商户本身。
-        */
-        if($result) {//验证成功
+        require_once dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'../libraries/alipay_pc/alipay.config.php';
+        require_once dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'../libraries/alipay_pc/lib/alipay_notify.class.php';
+
+//计算得出通知验证结果
+        $alipayNotify = new AlipayNotify($alipay_config);
+        $verify_result = $alipayNotify->verifyNotify();
+
+        if($verify_result) {//验证成功
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //请在这里加上商户的业务逻辑程序代
 
@@ -405,11 +438,9 @@ class Pay extends CI_Controller
             //获取支付宝的通知返回参数，可参考技术文档中服务器异步通知参数列表
 
             //商户订单号
-
             $out_trade_no = $_POST['out_trade_no'];
 
             //支付宝交易号
-
             $trade_no = $_POST['trade_no'];
 
             //交易状态
@@ -417,23 +448,28 @@ class Pay extends CI_Controller
 
 
             if($_POST['trade_status'] == 'TRADE_FINISHED') {
-
                 //判断该笔订单是否在商户网站中已经做过处理
                 //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-                //请务必判断请求时的total_amount与通知时获取的total_fee为一致的
+                //请务必判断请求时的total_fee、seller_id与通知时获取的total_fee、seller_id为一致的
                 //如果有做过处理，不执行商户的业务程序
 
                 //注意：
                 //退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
+
+                //调试用，写文本函数记录程序运行情况是否正常
+                //logResult("这里写入想要调试的代码变量值，或其他运行的结果记录");
             }
             else if ($_POST['trade_status'] == 'TRADE_SUCCESS') {
                 //判断该笔订单是否在商户网站中已经做过处理
                 //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-                //请务必判断请求时的total_amount与通知时获取的total_fee为一致的
+                //请务必判断请求时的total_fee、seller_id与通知时获取的total_fee、seller_id为一致的
                 //如果有做过处理，不执行商户的业务程序
+
                 //注意：
                 //付款完成后，支付宝系统发送该交易状态通知
 
+                //调试用，写文本函数记录程序运行情况是否正常
+                //logResult("这里写入想要调试的代码变量值，或其他运行的结果记录");
                 $this->user_model->recharge(array(
                     'uid'=>$_POST['body'],
                     'type'=>'credit1',
@@ -442,14 +478,19 @@ class Pay extends CI_Controller
                     'cost'=>$_POST['total_amount']
                 ));
             }
+
             //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
 
             echo "success";		//请不要修改或删除
 
-        }else {
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        }
+        else {
             //验证失败
-            echo "fail";	//请不要修改或删除
+            echo "fail";
 
+            //调试用，写文本函数记录程序运行情况是否正常
+            //logResult("这里写入想要调试的代码变量值，或其他运行的结果记录");
         }
     }
 

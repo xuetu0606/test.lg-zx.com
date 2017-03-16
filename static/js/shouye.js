@@ -33,4 +33,11 @@ $(function(){
         console.log(demoH);
         console.log(adsH);
     }
+    //¹ÙÍøÎ¢ÐÅdiv
+$('.gwwx').hover(function(){
+    $('.gwwxdiv').show();
+},function(){
+    $('.gwwxdiv').hide();
+
+});
 });

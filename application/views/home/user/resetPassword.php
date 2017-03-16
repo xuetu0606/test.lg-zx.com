@@ -1,91 +1,74 @@
-<link rel="stylesheet" href="/static/css/tpls/reset.css">
-
+<link rel="stylesheet" href="/static/css/forgetPass.css"/>
+<link rel="stylesheet" href="/static/css/form.css"/>
 <section>
-    <div class="reset1 reset">
-        <div class="register">
-            <p><a href="#" class="fa fa-angle-left" onClick="javascript :history.back(-1);"></a><span><?php echo $title; ?></span></p>
-        </div>
-        <!--<?php echo form_open('user/reset','name="reset1"'); ?>-->
-        <form action="http://<?php echo $localhost; ?>/user/reset" name="reset1"method="post">
-        <form action="#" name="reset1">
-            <div class="input">
-                <input type="text" name="mobile" id="mobile" placeholder="请输入手机号" value="<?php echo set_value('mobile'); ?>" class="tel"/>
-                <input type="text" name="username" value="<?php echo set_value('username'); ?>" placeholder="用户名" id='username'/>
-                <input type="text" name="messagecode" value="<?php echo set_value('messagecode'); ?>" placeholder="请输入验证码"/>
-                <img src="/static/images/tpls/reset/reset1_04.gif" alt="清除" style="display: none" class="clearimg"/>
-                <img src="/static/images/tpls/reset/reset1_08.gif" alt="获取验证码" style="display:block" class="getcode"/>
-                <span id="gotcode">重新获取&#40;<span id="seconds" style="color: #fff;">120</span>s&#41;</span>
-                
-                <div class="error" <?php if(!empty($_POST)){?>style="display: block;"<?php }else{ ?>style="display: none;"<?php } ?>>
-                    <div class="list">
-                        <img src="/static/images/tpls/error.png" alt="错误"/>
-                        <span id="mobileError"><?php echo validation_errors(); ?><?php echo $codeError; ?></span>
+    <div class="position">
+        <span>零工在线</span>
+        <span> > </span>
+        <span>忘记密码</span>
+    </div>
+    <div class="main">
+        <div class="middle">
+            <div class="buzhou">
+                <span class="step step1 stress">验证手机</span>
+                <span class="step b"> > </span>
+                <span class="step step2">重置密码</span>
+                <span class="step b"> > </span>
+                <span class="step step3"> 完成 </span>
+            </div>
+            <div class="send">
+                <?php echo form_open('user/reset','id="reset"'); ?>
+                    <input type="hidden" name="step" value="1">
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input type="text" class="input-normal" name="mobile" id="mobile" placeholder="请输入手机号" value="<?php echo set_value('mobile'); ?>" placeholder="输入手机号码" required="required"/>
+                            <label><span class="getyzm djq getcode">获取手机验证码</span></label>
+                        </div>
                     </div>
-                </div>
-                
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input type="text" class="input-normal" name="messagecode" value="<?php echo set_value('messagecode'); ?>" placeholder="输入短信验证码" required="required"/>
+                        </div>
+                    </div>
+
+                    <div class="error">
+                        <?php if(!empty($_POST)):?>
+                        <div class="list">
+                            <img width="16" height="16" src="/static/images/tpls/error.png" alt="错误"/>
+                            <?php echo validation_errors(); ?>
+                            <?php echo $codeError; ?>
+                        </div>
+                        <?php endif;?>
+                        <p id="mobileError"></p>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="form-control">
+                            <input type="button" class="btn btn-main next-step1" value="下一步"/>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="login">
-                <input type="submit" value="下一步"/>
-            </div>
-        </form>
+        </div>
+
     </div>
 </section>
-<style>
-    html body footer{
-        /*min-height: 100%;*/
-        position: absolute;
-        bottom: .02rem;
-
-    }
-    section div.input #gotcode {
-        display: none;
-        width: 8rem;
-        height: 1.5rem;
-        line-height: 1.5rem;
-        border: solid 1px #ff3c5a;
-        background-color: #ff3c5a;
-        color: #fff;
-        text-align: center;
-        border-radius: 4px;
-        font-size: 1rem;
-
-        float: right;
-        margin-right: 1.8rem;
-        margin-top: -2.5rem;
-    }
-    .getcode{
-        position: absolute;
-        right: 0.5em;
-        z-index: 999999;
-    }
-</style>
-<script src="/static/js/jquery.js"></script>
+<footer>
+    <div class="main">
+        <ul>
+            <li><a href="#">法律声明 |</a></li>
+            <li><a href="#">零工宝 |</a></li>
+            <li><a href="#">零工小参 |</a></li>
+            <li><a href="#">招贤纳士 |</a></li>
+            <li><a href="#">关注微博</a></li>
+        </ul>
+        <p>Copyright © 2016 lg-zx.com Corporation, All Rights Reserved 鲁ICP备16012134号-1 站长统计</p>
+    </div>
+</footer>
+</body>
+<script src="/static/js/head-foot.js"></script>
+<script src="/static/js/getyzm.js"></script>
 <script>
-    $('#mobile').blur(function(){
-        ajaxblur();
-    });
-    function ajaxblur(){
-        $.ajax({
-            url:'getUsername',
-            type:'POST',
-            //dataType:'json',
-            data: {mobile:$("#mobile").val()},
-            cache: false,
-            error: function(){
-                alert('获取用户名失败，请重试！');
-            },
-            success:function(data){
-                //alert($("#mobile").val());
-                var dataa = jQuery.parseJSON( data );
-                $('#username').val(dataa.username);
-            }
-        });
-    }
-    $('.getcode').click(function(){
-        if($('#username').val().length==0 ){
-             ajaxblur();
-        }
-    });
     $('.getcode').click(function(){
 
         if($("#mobile").val().length==0){
@@ -93,60 +76,26 @@
             $('#mobileError').html('手机号码不能为空');
             return false;
         }
-        var str = $('#username').val();
-        if(str == '' ){
-            $('.error').show();
-            $('#mobileError').html('您填写的手机号码无法匹配出用户名');
-            return false;
-        }
         $.ajax({
-            url: 'getcode/res',
+            url: '<?php echo base_url()?>getcode/index/res',
             type: "POST",
             dataType: 'json',
-            data: {mobile:$("#mobile").val(),username:$('#username').val()},
+            data: {mobile:$("#mobile").val()},
             cache: false,
             error: function(){
                 alert('检测失败，请重试');
             },
             success: function(data){
-                if(data.status=="success"){
-                    $('.getcode').css('display','none');
-                    // $('.error').css('display','block');
-                    $('#gotcode').css('display','inline-block');
-                    var num=120;
-                    function countDown(){
-                        if(num>1){
-                            num--;
-                            $('#seconds').text(num);
-                        }
-                        else{
-                            $('.getcode').css('display','inline-block');
-                            $('#gotcode').css('display','none');
-                            $('#seconds').text(120);
-                            clearInterval(time);
-                        }
-                    };
-                    var time=setInterval(countDown,1000);
-                }else if(data.status=="failed"){
-                     $('.error').show();
-                    $('#mobileError').html(data.msg);
-                }
+                $('.error').show();
+                $('#mobileError').html(data.msg);
             }
         });
     });
 
-    $('.tel').bind('input propertychange',function(){
-        if($(this).val()!=''){
-            $('.clearimg').css('display','block');
-        }
-        else{
-            $('.clearimg').css('display','none');
-        }
-        $('.clearimg').click(function(){
-            $('.tel').val('').focus();
-            $('.clearimg').css('display','none');
+    $(function(){
+        $('.next-step1').click(function(){
+            document.getElementById("reset").submit();
         });
-
     });
-
 </script>
+</html>

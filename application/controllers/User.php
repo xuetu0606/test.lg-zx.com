@@ -34,20 +34,24 @@ class User extends CI_Controller
         if (!file_exists(APPPATH . 'views/home/user/center.php')) {
             show_404();
         }
-        $data['title'] = '零工宝'; // 网页标题
-        $data['localhost'] = $_SERVER['HTTP_HOST'];// 当前域名
+        $data['title'] = '我的发布'; // 网页标题
+        $data['foot_js']='<script src="/static/js/lgb.js"></script>';
+        $data['head_css']='<link rel="stylesheet" href="/static/css/lgb-wdfb.css"/>
+            <link rel="stylesheet" href="/static/css/lgb.css"/>';
+
         $citycode = $this->main_model->getCityCode();        //地区名
         $city_arr = $this->main_model->getCityInfoByCode($citycode);
         $data['cityname'] = $city_arr['name'];
+
         if (!$this->hasLogin()) {
             redirect('http://' . $_SERVER['HTTP_HOST'] . '/user/login');
         }
 
         $data['user'] = $this->user_model->getUserBaseInfo($_SESSION['uid']);
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('home/user/center', $data);
-        $this->load->view('templates/footer');
+        var_dump($data['user']);
+        $this->load->view('home/user/templates/header', $data);
+        $this->load->view('home/user/lgb', $data);
+        $this->load->view('home/user/templates/footer', $data);
     }
 
 
@@ -82,7 +86,7 @@ class User extends CI_Controller
         $this->form_validation->set_rules('passwd', '密码', 'trim|required|min_length[6]');
         $this->form_validation->set_error_delimiters('<span>', '</span>');
 
-        //$this->load->view('templates/head_simple', $data);
+        $this->load->view('templates/header', $data);
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('home/user/login', $data);
         } else {
@@ -129,7 +133,7 @@ class User extends CI_Controller
 
 
         }
-        //$this->load->view('templates/footer2');
+        //$this->load->view('templates/footer');
     }
 
     /**
@@ -205,7 +209,7 @@ class User extends CI_Controller
     public function hasLogin()
     {
         /** 检查session，并与数据库里的数据相匹配 */
-        if (!empty($_SESSION) and NULL !== $_SESSION['username']) {
+        if (!empty($_SESSION) and NULL !== $_SESSION['uid']) {
             return TRUE;
         } else {
             return FALSE;
@@ -551,30 +555,50 @@ $(\'#province a\').click(function(){
         }
 
         $data['title'] = '重置密码';//网页标题
-        $data['localhost'] = $_SERVER['HTTP_HOST'];//获取当前域名
+        $data['mobile'] = $this->input->post('mobile', TRUE);
+        if($this->input->post('step', TRUE)){
+            $step=$this->input->post('step', TRUE);
+        }else{
+            $step=1;
+        }
 
-        $this->form_validation->set_rules('username', '用户名', 'trim|required|min_length[5]|max_length[12]');
-        $this->form_validation->set_rules('mobile', '手机号', 'trim|required|numeric|exact_length[11]');
-        $this->form_validation->set_rules('messagecode', '手机验证码', 'trim|required');
-        $this->form_validation->set_error_delimiters('<span>', '</span>');
 
-        $this->load->view('templates/head_simple', $data);
+        if($step=='1'){
+            $this->form_validation->set_rules('mobile', '手机号', 'trim|required|numeric|exact_length[11]');
+            $this->form_validation->set_rules('messagecode', '手机验证码', 'trim|required');
+        }elseif($step=='2'){
+            $this->form_validation->set_rules('password', '密码', 'trim|required|min_length[6]');
+            $this->form_validation->set_rules('passconf', '确认密码', 'trim|required|matches[password]');
+        }
+        $this->form_validation->set_error_delimiters('<span class="stress">', '</span>');
+
+        $this->load->view('templates/header', $data);
 
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('home/user/resetPassword', $data);
+            if($step=='1'){
+                $this->load->view('home/user/resetPassword', $data);
+            }elseif($step=='2'){
+                $this->load->view('home/user/resetPassword_step2', $data);
+            }
+
         } else {
-            if (strtoupper($this->input->post('messagecode', TRUE)) == $_SESSION['rescode']) {
-                if ($uid = $this->userPassword($this->input->post())) {
-                    $this->user_model->modifyPwd($uid);
-                    $this->load->view('home/user/resetSuccess', $data);
+            if($step=='1'){
+                if (strtoupper($this->input->post('messagecode', TRUE)) == $_SESSION['rescode']) {
+                    $this->load->view('home/user/resetPassword_step2', $data);
                 } else {
-                    $data['codeError'] = '用户名和手机号不符，请重新输入';
+                    $data['codeError'] = '验证码错误';
                     $this->load->view('home/user/resetPassword', $data);
                 }
-            } else {
-                $data['codeError'] = '验证码错误';
-                $this->load->view('home/user/resetPassword', $data);
+            }elseif($step=='2'){
+                $return=$this->user_model->modifyPwd($this->input->post('mobile', TRUE),$this->input->post('password', TRUE));
+                if($return){
+                    $this->load->view('home/user/resetSuccess', $data);
+                }else{
+                    $this->main_model->alert('重置密码失败，请稍后重试', 'back');
+                }
+
             }
+
 
         }
 
@@ -600,9 +624,9 @@ $(\'#province a\').click(function(){
      */
     public function userPassword($data)
     {
-//    	$data = array('username'=>'shane','mobile'=>'123123');
+//    	$data = array('mobile'=>'123123');
         extract($data);
-        $sql = "select uid from userlist where username = '$username' and mobile='$mobile'";
+        $sql = "select uid from userlist where mobile='$mobile'";
         $query = $this->db->query($sql);
         $arr = $query->row_array();
         if ($arr) {
@@ -663,7 +687,7 @@ $(\'#province a\').click(function(){
 
         $this->form_validation->set_error_delimiters('<span>', '</span>');
 
-        $this->load->view('templates/head_simple', $data);
+        //$this->load->view('templates/head_simple', $data);
 
         if ($this->form_validation->run() == FALSE or $this->user_model->isVip($_SESSION['uid'])) {
             if ($this->user_model->isVip($_SESSION['uid'])) {
@@ -707,7 +731,7 @@ $(\'#province a\').click(function(){
 
         }
 
-        $this->load->view('templates/footer2', $data);
+        //$this->load->view('templates/footer2', $data);
 
     }
 
@@ -779,10 +803,8 @@ $(\'#province a\').click(function(){
 
 
         $config['allowed_types'] = 'gif|jpg|png';
-        $config['max_size'] = 2048;
-        $config['max_width'] = 1024;
-        $config['max_height'] = 768;
-
+        $config['max_size'] = 10048;
+        $config['file_name']  = time();
 
         //如果已认证 跳转 成功页面
         $return_isReal = $this->user_model->checkIsReal($uid);
@@ -896,9 +918,9 @@ $(\'#province a\').click(function(){
             $data['zlg'] = $this->form_model->getMyZlgPublish($_SESSION['uid']);
         }
 
-        $this->load->view('templates/head_simple', $data);
+        //$this->load->view('templates/head_simple', $data);
         $this->load->view('home/user/myPublish', $data);
-        $this->load->view('templates/footer2', $data);
+        //$this->load->view('templates/footer2', $data);
 
     }
 
@@ -927,132 +949,7 @@ $(\'#province a\').click(function(){
     }
 
 
-    /**
-     * 发布工种
-     *
-     */
-    public function publish($edit)
-    {
-        if (!file_exists(APPPATH . 'views/home/user/publish.php')) {
-            show_404();
-        }
 
-        //是否登录
-        if (!$this->hasLogin()) {
-            redirect('http://' . $_SERVER['HTTP_HOST'] . '/user');
-        }
-
-        //修改
-        if ($edit) {
-            $this->form_model->getGzDetal(array('uid' => $_SESSION['uid'], 'id' => $this->uri->segment(4, 0)));
-            $data['baseinfo'] = $this->form_model->baseinfo;
-
-            $data['qyinfo'] = $this->form_model->qyinfo;
-            $data['three_level'] = $this->list_model->get_three_level();
-            $this->main_model->getDistArea();
-            $data['dist'] = $this->main_model->list_dist;
-            $data['area'] = $this->main_model->list_area;
-            $data['edit'] = $edit;
-            $_POST['id'] = $this->uri->segment(4, 0);
-        }
-
-        $data['localhost'] = $_SERVER['HTTP_HOST'];// 当前域名
-        $data['title'] = '发布工种'; // 网页标题
-
-        $data['gong'] = $this->list_model->get_three_level();//获取行业职业工种　数组
-        $data['user'] = $this->user_model->getUserinfoByUid($_SESSION['uid']);//获取会员基础信息
-
-        $city = $this->main_model->getCityInfoByCode($this->main_model->getCityCode());//获取当前城市ｉｄ 名字
-        $_POST['uid'] = $_SESSION['uid'];//保存uid
-        $_POST['cityid'] = $city['id'];//保存城市id
-        $data['city'] = $city['name'];
-
-        //已发工种
-        $gong=$this->form_model->getMyGZPublish($_SESSION['uid']);
-        foreach ($gong as $k){
-            if($_POST['job_code']==$k['job_code']){
-                $this->main_model->alert('您已发布过该工种,不能重复发布', 'back');
-            }
-        }
-
-        //获取当前城市区县街道
-        $this->main_model->getDistArea();
-        $data['area'] = array($this->main_model->list_dist, $this->main_model->list_area);
-
-
-        $credit1 = $this->user_model->getUserCredit1($_SESSION['uid']);//获取当前会员零工币
-        if ($data['isvip'] = $this->user_model->isVip($_SESSION['uid'])) {//是否会员
-            $ok = TRUE;
-        } elseif ($credit1 > 2) {//零工币是否大于２
-            $ok = TRUE;
-        } else {
-            $ok = FALSE;
-        }
-
-        $this->load->view('templates/head_simple', $data);//加载头部Publish
-
-        $this->form_validation->set_rules('title', '标题', 'trim|required|max_length[20]');
-        $this->form_validation->set_rules('mobile', '手机号', 'trim|required|numeric|exact_length[11]');
-        $this->form_validation->set_error_delimiters('<p class="error">', '</p>');
-
-
-        if ($this->form_validation->run() == FALSE) {
-            $this->load->view('home/user/publish', $data);
-        } elseif (!$ok) {
-            $data['error'] = "<script> var sure=confirm( '您的零工币不足请及时充值 '); if (sure==true){location.href='/user/recharge';}</script>";
-            $this->load->view('home/user/publish', $data);
-        } else {
-            if ($edit) {
-                $return = $this->form_model->updateGz($_POST);
-                $mess['uid'] = $_SESSION['uid'];
-	            $mess['title'] = '您修改了一条工种信息';
-	            $mess['message'] = '您于'.date('Y-m-d H:i')."修改了一条工种信息";
-            } else {
-                /*var_dump($_POST); die();*/
-                $return = $this->form_model->addGz($_POST);
-                $mess['uid'] = $_SESSION['uid'];
-	            $mess['title'] = '您发布了一条工种信息';
-	            $mess['message'] = '您于'.date('Y-m-d H:i')."发布了一条工种信息";
-            }
-            $this->main_model->addMessage($mess);
-
-            if ($return['flag'] == 1) {
-
-                $_POST = array();  //防止重复提交
-
-                if ($edit) {
-                    $data['error'] = "<script> alert('工种修改成功!');location.href='/user/mypublish';</script>";
-                    $this->load->view('home/user/publish', $data);
-                    //redirect(site_url('user/mypublish'));
-                } else {
-                    if ($data['isvip']) {
-                        $credits = 0;
-                    } else {
-                        $credits = 2;
-                    }
-                    $return_recharge = $this->user_model->recharge(array('uid' => $_SESSION['uid'], 'type' => 'credit1', 'wayid' => '3', 'credits' => $credits));
-
-                    if ($return_recharge['flag'] == 1) {
-                        $data['credit1'] = $this->user_model->getUserCredit1($_SESSION['uid']);
-                        $this->load->view('home/user/publishSueecss', $data);
-                    } else {
-
-                        $data['formerror'] = $return_recharge['info'];
-                        $this->load->view('home/user/publish', $data);
-                    }
-
-                }
-
-            } else {
-                $data['formerror'] = $return['info'];
-                //var_dump($return);
-                $this->load->view('home/user/publish', $data);
-            }
-        }
-
-        $this->load->view('templates/footer2', $data);
-
-    }
 
     /**
      * 发布招零工
@@ -1499,9 +1396,8 @@ $(\'#province a\').click(function(){
         //if (!is_dir('../..'.$config['upload_path'])) mkdir($config['upload_path']); //
 
         $config['allowed_types'] = 'gif|jpg|png';
-        $config['max_size'] = 2048;
-        $config['max_width'] = 1024;
-        $config['max_height'] = 768;
+        $config['max_size'] = 10048;
+        $config['file_name']  = time();
 
 
         if ($this->form_validation->run() == FALSE) {

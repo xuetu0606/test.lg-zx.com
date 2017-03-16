@@ -7,7 +7,7 @@
         </div>
         <div class="success">
             <img src="/static/images/tpls/success.png" alt=""/>
-            <p class="pink">恭喜您，您已成功重置密码为123456！</p>
+            <p class="pink">恭喜您，您已成功重置密码！</p>
             <p class="pink">自动跳转到登录界面（<span id="time" class="pink">5</span>s）</p>
         </div>
     </div>
