@@ -10,7 +10,7 @@
                 <li><a href="/admin/addMember">会员添加</a></li>
             </ol>
         </section>
-                    <div>
+                    <div align="center">
                         <button onclick="">添加公司用户</button>
                         <button onclick="">添加个人用户</button>
                     </div>
