@@ -66,14 +66,17 @@ class Form_model extends CI_Model {
 
 	    		if($districtid||$areaid){
 	    		    foreach ($districtid as $v){
-                        $sql1 = "insert into publish_list_service_district set publish_id='{$arr['id']}',district_id='{$v}',area_id='$areaid'";
-                        if($query1 = $this->db->query($sql1)){
-                            //return array('flag'=>1,'info'=>$arr['id']);
-                        }else{
-                            return array('flag'=>-1,'info'=>'插入信息异常，请稍后处理');
-                        }
+
                     }
-                    return array('flag'=>1,'info'=>$arr['id']);
+	    			$sql1 = "insert into publish_list_service_district set publish_id='{$arr['id']}',district_id='{$districtid}',area_id='$areaid'";
+	    			if($query1 = $this->db->query($sql1)){
+	    				return array('flag'=>1,'info'=>$arr['id']);
+	    			}else{
+	    				return array('flag'=>-1,'info'=>'插入信息异常，请稍后处理');
+	    			}
+
+	    		}else{
+	    			return array('flag'=>1,'info'=>$arr['id']);
 	    		}
   					
   		}else{
@@ -228,18 +231,22 @@ class Form_model extends CI_Model {
     	}
     	return $arr;
   	}
-  	/**
-  	 * 查询用户自己尚未删除的工种记录,按照刷新时间和添加时间倒序排列
-  	 *
-  	 */
-  	public function getMyGZPublish($uid){
-  		$sql = "SELECT publish_list.id,publish_list.job_code,info1,addtime,flushtime,flag,city_id,province_city.`name` FROM `publish_list`
+    /**
+     * 查询用户自己尚未删除的工种记录,按照刷新时间和添加时间倒序排列
+     *
+     */
+    public function getMyGZPublish($uid,$start,$pagenum){
+        if($pagenum){
+            $addsql=" LIMIT {$start} , {$pagenum}";
+        }
+        $sql = "SELECT publish_list.id,(SELECT name from job_type where id=publish_list.job_code) as job_name,(SELECT pre_id from job_type where id=publish_list.job_code) as zhi_code,(SELECT name from job_type where id=zhi_code) as zhi_name,info1,img,addtime,flushtime,flag,city_id,province_city.name,province_city.pinyin FROM `publish_list`
 				inner join province_city on publish_list.city_id=province_city.dist_id where uid='$uid' and flag<>-1
-				order by publish_list.flushtime desc,publish_list.addtime desc";
-  		$query = $this->db->query($sql);
-  		$result = $query->result_array();
-  		return $result;
-  	}
+				order by publish_list.flushtime desc,publish_list.addtime desc 
+				$addsql";
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
   	/**
   	 * 查询用户自己尚未删除的招零工记录,按照刷新时间和添加时间倒序排列
   	 *

@@ -48,7 +48,41 @@ class User extends CI_Controller
         }
 
         $data['user'] = $this->user_model->getUserBaseInfo($_SESSION['uid']);
-        var_dump($data['user']);
+
+        //获取已发布工种
+        $count = $this->form_model->getMyGZPublish($_SESSION['uid']);
+
+        if ($this->session->is_co) {
+            $data['zlg'] = $this->form_model->getMyZlgPublish($_SESSION['uid']);
+        }
+
+        $this->load->library('pagination');
+        $fenye=6;//分页数
+        $pagenum=count($count);
+
+        $config['base_url'] = 'http://'.$_SERVER['HTTP_HOST'].'/user/index/';
+        $config['total_rows'] = $pagenum;
+        $config['per_page'] = $fenye;
+        $config['num_links']=3;
+        $config['use_page_numbers']=true;
+        $config['first_link'] = '第一页';
+        $config['prev_link'] = '上一页';
+        $config['next_link'] = '下一页';
+        $config['last_link'] = '最后一页';
+
+
+
+        $this->pagination->initialize($config);
+
+        $data['page']=$this->pagination->create_links();
+
+        $id=$this->uri->segment(3, 0);
+        $id=$id?$id:1;
+        $start=($id-1)*$fenye;
+        $data['gong'] = $this->form_model->getMyGZPublish($_SESSION['uid'],$start,$fenye);
+
+        var_dump($data['gong']);
+
         $this->load->view('home/user/templates/header', $data);
         $this->load->view('home/user/lgb', $data);
         $this->load->view('home/user/templates/footer', $data);
