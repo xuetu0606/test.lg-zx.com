@@ -233,14 +233,14 @@ class Form_model extends CI_Model {
   	}
     /**
      * 查询用户自己尚未删除的工种记录,按照刷新时间和添加时间倒序排列
-     *
+     *uid用户id $start开始分页 $pagenum分页数 $del 1已发布 0未审核 -1已删除
      */
-    public function getMyGZPublish($uid,$start,$pagenum){
+    public function getMyGZPublish($uid,$start,$pagenum,$del){
         if($pagenum){
             $addsql=" LIMIT {$start} , {$pagenum}";
         }
         $sql = "SELECT publish_list.id,(SELECT name from job_type where id=publish_list.job_code) as job_name,(SELECT pre_id from job_type where id=publish_list.job_code) as zhi_code,(SELECT name from job_type where id=zhi_code) as zhi_name,info1,img,addtime,flushtime,flag,city_id,province_city.name,province_city.pinyin FROM `publish_list`
-				inner join province_city on publish_list.city_id=province_city.dist_id where uid='$uid' and flag<>-1
+				inner join province_city on publish_list.city_id=province_city.dist_id where uid='$uid' and flag='$del'
 				order by publish_list.flushtime desc,publish_list.addtime desc 
 				$addsql";
         $query = $this->db->query($sql);

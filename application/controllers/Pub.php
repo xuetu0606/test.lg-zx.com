@@ -284,5 +284,41 @@ $this->load->view('templates/footer', $data);
 
     }
 
+    /**
+     * 批量删除
+     *
+     */
+    public function del()
+    {
+        $id=$this->input->get('del_check',true);
+        $url_array = $this->uri->uri_to_assoc(3);
+//    	print_r($url_array);
+        if ($url_array['type'] == 'gz') {
+            if ($url_array['ac'] == 'del') {
+                foreach ($id as $v){
+                    $flag += $this->form_model->delGzInfo(array('uid' => $_SESSION['uid'], 'id' => $v));
+                }
+            }
+
+            if ($flag == count($id)) {
+                $this->main_model->alert('删除成功', 'back');
+            } else {
+                $this->main_model->alert('删除失败，请稍后重试', 'back');
+            }
+
+        } elseif ($url_array['type'] == 'zlg') {
+
+            if ($url_array['ac'] == 'del') {
+                $flag = $this->form_model->delZlgInfo(array('uid' => $_SESSION['uid'], 'id' => $url_array['id']));
+                if ($flag['flag'] == 1) {
+                    $this->main_model->alert('删除成功', 'back');
+                } else {
+                    $this->main_model->alert('删除失败，请稍后重试', 'back');
+                }
+            }
+
+        }
+    }
+
 
 }
