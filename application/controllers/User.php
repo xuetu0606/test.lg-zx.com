@@ -79,7 +79,7 @@ class User extends CI_Controller
         $start=($id-1)*$fenye;
         $data['gong'] = $this->form_model->getMyGZPublish($_SESSION['uid'],$start,$fenye);
 
-        ///var_dump($data['gong']);
+        //var_dump($data['gong']);
 
         $this->load->view('home/user/templates/header', $data);
         $this->load->view('home/user/lgb', $data);
