@@ -45,7 +45,7 @@ class User extends CI_Controller
             redirect('http://' . $_SERVER['HTTP_HOST'] . '/user/login');
         }
 
-        $data['user'] = $this->user_model->getUserBaseInfo($_SESSION['uid']);
+        $data['user'] = $this->user_model->getUserBaseInfo($_SESSION['uid'],0,0,1);
 
         //获取已发布工种
         $count = $this->form_model->getMyGZPublish($_SESSION['uid']);
@@ -56,6 +56,7 @@ class User extends CI_Controller
 
         $this->load->library('pagination');
         $fenye=6;//分页数
+
         $pagenum=count($count);
 
         $config['base_url'] = 'http://'.$_SERVER['HTTP_HOST'].'/user/index/';
@@ -69,7 +70,6 @@ class User extends CI_Controller
         $config['last_link'] = '最后页';
 
 
-
         $this->pagination->initialize($config);
 
         $data['page']=$this->pagination->create_links();
@@ -77,9 +77,11 @@ class User extends CI_Controller
         $id=$this->uri->segment(3, 0);
         $id=$id?$id:1;
         $start=($id-1)*$fenye;
-        $data['gong'] = $this->form_model->getMyGZPublish($_SESSION['uid'],$start,$fenye);
+        $data['gong'] = $this->form_model->getMyGZPublish($_SESSION['uid'],$start,$fenye,1);
+        $data['gong_del'] = $this->form_model->getMyGZPublish($_SESSION['uid'],$start,$fenye,-1);
+        $data['gong_not'] = $this->form_model->getMyGZPublish($_SESSION['uid'],$start,$fenye,0);
 
-        var_dump($data['gong']);
+        //var_dump($data['gong']);
         //var_dump($data);
 
         $this->load->view('home/user/templates/header', $data);
