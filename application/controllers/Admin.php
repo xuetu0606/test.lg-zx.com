@@ -4,6 +4,7 @@ class Admin extends CI_Controller {
         parent::__construct();
         $this->load->model(array(
             'admin_model',
+            'user_model',
             'main_model'
         ));
         $this->load->helper(array(
@@ -48,7 +49,7 @@ class Admin extends CI_Controller {
      * 登录
      */
     public function login(){
-		
+        
         if ( ! file_exists(APPPATH.'views/admin/login.php')){
             show_404();
         }
@@ -311,8 +312,8 @@ echo '</pre>';
         $this->load->view('admin/templates/footer');
 
     }
-	
-	//打开查询页面
+    
+    //打开查询页面
     public function reveal(){
         $data['users'] = $this->admin_model->getReveal();
         $this->load->view('admin/templates/header');
@@ -326,32 +327,32 @@ echo '</pre>';
     }
     //打开修改页面,并根据ID查询要修改的数据
     public function toUpdateReveal(){
-		$city_id = 224;
+        $city_id = 224;
         $id = $this->uri->segment(3);
         $data['user'] = $this->admin_model->findReveal($id);
-		
-		$sql = "select name,id from district_dic where upid=".$city_id;
-		$result = $this->db->query($sql);
-		$name = $result->result_array();
-		$data['district_names'] = $name;
-		
-		$sql = "select name,id from pay_unit_dic ";
-		$result = $this->db->query($sql);
-		$name = $result->result_array();
-		$data['pay_unit_names'] = $name;
-		
-		$sql = "select name,id from pay_circle_dic ";
-		$result = $this->db->query($sql);
-		$name = $result->result_array();
-		$data['pay_circle_names'] = $name;
-		
-		$sql = "select name,id from job_type ";
-		$result = $this->db->query($sql);
-		$name = $result->result_array();
-		$data['job_names'] = $name;
-		
-		$this->load->view('admin/templates/header');
-		$this->load->view('admin/updateReveal',$data);
+        
+        $sql = "select name,id from district_dic where upid=".$city_id;
+        $result = $this->db->query($sql);
+        $name = $result->result_array();
+        $data['district_names'] = $name;
+        
+        $sql = "select name,id from pay_unit_dic ";
+        $result = $this->db->query($sql);
+        $name = $result->result_array();
+        $data['pay_unit_names'] = $name;
+        
+        $sql = "select name,id from pay_circle_dic ";
+        $result = $this->db->query($sql);
+        $name = $result->result_array();
+        $data['pay_circle_names'] = $name;
+        
+        $sql = "select name,id from job_type ";
+        $result = $this->db->query($sql);
+        $name = $result->result_array();
+        $data['job_names'] = $name;
+        
+        $this->load->view('admin/templates/header');
+        $this->load->view('admin/updateReveal',$data);
         $this->load->view('admin/templates/footer');
     }
     //修改一条消息
@@ -371,7 +372,7 @@ echo '</pre>';
         $address = $_POST['address'];
         $info = $_POST['info'];
         $this->admin_model->updateReveal($id,$job_code,$district_id,$title,$pay,$pay_unit,$pay_circle,$sum,$worktime,$contacts,$mobile,$address,$info,$flag);
-		$this->reveal();
+        $this->reveal();
     }
     public function toaddMember(){
         $this->load->view('admin/templates/header');
@@ -380,6 +381,17 @@ echo '</pre>';
     }
     public function addMember(){
         var_dump($_POST);
-        //$this->admin_model->addMember();
+        $this->admin_model->addUser($_POST);
+        // $this->load->view('admin/templates/header');
+        // $this->load->view('admin/add-member');
+        // $this->load->view('admin/templates/footer');
+    }
+    //获取根据省份城市
+    public function getCityByProvince(){
+        $province_id = $this->uri->segment(3);
+        $data = $this->admin_model->getAllCityByProvinceId($province_id);
+        $str = json_encode($data);
+
+        echo $str;
     }
 }

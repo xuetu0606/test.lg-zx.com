@@ -43,7 +43,7 @@ class Admin_model extends CI_Model {
      * 返回值：有该用户则返回uid，否则返回false
      */
     public function getuserlist($data){
-//    	$data = array('username'=>'shane','passwd'=>'123123');
+//      $data = array('username'=>'shane','passwd'=>'123123');
         extract($data);
         $sql = "select uid,username,quanxian,zhiwu from admin_userlist where (username = '$username') and password = '$passwd'";
         $query = $this->db->query($sql);
@@ -160,7 +160,7 @@ group by userlist.uid {$addsql}";
      * 返回值数组：城市编码=>城市名称
      */
     public  function getAllCityByProvinceId($Province_id){
-        $sql = "select pre_dist_id,dist_id,name from province_city where level=2 ";
+        $sql = "select pre_dist_id,dist_id,name from province_city where level=2 and pre_dist_id=".$Province_id;
         $query = $this->db->query($sql);
         $list = array();
         while ($row = $query->unbuffered_row('array')) {
@@ -240,7 +240,7 @@ group by userlist.uid {$addsql}";
         return $list;
     }
 
-	//获取所有招聘信息
+    //获取所有招聘信息
     public function getReveal(){
         //查询所有招聘信息
         $sql = "select id,uid,job_code,city_id,district_id,title,pay,pay_unit,pay_circle,sum,worktime,contacts,mobile,address,info,flag,pv,addtime,updatetime,flushtime from invite_list";
@@ -260,15 +260,15 @@ group by userlist.uid {$addsql}";
             $name = $result->result_array();
             $users[$i]['district_name'] = $name[0]['name'];
         }
-		//查询薪资单位
-		for($i = 0 ; $i < count($users) ; $i++){
+        //查询薪资单位
+        for($i = 0 ; $i < count($users) ; $i++){
             $sql = "select name from pay_unit_dic where id=".$users[$i]['pay_unit'];
             $result = $this->db->query($sql);
             $name = $result->result_array();
             $users[$i]['pay_unit_name'] = $name[0]['name'];
         }
-		//查询结算周期
-		for($i = 0 ; $i < count($users) ; $i++){
+        //查询结算周期
+        for($i = 0 ; $i < count($users) ; $i++){
             $sql = "select name from pay_circle_dic where id=".$users[$i]['pay_circle'];
             $result = $this->db->query($sql);
             $name = $result->result_array();
@@ -284,31 +284,31 @@ group by userlist.uid {$addsql}";
     //查询一条信息
     public function findReveal($id){
         
-		$sql = "select id,uid,job_code,city_id,district_id,title,pay,pay_unit,pay_circle,sum,worktime,contacts,mobile,address,info,flag,pv,addtime,updatetime,flushtime from invite_list where id=".$id;
+        $sql = "select id,uid,job_code,city_id,district_id,title,pay,pay_unit,pay_circle,sum,worktime,contacts,mobile,address,info,flag,pv,addtime,updatetime,flushtime from invite_list where id=".$id;
         $result = $this->db->query($sql);
         $user = $result->result_array();
-		
-		$sql = "select name from district_dic where id=".$user[0]['district_id'];
-		$result = $this->db->query($sql);
-		$name = $result->result_array();
-		$user[0]['district_name'] = $name[0]['name'];
-		
-		$sql = "select name from pay_unit_dic where id=".$user[0]['pay_unit'];
-		$result = $this->db->query($sql);
-		$name = $result->result_array();
-		$user[0]['pay_unit_name'] = $name[0]['name'];
-		
-		$sql = "select name from pay_circle_dic where id=".$user[0]['pay_circle'];
-		$result = $this->db->query($sql);
-		$name = $result->result_array();
-		$user[0]['pay_circle_name'] = $name[0]['name'];
-		
-		$sql = "select name from job_type where id=".$user[0]['job_code'];
-		$result = $this->db->query($sql);
-		$name = $result->result_array();
-		$user[0]['job_name'] = $name[0]['name'];
         
-		return $user[0];
+        $sql = "select name from district_dic where id=".$user[0]['district_id'];
+        $result = $this->db->query($sql);
+        $name = $result->result_array();
+        $user[0]['district_name'] = $name[0]['name'];
+        
+        $sql = "select name from pay_unit_dic where id=".$user[0]['pay_unit'];
+        $result = $this->db->query($sql);
+        $name = $result->result_array();
+        $user[0]['pay_unit_name'] = $name[0]['name'];
+        
+        $sql = "select name from pay_circle_dic where id=".$user[0]['pay_circle'];
+        $result = $this->db->query($sql);
+        $name = $result->result_array();
+        $user[0]['pay_circle_name'] = $name[0]['name'];
+        
+        $sql = "select name from job_type where id=".$user[0]['job_code'];
+        $result = $this->db->query($sql);
+        $name = $result->result_array();
+        $user[0]['job_name'] = $name[0]['name'];
+        
+        return $user[0];
     }
     //修改一条信息
     public function updateReveal($id,$job_code,$district_id,$title,$pay,$pay_unit,$pay_circle,$sum,$worktime,$contacts,$mobile,$address,$info,$flag){
@@ -329,7 +329,85 @@ group by userlist.uid {$addsql}";
             ";
         $this->db->query($sql);
     }
-    public function addMember(){
-        
+
+    /**
+ * 注册用户
+ * @param 数组 $data:【个人用户】  username-用户名 ，password-加密密码，email-邮箱，referer-推介人，p_id-省份编码，c_id-城市编码，mobile-手机，is_co-是否公司（公司1，个人0），$realname-个人用户姓名
+ * @param 数组 $data: 【公司用户】 username-用户名 ，password-加密密码，email-邮箱，referer-推介人，p_id-省份编码，c_id-城市编码，mobile-手机，is_co-是否公司（公司1，个人0），$coname-公司名
+ * 返回值：若添加失败则返回array('flag'=>-1,'info'=>'失败提示');成功则返回array('flag'=>1,'uid');
+ * 
+ */
+    public function addUser($data){
+        extract($data);
+        $time_now = time();
+        $username= trim($username);
+        $mobile= trim($mobile);
+        $password= trim($password);
+        $is_co = trim($is_co);
+        //生成工号uid
+        $new_uid = $this->addUid();
+        if($is_co == 'gongsi'){
+            $is_co = 1;
+            $sql = "insert into user_co (uid,coname,scale_code,weburl,idno,info)
+            values
+            ('$new_uid','".$coname."','".$scale_code."','".$weburl."',".$idno.",'".$info."')";
+            $this->db->query($sql);
+        }else if($is_co == 'geren'){
+            $is_co = 0;
+             $sql = "insert into user_personal (realname,nickname,sex,idno,info)
+            values
+            ('".$realname."','".$nickname."',".$sex.",".$idno.",'".$info."')";
+            $this->db->query($sql);
+        }
+        if(strlen($new_uid) < 3){
+            $new_uid = "0".$new_uid;
+        }
+        $sql = "insert into userlist 
+            (no ,
+            username ,
+            password ,
+            province_id ,
+            city_id ,
+            address ,
+            mobile  ,
+            tel  ,
+            email ,
+            qq  ,
+            wechat ,
+            is_co  ,
+            addtime)
+            values
+            (
+            '".$new_uid."',
+            '".$username."',
+            '".$password."',
+            ".$p_id.",
+            ".$c_id.",
+            '".$address."',
+            '".$mobile."',
+            '".$tel."',
+            '".$email."',
+            '".$qq."',
+            '".$wechat."',
+            ".$is_co.",
+            ".$time_now."
+            )
+        ";
+        $this->db->query($sql);
+    }
+
+    /**
+     * 生成新的工号uid
+     * 规则：最新自增id+1
+     *格式为：lg+数字编号，若最新id小于4位则前面加0补齐
+     */
+    public function addUid(){
+        $min_len = 3;//小于最小位数则前面加0补齐
+        $pr = "";//工号前缀
+//      $pr = "lg";//工号前缀
+        $query = $this->db->query("select max(uid) as uid from userlist ");
+        $id_arr = $query->row_array();
+        $max_id = $id_arr['uid']?($id_arr['uid']+1):1;
+        return $max_id;
     }
 }
