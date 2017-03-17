@@ -48,7 +48,7 @@
                             <div class="r">
                                 <a href="<?php echo site_url('user/dealMyInfo/type/gz/ac/flush/id/'.$k['id'])?>">刷新</a>
                                 <a href="/pub/edit/<?php echo $k['id']?>">修改</a>
-                                <a href="/pub/edit">下架</a>
+                                <!--<a href="/pub/edit">下架</a>-->
                                 <a href="javascript:void(0);" onclick="if(confirm('确定要删除吗？')){window.location.href='<?php echo site_url('user/dealMyInfo/type/gz/ac/del/id/'.$k['id'])?>';}else{return false;}" class="delete">删除</a>
                             </div>
                         </div>

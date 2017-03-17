@@ -63,10 +63,10 @@ class User extends CI_Controller
         $config['per_page'] = $fenye;
         $config['num_links']=3;
         $config['use_page_numbers']=true;
-        $config['first_link'] = '第一页';
-        $config['prev_link'] = '上一页';
-        $config['next_link'] = '下一页';
-        $config['last_link'] = '最后一页';
+        $config['first_link'] = '首页';
+        $config['prev_link'] = '上页';
+        $config['next_link'] = '下页';
+        $config['last_link'] = '最后页';
 
 
 
@@ -79,8 +79,8 @@ class User extends CI_Controller
         $start=($id-1)*$fenye;
         $data['gong'] = $this->form_model->getMyGZPublish($_SESSION['uid'],$start,$fenye);
 
-        var_dump($data['gong']);
-        var_dump($data);
+        //var_dump($data['gong']);
+        //var_dump($data);
 
         $this->load->view('home/user/templates/header', $data);
         $this->load->view('home/user/lgb', $data);
