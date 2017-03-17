@@ -55,7 +55,7 @@ class User extends CI_Controller
         }
 
         $this->load->library('pagination');
-        $fenye=6;//分页数
+        $fenye=6;//分页数dsadsadsa
         $pagenum=count($count);
 
         $config['base_url'] = 'http://'.$_SERVER['HTTP_HOST'].'/user/index/';
