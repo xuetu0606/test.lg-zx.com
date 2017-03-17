@@ -21,8 +21,6 @@ class User extends CI_Controller
             'form_validation'
         ));
 
-//        $this->load->database();//测试用
-
     }
 
     /**
