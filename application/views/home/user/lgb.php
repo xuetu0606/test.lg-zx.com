@@ -46,7 +46,7 @@
                                 </h3>
                             </div>
                             <div class="r">
-                                <a href="#">刷新</a>
+                                <a href="/pub/edit">刷新</a>
                                 <a href="#">修改</a>
                                 <a href="#">下架</a>
                                 <a href="#" class="delete">删除</a>
