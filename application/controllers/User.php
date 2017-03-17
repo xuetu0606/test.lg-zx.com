@@ -80,6 +80,7 @@ class User extends CI_Controller
         $data['gong'] = $this->form_model->getMyGZPublish($_SESSION['uid'],$start,$fenye);
 
         var_dump($data['gong']);
+        var_dump($data);
 
         $this->load->view('home/user/templates/header', $data);
         $this->load->view('home/user/lgb', $data);
