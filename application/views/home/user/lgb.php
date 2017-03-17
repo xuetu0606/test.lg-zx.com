@@ -48,7 +48,7 @@
                             <div class="r">
                                 <a href="/pub/edit">刷新</a>
                                 <a href="/pub/edit">修改</a>
-                                <a href="#">下架</a>
+                                <a href="/pub/edit">下架</a>
                                 <a href="/pub/del" class="delete">删除</a>
                             </div>
                         </div>
