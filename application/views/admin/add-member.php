@@ -30,7 +30,7 @@
                                         <option value="1">男</option>
                                     </select>
                                     <br/><br/>
-                                    
+                                    <!-- -->
                                     <label for="city_id">城　市　:</label>
                                     <select style="width:150px; height:26px;" class="myselect" name="city_id">
                                         <option value="1">男</option>
