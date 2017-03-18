@@ -509,29 +509,58 @@ class Pay extends CI_Controller
             redirect('http://' . $_SERVER['HTTP_HOST'] . '/user');
         }
 
-        $data['localhost'] = $_SERVER['HTTP_HOST'];// 当前域名
         $data['title'] = '提现'; // 网页标题
-        $data['user'] = $this->user_model->getUsercredit($_SESSION['uid']);
+        $data['foot_js']='<script>
+    $(\'input:radio\').click(function(){
+        if($(this).val()==1)
+        {
+            $(\'#withdraw\').text(\'支付宝账号\');
+            $(\'#account_tip\').text(\'请输入有效的支付宝账号\');
+            $(\'#bank\').css(\'display\',\'none\');
+        }
+        if($(this).val()==2){
+            $(\'#withdraw\').text(\'银行账号\');
+            $(\'#account_tip\').text(\'请填写用以上用户信息开户的银行账号\');
+            $(\'#bank\').css(\'display\',\'block\');
+        }
+    })
+</script>';
+        $data['credit'] = $this->user_model->getUsercredit($_SESSION['uid']);
 
-        if(!$data['user']['credit2']){
+        if ($this->session->is_co==1) {
+            $data['user'] = $this->user_model->getCoUserInfo($_SESSION['uid']);
+        }else{
+            $data['user'] = $this->user_model->getPersonalInfo($_SESSION['uid']);
+        }
+        $idno=$data['user']['idno']=130132198411173793;
+
+        $data['user']['idno']=strlen($idno)==15?substr_replace($idno,"*****",7,5):(strlen($idno)==18?substr_replace($idno,"*****",9,5):"身份证位数不正常！");
+
+        var_dump($data['user']);
+
+        if(!$data['user']['is_real']==0){
+            $this->main_model->alert('请实名认证后提现!', 'back');
+        }
+
+        if(!$data['credit']['credit2']){
             $this->main_model->alert('您的工分为0,无法提现!', 'back');
         }
 
-        $this->load->view('templates/head_simple', $data);
+        $_POST['name']=$data['user']['realname'];
+        $_POST['idno']=$idno;
+        $_POST['money']=$data['credit']['credit2'];
 
-        $this->form_validation->set_rules('name', '姓名', 'trim|required|max_length[12]');
-        $this->form_validation->set_rules('idno', '身份证号', 'trim|required|max_length[18]');
 
         $this->form_validation->set_rules('mode', '提现方式', 'trim|required');
         if($this->input->post('mode',TRUE)=='2'){
             $this->form_validation->set_rules('bank', '开户行', 'trim|required|max_length[20]');
         }
         $this->form_validation->set_rules('account', '账户', 'trim|required|max_length[20]');
-        $this->form_validation->set_rules('money', '提现金额', 'trim|required');
+
 
         $this->form_validation->set_error_delimiters();
 
-        if($this->input->post('money',TRUE)>$data['user']['credit2']){
+        if($this->input->post('money',TRUE)>$data['credit']['credit2']){
             $this->main_model->alert('提现金额错误,请稍后重试', 'back');
         }
 
@@ -541,11 +570,11 @@ class Pay extends CI_Controller
             $_POST['uid']=$_SESSION['uid'];
             $return=$this->user_model->updateCash($_POST);
             if($return['flag']==1){
-                $this->main_model->alert('提现成功,', 'back');
+                $this->main_model->alert('提现成功,', '/user');
             }
         }
 
-        $this->load->view('templates/footer2');
+        $this->load->view('home/user/templates/footer');
     }
 
 

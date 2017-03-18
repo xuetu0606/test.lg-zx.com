@@ -10,9 +10,6 @@
     <?php
     echo $head_css;
     ?>
-    <style>
-        .m h1,.m h2,.m h3{ margin: 5px 0;}
-    </style>
 </head>
 <body>
 <header>

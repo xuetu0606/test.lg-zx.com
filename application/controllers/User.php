@@ -35,7 +35,10 @@ class User extends CI_Controller
         $data['title'] = '我的发布'; // 网页标题
         $data['foot_js']='<script src="/static/js/lgb.js"></script>';
         $data['head_css']='<link rel="stylesheet" href="/static/css/lgb-wdfb.css"/>
-            <link rel="stylesheet" href="/static/css/lgb.css"/>';
+            <link rel="stylesheet" href="/static/css/lgb.css"/>
+            <style>
+            .m h1,.m h2,.m h3{ margin: 5px 0;}
+            </style>';
 
         $citycode = $this->main_model->getCityCode();        //地区名
         $city_arr = $this->main_model->getCityInfoByCode($citycode);
@@ -48,7 +51,7 @@ class User extends CI_Controller
         $data['user'] = $this->user_model->getUserBaseInfo($_SESSION['uid'],0,0,1);
 
         //获取已发布工种
-        $count = $this->form_model->getMyGZPublish($_SESSION['uid']);
+        $count = $this->form_model->getMyGZPublish($_SESSION['uid'],$start,$fenye,1);
 
         if ($this->session->is_co) {
             $data['zlg'] = $this->form_model->getMyZlgPublish($_SESSION['uid']);
