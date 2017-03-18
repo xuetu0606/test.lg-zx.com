@@ -59,16 +59,32 @@
                         <div class="check">
                             <?php foreach ($area[0] as $k => $v):?>
                             <div class="marginr">
-                                <input type="checkbox" name="areaid[]" value="<?php echo $k;?>"/><span><?php echo $v;?></span>
+                                <input type="checkbox" name="districtid[]" value="<?php echo $k;?>"/><span><?php echo $v;?></span>
                             </div>
+                            <?php endforeach;?>
+
+                            <div class="margin-right">
+                                <span class="allcheck allcheck2" id="quanxuan">全选</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <?php foreach ($area[0] as $k => $v):?>
+                    <div class="form-control wrap jiedao" id="jiedao<?php echo $k?>" style="display: none;">
+                        <label><span class="xing">*</span><?php echo $v?>：</label>
+                        <div class="check">
+                            <?php foreach ($area[1][$k] as $k => $v):?>
+                                <div class="marginr">
+                                    <input type="checkbox" name="areaid[]" value="<?php echo $k;?>"/><span><?php echo $v;?></span>
+                                </div>
                             <?php endforeach;?>
 
                             <div class="margin-right">
                                 <span class="allcheck allcheck2">全选</span>
                             </div>
                         </div>
-
                     </div>
+                    <?php endforeach;?>
                 </div>
                 <div class="form-group">
                     <div class="form-control wrap">
@@ -108,6 +124,7 @@
                         <input type="text" name="address" class="input-normal" value="<?php echo $user['address']?>"/>
                     </div>
                 </div>
+                <!--
                 <div class="form-group">
                     <div class="form-control wrap">
                         <label>微信号：</label>
@@ -120,12 +137,14 @@
                         <input type="text" name="wechat" class="input-normal" value="<?php echo $user['qq']?>"/>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <div class="form-control wrap">
                         <label><span class="xing">*</span> 联系人：</label>
-                        <input type="text" class="input-normal" value="<?php echo $user['realname']?>"/>
+                        <input type="text" class="input-normal" value=""/>
                     </div>
                 </div>
+                -->
                 <div class="form-group">
                     <div class="form-control wrap">
                         <label><span class="xing">*</span> 联系电话：</label>
@@ -173,8 +192,8 @@
             var arrFiles = [];
             for (var i = 0, file; file = files[i]; i++) {
                 if (file.type.indexOf("image") == 0) {
-                    if (file.size >= 512000) {
-                        alert('您这张"'+ file.name +'"图片大小过大，应小于500k');
+                    if (file.size >= 20480000) {
+                        alert('您这张"'+ file.name +'"图片大小过大，应小于12M');
                     } else {
                         arrFiles.push(file);
                     }
@@ -221,7 +240,7 @@
         },
         onDelete: function(file) {
             $("#uploadList_" + file.index).fadeOut();
-            $("#delfile").val(file.index);
+            $("#delfile").val($("#delfile").val()+','+file.index);
         },
         onDragOver: function() {
             $(this).addClass("upload_drag_hover");
@@ -250,5 +269,19 @@
     };
     ZXXFILE = $.extend(ZXXFILE, params);
     ZXXFILE.init();
+</script>
+<script>
+    $("input:checkbox").click(function () {
+
+        //alert($(this).attr('value'));
+        if ($(this).is(":checked")) {
+            $("#jiedao"+$(this).attr('value')).show();
+        } else {
+            $("#jiedao"+$(this).attr('value')).hide();
+        }
+    });
+    $("#quanxuan").click(function () {
+        $(".jiedao").hide();
+    })
 </script>
 </html>

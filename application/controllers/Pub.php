@@ -64,6 +64,8 @@ class Pub extends CI_Controller
                 redirect('http://' . $_SERVER['HTTP_HOST'] . '/user');
             }
 
+            //var_dump($_FILES);
+
             /*/修改
             if ($edit) {
             $this->form_model->getGzDetal(array('uid' => $_SESSION['uid'], 'id' => $this->uri->segment(4, 0)));
@@ -114,7 +116,7 @@ class Pub extends CI_Controller
             $this->form_validation->set_rules('mobile', '手机号', 'trim|required|numeric|exact_length[11]');
             $this->form_validation->set_error_delimiters('<p class="error">', '</p>');
 
-        //var_dump();
+        //var_dump($_POST); die();
 
             if ($this->form_validation->run() == FALSE) {
                 $this->load->view('home/user/publish', $data);
@@ -142,7 +144,6 @@ class Pub extends CI_Controller
                     $img.=$k['file_name'].',';
                 }
 
-
                     foreach ($_POST['job_code'] as $v){
                         $data_add=array(
                             'uid'=>$_SESSION['uid'],
@@ -152,14 +153,18 @@ class Pub extends CI_Controller
                             'address'=>$_POST['address'],
                             'fwjs'=>$_POST['fwjs'],
                             'cityid'=>$city['id'],
-                            'districtid'=>$_POST['areaid'],
+                            'districtid'=>$_POST['districtid'],
+                            'areaid'=>$_POST['areaid'],
                             'img'=>substr($img, 0, -1)
                         );
                         $return = $this->form_model->addGz($data_add);
+                        if($return['flag']==-1){
+                            $this->main_model->alert($return['info'], 'back');
+                        }
                         $return_flag+=$return['flag'];
                     }
 
-                //var_dump($data_add); die();
+
 
                     $mess['uid'] = $_SESSION['uid'];
                     $mess['title'] = '您发布了'.count($_POST['job_code']).'条工种信息';
@@ -251,11 +256,15 @@ $this->load->view('templates/footer', $data);
             $this->load->library('image_lib');
 
 
-        if($del!=''){
-            foreach ($_FILES['fileselect'] as $k=>$v){
-                array_splice($v,$del, 1);
-                $_FILES['fileselect'][$k]=$v;
+        if($del){
+            $del=explode(',',$del);
+            for ($i=1;$i<count($del);$i++){
+                foreach ($_FILES['fileselect'] as $k=>$v){
+                    array_splice($v,$del[$i], 1);
+                    $_FILES['fileselect'][$k]=$v;
+                }
             }
+
         }
 
 
@@ -319,6 +328,171 @@ $this->load->view('templates/footer', $data);
 
         }
     }
+
+    /**
+     * 发布工种
+     *
+     */
+    public function edit($id)
+    {
+        if (!file_exists(APPPATH . 'views/home/user/publish_edit.php')) {
+            show_404();
+        }
+
+//是否登录
+        if (!$this->user_model->hasLogin()) {
+            redirect('http://' . $_SERVER['HTTP_HOST'] . '/user');
+        }
+
+
+
+        $this->form_model->getGzDetal(array('uid' => $_SESSION['uid'], 'id' => $this->uri->segment(3, 0)));
+        $data['baseinfo'] = $this->form_model->baseinfo;
+
+        $data['qyinfo'] = $this->form_model->qyinfo;
+
+        $data['citycode'] = $this->main_model->getCityCode();
+
+        echo '<pre>';
+        var_dump($data['baseinfo']);
+        //var_dump($data['qyinfo']);
+        echo '</pre>';
+
+        $data['three_level'] = $this->list_model->get_three_level();
+        $this->main_model->getDistArea();
+        $data['dist'] = $this->main_model->list_dist;
+        $data['area'] = $this->main_model->list_area;
+
+        $_POST['id'] = $this->uri->segment(4, 0);
+
+
+        $data['title'] = '修改工种'; // 网页标题
+        $data['hang'] = $this->user_model->getJobType(array('level' => 1, 'pre_id' => 0, 'pre_pre_id' => 0));
+        $data['zhi'] = $this->user_model->getJobType(array('level' => 2, 'pre_id' =>$data['baseinfo']['job_level_1'], 'pre_pre_id' => 0));
+        $data['gong'] = $this->user_model->getJobType(array('level' => 3, 'pre_id' => $data['baseinfo']['job_level_2'], 'pre_pre_id' => $data['baseinfo']['job_level_1']));
+
+        if($_SESSION['is_co']==1){
+            $data['user'] = $this->user_model->getCoUserInfo($_SESSION['uid']);//获取会员基础信息
+        }else{
+            $data['user'] = $this->user_model->getPersonalInfo($_SESSION['uid']);//获取会员基础信息
+        }
+
+        $city = $this->main_model->getCityInfoByCode($this->main_model->getCityCode());//获取当前城市ｉｄ 名字
+        $data['city'] = $city['name'];
+        //var_dump($this->main_model->getCityCode());
+
+//获取当前城市区县街道
+        $this->main_model->getDistArea();
+        $data['area'] = array($this->main_model->list_dist, $this->main_model->list_area);
+//var_dump($data['area']);
+
+        $credit1 = $this->user_model->getUserCredit1($_SESSION['uid']);//获取当前会员零工币
+        if ($data['isvip'] = $this->user_model->isVip($_SESSION['uid'])) {//是否会员
+            $ok = TRUE;
+        } elseif ($credit1 >= count($_POST['job_code'])*2) {//零工币是否大于２
+            $ok = TRUE;
+        } else {
+            $ok = FALSE;
+        }
+
+
+        $this->load->view('templates/header', $data);//加载头部Publish
+
+        $this->form_validation->set_rules('title', '标题', 'trim|required|max_length[20]');
+        $this->form_validation->set_rules('mobile', '手机号', 'trim|required|numeric|exact_length[11]');
+        $this->form_validation->set_error_delimiters('<p class="error">', '</p>');
+
+        //var_dump($_POST); die();
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('home/user/publish_edit', $data);
+        } elseif (!$ok) {
+            $this->main_model->alert("您的零工币不足请及时充值", '/user/recharge');
+        } else {
+
+            if (!$_POST['job_code']) {
+                $this->main_model->alert("请选择您的服务内容", 'back');
+            }
+
+            //已发工种
+            $gong = $this->form_model->getMyGZPublish($_SESSION['uid']);
+            foreach ($gong as $k) {
+                foreach ($_POST['job_code'] as $k1){
+                    if ($k1 == $k['job_code']) {
+                        $this->main_model->alert("您已发布过'{$data['gong'][$k1]}'工种,不能重复发布", 'back');
+                    }
+                }
+
+            }
+
+            $img_arr=$this->upload($this->main_model->getCityCode(),$_POST['delfile']);//上传图片
+            foreach ($img_arr as $k){
+                $img.=$k['file_name'].',';
+            }
+
+            foreach ($_POST['job_code'] as $v){
+                $data_add=array(
+                    'uid'=>$_SESSION['uid'],
+                    'title'=>$_POST['title'],
+                    'job_code'=>$v,
+                    'mobile'=>$_POST['mobile'],
+                    'address'=>$_POST['address'],
+                    'fwjs'=>$_POST['fwjs'],
+                    'cityid'=>$city['id'],
+                    'districtid'=>$_POST['districtid'],
+                    'areaid'=>$_POST['areaid'],
+                    'img'=>substr($img, 0, -1)
+                );
+                $return = $this->form_model->addGz($data_add);
+                if($return['flag']==-1){
+                    $this->main_model->alert($return['info'], 'back');
+                }
+                $return_flag+=$return['flag'];
+            }
+
+
+
+            $mess['uid'] = $_SESSION['uid'];
+            $mess['title'] = '您发布了'.count($_POST['job_code']).'条工种信息';
+            $mess['message'] = '您于' . date('Y-m-d H:i') . "发布了".count($_POST['job_code'])."条工种信息";
+
+            $this->main_model->addMessage($mess);
+
+            if ($return_flag == count($_POST['job_code'])) {
+
+                $_POST = array();  //防止重复提交
+
+
+                if ($data['isvip']) {
+                    $credits = 0;
+                } else {
+                    $credits = $return_flag*2;
+                }
+                $return_recharge = $this->user_model->recharge(array('uid' => $_SESSION['uid'], 'type' => 'credit1', 'wayid' => '3', 'credits' => $credits));
+
+                if ($return_recharge['flag'] == 1) {
+                    //var_dump($data['isvip']);
+                    //var_dump($credits);
+                    $data['credits']=$credits;
+                    $data['credit1'] = $this->user_model->getUserCredit1($_SESSION['uid']);
+                    $this->load->view('home/user/publishSueecss', $data);
+                } else {
+
+                    $data['formerror'] = $return_recharge['info'];
+                    $this->load->view('home/user/publish', $data);
+                }
+
+            } else {
+                $data['formerror'] = $return['info'];
+//var_dump($return);
+                $this->load->view('home/user/publish', $data);
+            }
+        }
+
+        $this->load->view('templates/footer', $data);
+
+    }
+
 
 
 }

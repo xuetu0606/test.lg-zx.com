@@ -1,72 +1,106 @@
-<link rel="stylesheet" href="/static/css/lgb/title.css"/>
-<link rel="stylesheet" href="/static/css/tpls/excharge.css"/>
-<link rel="stylesheet" href="/static/css/publish/personal.publish.css"/>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>工分提现</title>
+    <link rel="stylesheet" href="/static/css/common.css"/>
+    <link rel="stylesheet" href="/static/css/head-foot.css"/>
+    <link rel="stylesheet" href="/static/css/workInfor.css"/>
+    <link rel="stylesheet" href="/static/css/form.css"/>
+    <link rel="stylesheet" href="/static/css/xiaoye.css"/>
+</head>
+<body>
+<header>
+    <div class="main">
+        <div class="city">
+            <span class="stress"><?php echo $cityname; ?></span>
+            <a href="http://www.lg-zx.com/">[切换城市]</a>
+        </div>
+        <div class="fr">
+            <ul>
+                <?php if($_SESSION['uid']){?>
+                    <li><a href="/user"><?php echo $_SESSION['username']?></a></li>
+                    <li><a href="/user/logout">退出</a></li>
+                <?php }else{?>
+                    <li><a href="/user/reg">注册</a></li>
+                    <li><a href="/user/login">登录</a></li>
+                <?php }?>
+                <li class="lgbxl"><a href="#">零工宝</a><img src="/static/images/xiala.png" alt=""/></li>
+                <li class="stress wxb">微信版</li>
+                <li><a href="#" class="stress">手机版</a></li>
+                <li><a href="#">帮助</a></li>
+            </ul>
+            <div class="lgb">
+                <a href="/user">零工宝<img src="/static/images/xiala.png" alt="" /></a>
+                <a href="/pub/my" class="lgba">我的发布</a>
+                <a href="/user/shoucang" class="lgba">我的收藏</a>
+                <a href="/user/myinfo" class="lgba">我的资料</a>
+            </div>
+            <div class="wx">
+                <img src="/static/images/head-foot/weixin.png" alt=""/>
+            </div>
+        </div>
+    </div>
 
+</header>
+<div class="full">
+    <div class="main">
+        <img src="/static/images/LOGOa.png" alt="" class="logo"/>
+    </div>
+</div>
 <section>
-    <p class="title2">
-        <a href="/user/center"><</a>
+    <div class="position">
+        <span>青岛零工在线</span>
+        <span> > </span>
         <span>工分提现</span>
-    </p>
-    <?php echo form_open('/pay/cash'); ?>
-        <div>
-            <span>姓名</span>
-            <input type="text" name="name"/>
-            <span class="blue remind">请输入真实姓名</span>
-        </div>
-        <div>
-            <span>身份证号码</span>
-            <input type="text" name="idno"/>
-            <span class="blue remind">请输入与姓名对应的身份证号码</span>
-        </div>
-        <div>
-            <span>提现选择</span>
-            <input type="radio" name="mode" value="1" checked="checked"/><span>支付宝</span>
-            <input type="radio" name="mode" value="2"/> <span>银行卡</span>
-        </div>
-        <div style="display: none" id="bank">
-            <span>开户行</span>
-            <input type="text" name="bank"/>
-            <span class="blue remind">例如：中国工商银行</span>
-        </div>
-        <div>
-            <span id="withdraw">支付宝账号</span>
-            <input type="text" name="account"/>
-            <span class="blue remind">请输入有效的支付宝账号</span>
-        </div>
-
-    <div>
-        <span>提现金额</span>
-        <input type="text" name="money" value="<?php echo $user['credit2']?$user['credit2']:'0' ?>" readonly="true"/>
-        <span class="blue remind">提现金额为您的工分余额. <a href="/home/contractads">怎么赚取工分?</a> </span>
     </div>
+    <div class="gftx-main">
+        <h1>提现申请</h1>
+        <?php echo form_open('/pay/cash'); ?>
 
-    <div class="error">
-        <?php echo validation_errors(); ?>
-    </div>
+            <div class="form-group">
+                <label><span>姓名 </span></label>
+                <label><span><?php echo $user['realname'] ?></span></label>
 
-        <div>
-            <input type="submit" value="提现"/>
+            </div>
+            <div class="form-group">
+                <label><span>身份证号</span></label>
+                <label><span><span><?php echo $user['idno'] ?></span></label>
+            </div>
+            <div class="form-group">
+                <label><span>提现选择</span></label>
+                <div class="radio">
+                    <input type="radio" name="mode" value="1" checked="checked"/>支付宝
+                </div>
+                <div class="radio">
+                    <input type="radio" name="mode" value="2"/>银行卡
+                </div>
+            </div>
+            <div class="form-group" id="bank" style="display: none;">
+                <label><span>开户行</span></label>
+                <div class="notice-bottom">
+                    <input type="text" name="bank" class="input-normal"/>
+                    <p class="txt">例如：工商银行北京朝阳支行</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label><span id="withdraw">支付宝账号</span></label>
+                <div class="notice-bottom">
+                    <input type="text" name="account" class="input-normal"/>
+                    <p class="txt" id="account_tip">请输入有效的支付宝账号</p>
+                </div>
+            </div>
+
+        <div class="form-group">
+            <label><span>提现金额</span></label>
+            <div class="notice-bottom">
+                <?php echo $credit['credit2']?$credit['credit2']:'0' ?>
+            </div>
         </div>
 
-    </form>
-    <div class="explain">
-        <p>提现说明：</p>
-        <p>申请提现后，48小时之内到账（周六、周日和节假日除外）</p>
-        <p>请仔细核对身份证信息和银行账户信息，如填写有误，提现将不成功！</p>
-        <p>如有问题，请拔打客服电话：400-860-6286</p>
+            <div class="form-group mar">
+                <input type="submit" class="btn btn-primary" value="申请"/>
+            </div>
+        </form>
     </div>
 </section>
-
-<script>
-    $('input:radio').click(function(){
-        if($(this).index()==1)
-        {
-            $('#withdraw').text('支付宝账号');
-            $('#bank').css('display','none');
-        }
-        else{
-            $('#withdraw').text('银行账号');
-            $('#bank').css('display','block');
-        }
-    })
-</script>
