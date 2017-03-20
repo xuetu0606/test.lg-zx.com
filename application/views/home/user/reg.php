@@ -215,7 +215,7 @@
                 }
             }
             $.ajax({
-                url: 'http://127.0.0.1/getcode/index/reg',
+                url: '<?php echo base_url();?>getcode/index/reg',
                 type: "POST",
                 dataType: 'json',
                 data: {mobile:$("#tel").val()},

@@ -101,7 +101,7 @@
                             <div class="upload_choose">
                                 <label for="fileImage" style="display: block"> <img src="/static/images/publish/xz.png" alt="" class="sctp"/></label>
                                 <input type="file" id="fileImage" name="fileselect[]" style="display: none;" multiple="multiple"/>
-                                <p style="margin-top: 20px;color: #888888;font-size: 14px">最多可上传8张图片，每张不超过12M</p>
+                                <p style="margin-top: 20px;color: #888888;font-size: 14px">最多可上传8张图片，每张不超过5M(按住Ctrl键进行多选)</p>
                             </div>
 
                         </div>

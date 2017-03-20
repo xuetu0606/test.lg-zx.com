@@ -140,6 +140,12 @@ class Pub extends CI_Controller
                 }
 
                 $img_arr=$this->upload($this->main_model->getCityCode(),$_POST['delfile']);//上传图片
+                if(!$img_arr){
+                    $this->main_model->alert("上传图片有误,请重新上传", 'back');
+                }
+                if(count($img_arr)>8){
+                    $this->main_model->alert("上传图片不能超过8张", 'back');
+                }
                 foreach ($img_arr as $k){
                     $img.=$k['file_name'].',';
                 }
@@ -353,10 +359,10 @@ $this->load->view('templates/footer', $data);
 
         $data['citycode'] = $this->main_model->getCityCode();
 
-        echo '<pre>';
-        var_dump($data['baseinfo']);
+        //echo '<pre>';
+        //var_dump($data['baseinfo']);
         //var_dump($data['qyinfo']);
-        echo '</pre>';
+        //echo '</pre>';
 
         $data['three_level'] = $this->list_model->get_three_level();
         $this->main_model->getDistArea();
@@ -426,15 +432,32 @@ $this->load->view('templates/footer', $data);
             }
 
             $img_arr=$this->upload($this->main_model->getCityCode(),$_POST['delfile']);//上传图片
+
+            if($_POST['delfile']){
+
+                if(!$img_arr){
+                    $this->main_model->alert("上传图片有误,请重新上传", 'back');
+                }
+            }
+
+
+            if((count($img_arr)+count(explode(',',$data['baseinfo']['img'])))>8){
+                $this->main_model->alert("上传图片不能超过8张", 'back');
+            }
             foreach ($img_arr as $k){
                 $img.=$k['file_name'].',';
             }
+            if($data['baseinfo']['img']){
+                $img=$data['baseinfo']['img'].','.$img;
+            }
 
-            foreach ($_POST['job_code'] as $v){
+
+
                 $data_add=array(
+                    'id'=>$this->uri->segment(3, 0),
                     'uid'=>$_SESSION['uid'],
                     'title'=>$_POST['title'],
-                    'job_code'=>$v,
+                    'job_code'=>$_POST['job_code'],
                     'mobile'=>$_POST['mobile'],
                     'address'=>$_POST['address'],
                     'fwjs'=>$_POST['fwjs'],
@@ -443,54 +466,52 @@ $this->load->view('templates/footer', $data);
                     'areaid'=>$_POST['areaid'],
                     'img'=>substr($img, 0, -1)
                 );
-                $return = $this->form_model->addGz($data_add);
-                if($return['flag']==-1){
-                    $this->main_model->alert($return['info'], 'back');
-                }
-                $return_flag+=$return['flag'];
-            }
+                $return = $this->form_model->updateGz($data_add);
 
 
-
-            $mess['uid'] = $_SESSION['uid'];
-            $mess['title'] = '您发布了'.count($_POST['job_code']).'条工种信息';
-            $mess['message'] = '您于' . date('Y-m-d H:i') . "发布了".count($_POST['job_code'])."条工种信息";
-
-            $this->main_model->addMessage($mess);
-
-            if ($return_flag == count($_POST['job_code'])) {
+            if ($return['flag'] == 1) {
 
                 $_POST = array();  //防止重复提交
 
-
-                if ($data['isvip']) {
-                    $credits = 0;
-                } else {
-                    $credits = $return_flag*2;
-                }
-                $return_recharge = $this->user_model->recharge(array('uid' => $_SESSION['uid'], 'type' => 'credit1', 'wayid' => '3', 'credits' => $credits));
-
-                if ($return_recharge['flag'] == 1) {
-                    //var_dump($data['isvip']);
-                    //var_dump($credits);
-                    $data['credits']=$credits;
-                    $data['credit1'] = $this->user_model->getUserCredit1($_SESSION['uid']);
-                    $this->load->view('home/user/publishSueecss', $data);
-                } else {
-
-                    $data['formerror'] = $return_recharge['info'];
-                    $this->load->view('home/user/publish', $data);
-                }
+                $this->main_model->alert("修改成功", '/user');
 
             } else {
                 $data['formerror'] = $return['info'];
 //var_dump($return);
-                $this->load->view('home/user/publish', $data);
+                $this->load->view('home/user/publish_edit', $data);
             }
         }
 
         $this->load->view('templates/footer', $data);
 
+    }
+
+
+    /**
+     * 删除上传图片
+     *
+     */
+    public function delimg()
+    {
+        $id=$this->input->post('id',TRUE);
+        $img=$this->input->post('img',TRUE);
+        $img_url=$this->input->post('img_url',TRUE);
+        $img_arr=explode('|',$img_url);
+
+        $return=$this->user_model->updatePublishImg($id,$img);
+
+        if($return['flag']==1){
+            $arr['status'] = "success";
+            unlink (getcwd() .$img_arr[0].'.'.$img_arr[1]);
+            unlink (getcwd() .$img_arr[0].'_150_100.'.$img_arr[1]);
+            unlink (getcwd() .$img_arr[0].'_600_400.'.$img_arr[1]);
+        }else{
+            $arr["status"] = "failed";
+        }
+        $arr['msg'] = $return['info'];
+        //$arr['msg'] = $img_arr[0].'.'.$img_arr[1];
+
+        echo json_encode($arr);
     }
 
 
