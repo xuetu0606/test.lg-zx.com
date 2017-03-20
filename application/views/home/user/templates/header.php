@@ -34,7 +34,7 @@
             </ul>
             <div class="lgb">
                 <a href="/user">零工宝<img src="/static/images/xiala.png" alt="" /></a>
-                <a href="/pub/my" class="lgba">我的发布</a>
+                <a href="/user" class="lgba">我的发布</a>
                 <a href="/user/shoucang" class="lgba">我的收藏</a>
                 <a href="/user/myinfo" class="lgba">我的资料</a>
             </div>
