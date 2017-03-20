@@ -125,6 +125,7 @@ class User extends CI_Controller
         $this->form_validation->set_error_delimiters('<span>', '</span>');
 
         $this->load->view('templates/header', $data);
+
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('home/user/login', $data);
         } else {

@@ -1097,5 +1097,36 @@ class User_model extends CI_Model {
     }
 
 
+    /**
+     * 根据参数 更新工种信息表publish_list 字段img 和 删除图片
+     */
+    public function updatePublishImg($id,$img){
+        $sql = "select img from publish_list where id='{$id}'";
+        $query = $this->db->query($sql);
+        $arr = $query->row_array();
+
+        if($img_arr=explode(',',$arr['img'])){
+            array_splice($img_arr,substr($img, -1), 1);
+            foreach ($img_arr as $v){
+                if($v){
+                    $text.=$v.',';
+                }
+            }
+            $text=substr($text,0,-1);
+            $sql1 = "update publish_list set img='$text' WHERE id={$id}";
+            $query1 = $this->db->query($sql1);
+        }else{
+            $sql1 = "update publish_list set img='' WHERE id={$id}";
+            $query1 = $this->db->query($sql1);
+        }
+
+        if($query1){
+            return array('flag'=>1,'info'=>'删除成功!');
+        }else{
+            return array('flag'=>-1,'info'=>'提现失败，请稍后重试！');
+        }
+    }
+
+
 
 }

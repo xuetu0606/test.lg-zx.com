@@ -12,6 +12,8 @@
     <div class="position">
         <span>青岛零工在线</span>
         <span> > </span>
+        <span><a href="/user">零工宝</a></span>
+        <span> > </span>
         <span><?php echo $title?></span>
     </div>
     <div class="main">
@@ -29,7 +31,7 @@
         <div class="infor">
             <h1>修改工种信息</h1>
 
-            <form method="post" action="<?php echo base_url();?>pub/index/<?php echo $this->uri->segment(3, 0);?>/<?php echo $this->uri->segment(4, 0);?>" enctype="multipart/form-data">
+            <form method="post" action="<?php echo base_url();?>pub/edit/<?php echo $this->uri->segment(3, 0);?>" enctype="multipart/form-data">
                 <div class="form-group">
                     <div class="form-control">
                         <label><span class="xing">*</span>标题：</label>
@@ -57,7 +59,7 @@
                             <?php
                             $count = count($qyinfo);
                             foreach ($qyinfo as $k => $v){
-                                echo $dist[$v['district_id']].($v['area_id']?('-'.$area[$v['district_id']][$v['area_id']]):'');
+                                echo $dist[$v['district_id']].($v['area_id']?('-'.$area[1][$v['district_id']][$v['area_id']]):'');
                                 if($k+1 != $count){
                                     echo ' , ';
                                 }
@@ -102,27 +104,37 @@
                 </div>
                 <div class="form-group">
                     <div class="upload_box form-control wrap">
-                        <label>上传图片：</label>
+                        <label>已上传图片：</label>
                         <div class="upload_main imgs">
-                            <div id="preview" class="upload_preview">
+                            <div id="preview_old" class="upload_preview_old">
                                 <?php
                                 $img=explode(',',$baseinfo['img']);
                                 foreach ($img as $k => $v){
                                     $img_arr=explode('.',$v);
                                 ?>
-                                <div id="uploadList_0" class="upload_append_list zhtp">
-                                    <a href="javascript:" class="upload_delete gb" title="删除" data-index="<?php echo '9'.$k;?>">
+                                <div id="uploadList_<?php echo '9'.$k;?>" class="upload_append_list zhtp">
+                                    <a href="javascript:" class="upload_delete gb" title="删除" data-index="<?php echo '9'.$k;?>" data-img="/upload/<?php echo $citycode;?>/gzxx/<?php echo $_SESSION['uid'].'/'.$img_arr[0].'|'.$img_arr[1]?>">
                                         <img src="/static/images/publish/gb.png" alt="">
                                     </a>
-                                    <img id="uploadImage_0" src="/upload/<?php echo $citycode;?>/gzxx/<?php echo $_SESSION['uid'].'/'.$img_arr[0].'_150_100.'.$img_arr[1];?>" class="upload_image tp">
+                                    <img id="uploadImage_<?php echo '9'.$k;?>" src="/upload/<?php echo $citycode;?>/gzxx/<?php echo $_SESSION['uid'].'/'.$img_arr[0].'_150_100.'.$img_arr[1];?>" class="upload_image tp">
                                 </div>
                                 <?php }?>
+                            </div>
+
+                        </div>
+
+                        <input type="hidden" name="delfile" id="delfile">
+                    </div>
+                    <div class="upload_box form-control wrap">
+                        <label>上传新图片：</label>
+                        <div class="upload_main imgs">
+                            <div id="preview" class="upload_preview">
                             </div>
 
                             <div class="upload_choose">
                                 <label for="fileImage" style="display: block"> <img src="/static/images/publish/xz.png" alt="" class="sctp"/></label>
                                 <input type="file" id="fileImage" name="fileselect[]" style="display: none;" multiple="multiple"/>
-                                <p style="margin-top: 20px;color: #888888;font-size: 14px">最多可上传8张图片，每张不超过12M</p>
+                                <p style="margin-top: 20px;color: #888888;font-size: 14px">最多可上传8张图片，每张不超过5M(按住Ctrl键进行多选)</p>
                             </div>
 
                         </div>
@@ -202,7 +214,54 @@
 <script src="/static/js/jquery.js"></script>
 <script src="/static/js/ajaxfileupload.js"></script>
 <script src="/static/js/head-foot.js"></script>
-<script src="/static/js/publish.js"></script>
+<script>
+    $(function() {
+        $('.classify ul li').click(function () {
+            $(this).children('a').addClass('active');
+            $(this).siblings().children('a').removeClass('active');
+            $('.step2').addClass('stress');
+            $('.type').show();
+        });
+        var count1 = 0;
+        var count2 = 0;
+        $('.allcheck1').click(function () {
+            count1++;
+            if (count1 % 2 == 1)
+                $(this).parent().parent().find('input[type=checkbox]').prop('checked', 'checked');
+            else {
+                $(this).parent().parent().find('input[type=checkbox]').prop('checked', false);
+            }
+        });
+        $('.allcheck2').click(function () {
+            count2++;
+            if (count2%2==1)
+                $(this).parent().parent().find('input[type=checkbox]').prop('checked', 'checked');
+            else {
+                $(this).parent().parent().find('input[type=checkbox]').prop('checked', false);
+            }
+        });
+        $('.gb').click(function(){
+            $(this).parent().remove();
+            $.ajax({
+                url: '<?php echo base_url();?>pub/delimg',
+                type: "POST",
+                dataType: 'json',
+                data: {id:'<?php echo $this->uri->segment(3, 0)?>',img:$(this).data('index'),img_url:$(this).data('img')},
+                cache: false,
+                error: function(){
+                    alert('检测失败，请重试');
+                },
+                success: function(data){
+                    if(data.status=="success"){
+                        alert('删除成功!');
+                    }else {
+                        alert(data.msg);
+                    }
+                }
+            });
+        })
+    });
+</script>
 <script>
     var params = {
         fileInput: $("#fileImage").get(0),
@@ -242,19 +301,14 @@
                     reader.readAsDataURL(file);
                 } else {
                     $("#preview").html(html);
-                    if (html) {
+
                         //删除方法
                         $(".upload_delete").click(function() {
                             ZXXFILE.funDeleteFile(files[parseInt($(this).attr("data-index"))]);
                             //alert($(this).attr("data-index"));
                             return false;
                         });
-                        //提交按钮显示
-                        $("#fileSubmit").show();
-                    } else {
-                        //提交按钮隐藏
-                        $("#fileSubmit").hide();
-                    }
+
                 }
             };
             funAppendImage();

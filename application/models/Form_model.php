@@ -455,25 +455,53 @@ class Form_model extends CI_Model {
         $sql = "update publish_list
 				set uid='$uid', info1='$title',job_code='$job_code',is_student='".($is_student?$is_student:0)."',is_for_foreign='".($is_for_foreign?$is_for_foreign:0)."',
 				is_onsite_service='".($is_onsite_service?$is_onsite_service:0)."',mobile='$mobile',address='$address',info2='$zwjj',info3='$fwjs',info4='$lxfs',
-				updatetime='$now',flag=1,city_id='{$cityid['id']}' where id='$id'";
+				updatetime='$now',flag=1,city_id='{$cityid['id']}',img='{$img}' where id='$id'";
+
         if($query = $this->db->query($sql)){
+
+
             if($districtid||$areaid){
                 $sql2 = "delete from publish_list_service_district where publish_id='$id'";
                 $query2 = $this->db->query($sql2);
                 if($query2){
-                    $sql1 = "insert into publish_list_service_district set publish_id='{$id}',district_id='{$districtid}',area_id='$areaid'";
-                    if($query1 = $this->db->query($sql1)){
-                        return array('flag'=>1,'info'=>$arr['id']);
+                    if($areaid){
+                        foreach ($areaid as $v){
+                            $sql3 = "select upid from district_dic where id='{$v}'";
+                            $query3 = $this->db->query($sql3);
+                            $row = $query3->row_array();
+
+                            $sql1 = "insert into publish_list_service_district set publish_id='{$id}',district_id='{$row['upid']}',area_id='$v'";
+                            //var_dump($row);
+                            //echo $sql1;
+                            //die();
+                            if($query1 = $this->db->query($sql1)){
+                                $return['flag']=1;
+                                $return['info'][]=$query1['id'];
+                            }else{
+                                return array('flag'=>-1,'info'=>'插入信息异常，请稍后处理');
+                            }
+                        }
+
                     }else{
-                        return array('flag'=>-1,'info'=>'插入信息异常，请稍后处理');
+                        foreach ($districtid as $v){
+                            $sql1 = "insert into publish_list_service_district set publish_id='{$id}',district_id='{$v}'";
+                            if($query1 = $this->db->query($sql1)){
+                                $return['flag']=1;
+                                $return['info'][]=$query1['id'];
+                            }else{
+                                return array('flag'=>-1,'info'=>'插入信息异常，请稍后处理');
+                            }
+                        }
                     }
-                }else{
-                    return array('flag'=>-1,'info'=>'插入服务区域信息异常，请稍后处理');
+                    return $return;
                 }
 
             }else{
-                return array('flag'=>1,'info'=>$arr['id']);
+                return array('flag'=>1,'info'=>$uid['id']);
             }
+
+
+
 
         }else{
             return array('flag'=>-1,'info'=>'插入信息异常，请稍后处理');
