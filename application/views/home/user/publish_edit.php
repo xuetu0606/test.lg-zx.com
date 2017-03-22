@@ -108,6 +108,7 @@
                         <div class="upload_main imgs">
                             <div id="preview_old" class="upload_preview_old">
                                 <?php
+                                if($baseinfo['img']){
                                 $img=explode(',',$baseinfo['img']);
                                 foreach ($img as $k => $v){
                                     $img_arr=explode('.',$v);
@@ -118,7 +119,7 @@
                                     </a>
                                     <img id="uploadImage_<?php echo '9'.$k;?>" src="/upload/<?php echo $citycode;?>/gzxx/<?php echo $_SESSION['uid'].'/'.$img_arr[0].'_150_100.'.$img_arr[1];?>" class="upload_image tp">
                                 </div>
-                                <?php }?>
+                                <?php }}?>
                             </div>
 
                         </div>

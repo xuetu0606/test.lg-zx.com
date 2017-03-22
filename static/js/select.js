@@ -10,11 +10,18 @@ $(function(){
     $('.list-group-item').click(function(){
         $(this).parent().parent().children('.option').text($(this).text());
         $(this).parent().hide();
+        if($(this).data('unit')){
+            $("#unit").val($(this).data('unit'))
+        }
+        if($(this).data('circle')){
+            $("#pay_circle").val($(this).data('circle'))
+        }
+
     });
     $(document).bind("click", function (e) {
         var target = $(e.target);
         if(target.closest(".fuji").length == 0){
-            //½øÈëifÔò±íÃ÷µã»÷µÄ²»ÊÇ#province,#proDivÔªËØÖĞµÄÒ»¸ö
+            //è¿›å…¥ifåˆ™è¡¨æ˜ç‚¹å‡»çš„ä¸æ˜¯#province,#proDivå…ƒç´ ä¸­çš„ä¸€ä¸ª
             $("ul.list-group").hide();
         }
         e.stopPropagation();

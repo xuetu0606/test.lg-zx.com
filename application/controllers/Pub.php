@@ -35,6 +35,42 @@ class Pub extends CI_Controller
             if (!$this->user_model->hasLogin()) {
                 redirect('http://' . $_SERVER['HTTP_HOST'] . '/user');
             }
+
+            $zlg=$this->uri->segment(4, 0);
+            if($zlg){
+               $data['title']='招零工';
+            }else{
+                $data['title']='发布工种';
+            }
+            $data['foot_js']='<script>
+    $(function() {
+        if('.$this->uri->segment(3, 0).'){
+            $(\'.step2\').addClass(\'stress\');
+        }
+        $(\'.type\').show();
+        var count1 = 0;
+        var count2 = 0;
+        $(\'.allcheck1\').click(function () {
+            count1++;
+            if (count1 % 2 == 1)
+                $(this).parent().parent().find(\'input[type=checkbox]\').prop(\'checked\', \'checked\');
+            else {
+                $(this).parent().parent().find(\'input[type=checkbox]\').prop(\'checked\', false);
+            }
+        });
+        $(\'.allcheck2\').click(function () {
+            count2++;
+            if (count2%2==1)
+                $(this).parent().parent().find(\'input[type=checkbox]\').prop(\'checked\', \'checked\');
+            else {
+                $(this).parent().parent().find(\'input[type=checkbox]\').prop(\'checked\', false);
+            }
+        });
+        $(\'.gb\').click(function(){
+            $(this).parent().remove();
+        })
+    });
+</script>';
             $this->load->view('templates/header', $data);
 
             $data['hang'] = $this->user_model->getJobType(array('level' => 1, 'pre_id' => 0, 'pre_pre_id' => 0));
@@ -44,8 +80,13 @@ class Pub extends CI_Controller
 
             }
 
-
+            if($zlg=='zlg'){
+                $data['url']='zlg';
+            }else{
+                $data['url']='index';
+            }
             $this->load->view('home/user/publish_selest', $data);
+            $this->load->view('home/user/templates/footer', $data);
 
         }
 
@@ -53,7 +94,7 @@ class Pub extends CI_Controller
          * 发布工种
          *
          */
-    public function index($id)
+    public function index()
         {
             if (!file_exists(APPPATH . 'views/home/user/publish.php')) {
                 show_404();
@@ -81,6 +122,110 @@ class Pub extends CI_Controller
             }*/
 
             $data['title'] = '发布工种'; // 网页标题
+        $data['foot_js']='<script src="/static/js/ajaxfileupload.js"></script>
+<script src="/static/js/publish.js"></script>
+<script>
+    var params = {
+        fileInput: $("#fileImage").get(0),
+        dragDrop: $("#fileDragArea").get(0),
+        upButton: $("#fileSubmit").get(0),
+        url: $("#uploadForm").attr("action"),
+        filter: function(files) {
+            var arrFiles = [];
+            for (var i = 0, file; file = files[i]; i++) {
+                if (file.type.indexOf("image") == 0) {
+                    if (file.size >= 20480000) {
+                        alert(\'您这张"\'+ file.name +\'"图片大小过大，应小于12M\');
+                    } else {
+                        arrFiles.push(file);
+                    }
+                } else {
+                    alert(\'文件"\' + file.name + \'"不是图片。\');
+                }
+            }
+            return arrFiles;
+        },
+        onSelect: function(files) {
+            var html = \'\', i = 0;
+            $("#preview").html(\'<div class="upload_loading"></div>\');
+            var funAppendImage = function() {
+                file = files[i];
+                if (file) {
+                    var reader = new FileReader()
+                    reader.onload = function(e) {
+                        html = html + \'<div id="uploadList_\'+ i +\'" class="upload_append_list zhtp"><a href="javascript:" class="upload_delete gb" title="删除" data-index="\'+ i +\'"><img src="/static/images/publish/gb.png" alt=""></a>\' + \'<img id="uploadImage_\' + i + \'" src="\' + e.target.result + \'" class="upload_image tp" /></div>\';
+
+                        //html = html + \'<div id="uploadList_\'+ i +\'" class="upload_append_list zhtp">\' + \'<img id="uploadImage_\' + i + \'" src="\' + e.target.result + \'" class="upload_image tp" /></div>\';
+
+                        i++;
+                        funAppendImage();
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    $("#preview").html(html);
+                    if (html) {
+                        //删除方法
+                        $(".upload_delete").click(function() {
+                            ZXXFILE.funDeleteFile(files[parseInt($(this).attr("data-index"))]);
+                            //alert($(this).attr("data-index"));
+                            return false;
+                        });
+                        //提交按钮显示
+                        $("#fileSubmit").show();
+                    } else {
+                        //提交按钮隐藏
+                        $("#fileSubmit").hide();
+                    }
+                }
+            };
+            funAppendImage();
+        },
+        onDelete: function(file) {
+            $("#uploadList_" + file.index).fadeOut();
+            $("#delfile").val($("#delfile").val()+\',\'+file.index);
+        },
+        onDragOver: function() {
+            $(this).addClass("upload_drag_hover");
+        },
+        onDragLeave: function() {
+            $(this).removeClass("upload_drag_hover");
+        },
+        onProgress: function(file, loaded, total) {
+            var eleProgress = $("#uploadProgress_" + file.index), percent = (loaded / total * 100).toFixed(2) + \'%\';
+            eleProgress.show().html(percent);
+        },
+        onSuccess: function(file, response) {
+            $("#uploadInf").append("<p>上传成功，图片地址是：" + response + "</p>");
+        },
+        onFailure: function(file) {
+            $("#uploadInf").append("<p>图片" + file.name + "上传失败！</p>");
+            $("#uploadImage_" + file.index).css("opacity", 0.2);
+        },
+        onComplete: function() {
+            //提交按钮隐藏
+            $("#fileSubmit").hide();
+            //file控件value置空
+            $("#fileImage").val("");
+            $("#uploadInf").append("<p>当前图片全部上传完毕，可继续添加上传。</p>");
+        }
+    };
+    ZXXFILE = $.extend(ZXXFILE, params);
+    ZXXFILE.init();
+</script>
+<script>
+    $("input:checkbox").click(function () {
+
+        //alert($(this).attr(\'value\'));
+        if ($(this).is(":checked")) {
+            $("#jiedao"+$(this).attr(\'value\')).show();
+        } else {
+            $("#jiedao"+$(this).attr(\'value\')).hide();
+        }
+    });
+    $("#quanxuan").click(function () {
+        $(".jiedao").hide();
+    })
+</script>';
             $data['hang'] = $this->user_model->getJobType(array('level' => 1, 'pre_id' => 0, 'pre_pre_id' => 0));
             $data['zhi'] = $this->user_model->getJobType(array('level' => 2, 'pre_id' => $this->uri->segment(3, 0), 'pre_pre_id' => 0));
             $data['gong'] = $this->user_model->getJobType(array('level' => 3, 'pre_id' => $this->uri->segment(4, 0), 'pre_pre_id' => $this->uri->segment(3, 0)));
@@ -140,9 +285,10 @@ class Pub extends CI_Controller
                 }
 
                 $img_arr=$this->upload($this->main_model->getCityCode(),$_POST['delfile']);//上传图片
-                if(!$img_arr){
+                if(!$img_arr and $_POST['delfile']){
                     $this->main_model->alert("上传图片有误,请重新上传", 'back');
                 }
+
                 if(count($img_arr)>8){
                     $this->main_model->alert("上传图片不能超过8张", 'back');
                 }
@@ -209,7 +355,7 @@ class Pub extends CI_Controller
                 }
             }
 
-$this->load->view('templates/footer', $data);
+$this->load->view('home/user/templates/footer', $data);
 
     }
 
@@ -434,7 +580,6 @@ $this->load->view('templates/footer', $data);
             $img_arr=$this->upload($this->main_model->getCityCode(),$_POST['delfile']);//上传图片
 
             if($_POST['delfile']){
-
                 if(!$img_arr){
                     $this->main_model->alert("上传图片有误,请重新上传", 'back');
                 }
@@ -512,6 +657,146 @@ $this->load->view('templates/footer', $data);
         //$arr['msg'] = $img_arr[0].'.'.$img_arr[1];
 
         echo json_encode($arr);
+    }
+
+    /**
+     * 发布工种
+     *
+     */
+    public function zlg($edit)
+    {
+        if (!file_exists(APPPATH . 'views/home/user/publish_zlg.php')) {
+            show_404();
+        }
+
+//是否登录
+        if (!$this->user_model->hasLogin()) {
+            redirect('http://' . $_SERVER['HTTP_HOST'] . '/user');
+        }
+
+        //var_dump($_FILES);
+
+        //修改
+        //修改
+        if ($edit) {
+            $data['zlg'] = $this->form_model->getZlgDetal(array('uid' => $_SESSION['uid'], 'id' => $this->uri->segment(4, 0)));
+            //var_dump($data['zlg']);
+            $data['three_level'] = $this->list_model->get_three_level();
+            $this->main_model->getDistArea();
+            $data['dist'] = $this->main_model->list_dist;
+            $data['area'] = $this->main_model->list_area;
+            $data['edit'] = $edit;
+            $_POST['id'] = $this->uri->segment(4, 0);
+
+            //var_dump($data['dist']);
+            //var_dump($data['area']);
+
+        }
+
+        $data['title'] = '招零工'; // 网页标题
+        $data['foot_js']='
+<script src="/static/js/publish.js"></script>
+<script src="/static/js/select.js"></script>
+<script>
+    $("input:checkbox").click(function () {
+
+        //alert($(this).attr(\'value\'));
+        if ($(this).is(":checked")) {
+            $("#jiedao"+$(this).attr(\'value\')).show();
+        } else {
+            $("#jiedao"+$(this).attr(\'value\')).hide();
+        }
+    });
+    $("#quanxuan").click(function () {
+        $(".jiedao").hide();
+    })
+</script>';
+        $data['hang'] = $this->user_model->getJobType(array('level' => 1, 'pre_id' => 0, 'pre_pre_id' => 0));
+        $data['zhi'] = $this->user_model->getJobType(array('level' => 2, 'pre_id' => $data['zlg']['job_level_1'], 'pre_pre_id' => 0));
+        $data['gong'] = $this->user_model->getJobType(array('level' => 3, 'pre_id' => $data['zlg']['job_level_2'], 'pre_pre_id' => $data['zlg']['job_level_1']));
+
+        if($_SESSION['is_co']==1){
+            $data['user'] = $this->user_model->getCoUserInfo($_SESSION['uid']);//获取会员基础信息
+        }else{
+            $data['user'] = $this->user_model->getPersonalInfo($_SESSION['uid']);//获取会员基础信息
+        }
+
+        $city = $this->main_model->getCityInfoByCode($this->main_model->getCityCode());//获取当前城市ｉｄ 名字
+        $data['city'] = $city['name'];
+        //var_dump($this->main_model->getCityCode());
+
+//获取当前城市区县街道
+        $this->main_model->getDistArea();
+        $data['area'] = array($this->main_model->list_dist, $this->main_model->list_area);
+//var_dump($data['area']);
+
+        //获取工资单位数据
+        $data['unit'] = $this->form_model->getUnit();
+        //获取工资结算周期
+        $data['pay_circle'] = $this->form_model->getPayCircle();
+
+        //var_dump($data['unit']);
+        //var_dump($data['pay_circle']);
+
+        $this->load->view('templates/header', $data);//加载头部Publish
+
+        $this->form_validation->set_rules('title', '标题', 'trim|required|max_length[20]');
+        $this->form_validation->set_rules('mobile', '手机号', 'trim|required|numeric|exact_length[11]');
+        $this->form_validation->set_error_delimiters('<p class="error">', '</p>');
+
+        //var_dump($_POST); die();
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('home/user/publish_zlg', $data);
+        } else{
+            if (!$_POST['job_code']) {
+                $this->main_model->alert("请选择您的服务内容", 'back');
+            }
+            if ($edit) {
+                //var_dump($_POST);
+                //die();
+                $_POST['uid']=$_SESSION['uid'];
+                $_POST['cityid']=$city['id'];
+                $_POST['job_code']=$_POST['job_code'][0];
+                $return = $this->form_model->updateZlg($_POST);
+                $mess['uid'] = $_SESSION['uid'];
+                $mess['title'] = '您修改了一条招零工信息';
+                $mess['message'] = '您于'.date('Y-m-d H:i')."修改了一条招零工信息";
+            } else {
+                foreach ($_POST['job_code'] as $v){
+                    $data_add=$_POST;
+                    $data_add['uid']=$_SESSION['uid'];
+                    $data_add['job_code']=$v;
+                    $data_add['cityid']=$city['id'];
+                    $return = $this->form_model->addZlg($data_add);
+                    if($return['flag']==-1){
+                        $this->main_model->alert($return['info'], 'back');
+                    }
+                    $return_flag+=$return['flag'];
+                }
+                $mess['uid'] = $_SESSION['uid'];
+                $mess['title'] = '您发布了'.count($_POST['job_code']).'条招零工信息';
+                $mess['message'] = '您于' . date('Y-m-d H:i') . "发布了".count($_POST['job_code'])."条招零工信息";
+            }
+
+
+            if ($return_flag == count($_POST['job_code'])) {
+                $this->main_model->addMessage($mess);
+
+                $_POST = array();  //防止重复提交
+                $this->main_model->alert("发布成功", '/user');
+
+            }elseif($return['flag']==1){
+                $this->main_model->alert("修改成功", '/user');
+            } else {
+                $data['formerror'] = $return['info'];
+//var_dump($return);
+                $this->load->view('home/user/publish_zlg', $data);
+            }
+        }
+
+        $this->load->view('home/user/templates/footer', $data);
+
     }
 
 
