@@ -2,8 +2,11 @@ section div.logo {
   text-align: center;
   margin: 40px auto;
 }
+section div.logo img {
+  width: 200px;
+}
 section div.logo p {
-  font-size: 18px;
+  font-size: 13px;
   margin: 20px 0;
 }
 section div.main {
@@ -51,6 +54,7 @@ section div.main div.login span.type:hover {
 section div.main div.login div.wxdl {
   text-align: center;
   margin-top: 50px;
+  display: none;
 }
 section div.main div.login div.wxdl p {
   margin-top: 10px;
@@ -59,7 +63,6 @@ section div.main div.login div.wxdl p {
 }
 section div.main div.login div.zhdl {
   padding: 40px 20px;
-  display: none;
 }
 section div.main div.login div.zhdl p {
   font-size: 16px;

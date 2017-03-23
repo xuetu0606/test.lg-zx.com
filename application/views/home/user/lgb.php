@@ -37,8 +37,11 @@
                             <span><?php echo $k['id']?></span>
                         </p>
                         <div class="jsh">
-                            <?php $img=explode(',',$k['img']);$img=explode('.',$img[0])?>
-                            <img src="/upload/<?php echo $k['pinyin']?>/lgxx/<?php echo $_SESSION['uid']?>/<?php echo $img[0]?>_150_100.jpg" alt=""/>
+                            <?php
+                            $img=explode(',',$k['img']);$img=explode('.',$img[0]);
+                            $img_url='/upload/'.$k['pinyin'].'/lgxx/'.$_SESSION['uid'].'/'.$img[0].'_150_100.jpg';
+                            ?>
+                            <img src="<?php echo $k['img']?$img_url:'/static/images/default/noimg.jpg'?>" alt=""/>
                             <div class="m">
                                 <h1><?php echo $k['info1']?></h1>
                                 <h2><?php echo $k['name'].'-'.$k['zhi_name'].'-'.$k['job_name']?></h2>
@@ -157,21 +160,19 @@
                                     <span><?php echo $k['id']?></span>
                                 </p>
                                 <div class="jsh">
-                                    <?php $img=explode(',',$k['img']);$img=explode('.',$img[0])?>
-                                    <img src="/upload/<?php echo $k['pinyin']?>/lgxx/<?php echo $_SESSION['uid']?>/<?php echo $img[0]?>_150_100.jpg" alt=""/>
                                     <div class="m">
-                                        <h1><?php echo $k['info1']?></h1>
-                                        <h2><?php echo $k['name'].'-'.$k['zhi_name'].'-'.$k['job_name']?></h2>
+                                        <h1><?php echo $k['title']?></h1>
+                                        <h2><?php echo $k['name'].'-'.$k['district']?></h2>
                                         <h3>
                                             <span><?php echo date('Y-m-d',$k['addtime'])?></span>
                                             <span><?php echo date('h:m',$k['addtime'])?></span>
                                         </h3>
                                     </div>
                                     <div class="r">
-                                        <a href="<?php echo site_url('user/dealMyInfo/type/gz/ac/flush/id/'.$k['id'])?>">刷新</a>
-                                        <a href="/pub/edit/<?php echo $k['id']?>">修改</a>
+                                        <a href="<?php echo site_url('user/dealMyInfo/type/zlg/ac/flush/id/'.$k['id'])?>">刷新</a>
+                                        <a href="/pub/zlg/edit/<?php echo $k['id']?>">修改</a>
                                         <!--<a href="/pub/edit">下架</a>-->
-                                        <a href="javascript:void(0);" onclick="if(confirm('确定要删除吗？')){window.location.href='<?php echo site_url('user/dealMyInfo/type/gz/ac/del/id/'.$k['id'])?>';}else{return false;}" class="delete">删除</a>
+                                        <a href="javascript:void(0);" onclick="if(confirm('确定要删除吗？')){window.location.href='<?php echo site_url('user/dealMyInfo/type/zlg/ac/del/id/'.$k['id'])?>';}else{return false;}" class="delete">删除</a>
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +189,7 @@
                 </div>
             </div>
             <div class="deleted">
-                <form action="/pub/del/type/gz/ac/del" method="get">
+                <form action="/pub/del/type/zlg/ac/del" method="get">
                     <?php foreach ($zlg_del as $k):?>
                         <div class="demo">
                             <input type="checkbox" class="should-check" name="del_check[]" value="<?php echo $k['id']?>"/>
@@ -201,18 +202,19 @@
                                     <?php $img=explode(',',$k['img']);$img=explode('.',$img[0])?>
                                     <img src="/upload/<?php echo $k['pinyin']?>/lgxx/<?php echo $_SESSION['uid']?>/<?php echo $img[0]?>_150_100.jpg" alt=""/>
                                     <div class="m">
-                                        <h1><?php echo $k['info1']?></h1>
-                                        <h2><?php echo $k['name'].'-'.$k['zhi_name'].'-'.$k['job_name']?></h2>
+                                        <h1><?php echo $k['title']?></h1>
+                                        <h2><?php echo $k['name'].'-'.$k['district']?></h2>
                                         <h3>
                                             <span><?php echo date('Y-m-d',$k['addtime'])?></span>
                                             <span><?php echo date('h:m',$k['addtime'])?></span>
                                         </h3>
                                     </div>
                                     <div class="r">
-                                        <a href="<?php echo site_url('user/dealMyInfo/type/gz/ac/flush/id/'.$k['id'])?>">刷新</a>
+                                        <a href="<?php echo site_url('user/dealMyInfo/type/zlg/ac/flush/id/'.$k['id'])?>">刷新</a>
                                         <a href="/pub/edit/<?php echo $k['id']?>">修改</a>
-                                        <!--<a href="/pub/edit">下架</a>-->
+                                        <!--<a href="/pub/edit">下架</a>
                                         <a href="javascript:void(0);" onclick="if(confirm('确定要删除吗？')){window.location.href='<?php echo site_url('user/dealMyInfo/type/gz/ac/del/id/'.$k['id'])?>';}else{return false;}" class="delete">删除</a>
+                                        -->
                                     </div>
                                 </div>
                             </div>
@@ -248,7 +250,7 @@
                                         <a href="<?php echo site_url('user/dealMyInfo/type/gz/ac/flush/id/'.$k['id'])?>">刷新</a>
                                         <a href="/pub/edit/<?php echo $k['id']?>">修改</a>
                                         <!--<a href="/pub/edit">下架</a>-->
-                                        <a href="javascript:void(0);" onclick="if(confirm('确定要删除吗？')){window.location.href='<?php echo site_url('user/dealMyInfo/type/gz/ac/del/id/'.$k['id'])?>';}else{return false;}" class="delete">删除</a>
+                                        <a href="javascript:void(0);" onclick="if(confirm('确定要删除吗？')){window.location.href='<?php echo site_url('user/dealMyInfo/type/zlg/ac/del/id/'.$k['id'])?>';}else{return false;}" class="delete">删除</a>
                                     </div>
                                 </div>
                             </div>

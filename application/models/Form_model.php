@@ -267,11 +267,12 @@ class Form_model extends CI_Model {
      * 查询用户自己尚未删除的招零工记录,按照刷新时间和添加时间倒序排列
      *
      */
-    public function getMyZlgPublish($uid){
-        $sql = "select invite_list.id,invite_list.title,invite_list.addtime,invite_list.flushtime,invite_list.flag,invite_list.city_id,province_city.name 
+    public function getMyZlgPublish($uid,$del){
+        $sql = "select invite_list.id,invite_list.title,invite_list.addtime,invite_list.flushtime,invite_list.flag,invite_list.city_id,invite_list.district_id,province_city.name,district_dic.name as district
 				from invite_list 
 				inner join province_city on invite_list.city_id=province_city.dist_id 
-				where uid='{$uid}' and flag<>-1
+				inner join district_dic on invite_list.city_id=district_dic.upid and district_dic.id=invite_list.district_id
+				where uid='{$uid}' and flag='$del'
 				order by invite_list.flushtime desc,invite_list.addtime desc ";
         $query = $this->db->query($sql);
         $result = $query->result_array();

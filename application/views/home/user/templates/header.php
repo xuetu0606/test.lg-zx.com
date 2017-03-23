@@ -34,7 +34,7 @@
             </ul>
             <div class="lgb">
                 <a href="/user">零工宝<img src="/static/images/xiala.png" alt="" /></a>
-                <a href="/pub/my" class="lgba">我的发布</a>
+                <a href="/user" class="lgba">我的发布</a>
                 <a href="/user/shoucang" class="lgba">我的收藏</a>
                 <a href="/user/myinfo" class="lgba">我的资料</a>
             </div>
@@ -47,7 +47,9 @@
 </header>
 <div class="full">
     <div class="main">
-        <img src="/static/images/LOGOa.png" alt="" class="logo"/>
+        <img src="/static/images/LOGOa.png" alt="" class="logo" onclick="function () {
+          location.href='http://127.0.0.1';
+        }"/>
         <form action="">
             <input type="text" class="input-normal"/>
             <input type="submit" value="" class="fdj"/>
@@ -57,9 +59,9 @@
 </div>
 <section>
     <div class="position">
-        <span>青岛零工在线</span>
+        <span><a href="/">零工在线</a></span>
         <span> > </span>
-        <span>零工宝</span>
+        <span><a href="/user">零工宝</a></span>
     </div>
     <div class="main">
         <div class="head">
@@ -83,10 +85,9 @@
             <div class="navigation">
                 <h1>零工宝</h1>
                 <ul id="navlist">
-                    <li><a href="/user" class="active">我的发布</a></li>
+                    <li><a href="/user" <?php echo $this->router->fetch_method()=='index'?'class="active"':'';?>>我的发布</a></li>
                     <li><a href="#">我的收藏</a></li>
-                    <li><a href="/user/myinfo">我的资料</a></li>
-                    <li><a href="#">认证管理</a></li>
+                    <li><a href="/user/myinfo" <?php echo $this->router->fetch_method()=='myinfo'?'class="active"':'';?>>我的资料</a></li>
                     <li><a href="#">认证管理</a></li>
                     <li><a href="#">账户明细</a></li>
                     <li><a href="#">我的评价</a></li>
