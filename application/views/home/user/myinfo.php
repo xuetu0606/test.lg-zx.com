@@ -8,7 +8,7 @@
                 <div class="wdzl fbgz">
                     <form action="/user/myInfo" method="post" id="infoform" enctype="multipart/form-data">
                         <div class="tx">
-                            <img src="/static/images/tx.png" alt=""/>
+                            <img src="<?php echo $user['img']?$user['img']:'/static/images/tx.png'?>" alt=""/>
                             <label for="ghtx" class="file">更换头像</label>
                             <input type="file" name="infoimg" id="ghtx" style="visibility: hidden"/>
                         </div>
@@ -99,22 +99,25 @@
 
                 </div>
                 <div class="wdzl zlg">
-                    <form action="">
+                    <form action="<?php echo site_url('user/doupdatepasswd'); ?>" method='POST'>
                         <div class="form-group">
                             <label>旧密码：</label>
-                            <input type="text" class="input-normal"/>
+                            <input type="password" name="oldpasswd" class="input-normal"/>
                         </div>
                         <div class="form-group">
                             <label>新密码：</label>
-                            <input type="text" class="input-normal"/>
+                            <input type="password" name='newpasswd' class="input-normal"/>
                         </div>
                         <div class="form-group">
                             <label>确认密码：</label>
-                            <input type="text" class="input-normal"/>
+                            <input type="password" name='renewpasswd' class="input-normal"/>
                         </div>
                         <div class="form-group">
                             <label></label>
                             <input type="submit" value="修改" class="btn btn-primary"/>
+                        </div>
+                        <div class="form-group"d>
+                            <p><?php echo $error; ?></p>
                         </div>
                     </form>
 

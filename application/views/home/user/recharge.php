@@ -78,10 +78,12 @@
                 <input type="submit" class="btn btn-primary" value="购买"/>
             </div>
         </form>
+        <!--
         <div class="success">
             <img src="/static/images/lgb/dih.png" alt=""/>
             <span>充值成功！</span>
         </div>
+        -->
     </div>
 </section>
 <footer>

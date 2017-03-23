@@ -743,6 +743,31 @@ class User_model extends CI_Model {
     		return array('flag'=>-1,'info'=>'更新您的信息失败，请稍后重试！');
     	}
     }
+
+    /**
+     * 修改用户头像
+     *
+     */
+    public function updateInfoImage($data){
+        extract($data);
+        if($_SESSION['is_co']==1){
+            $sql1 = "update user_co set img='$img' WHERE uid='$uid'";
+            $query1 = $this->db->query($sql1);
+            if($query1){
+                return array('flag'=>1,'info'=>'');
+            }else{
+                return array('flag'=>-1,'info'=>'更新信息失败，请稍后重试！');
+            }
+        }else{
+            $sql1 = "update user_personal set img='$img' WHERE uid='$uid'";
+            $query1 = $this->db->query($sql1);
+            if($query1){
+                return array('flag'=>1,'info'=>'');
+            }else{
+                return array('flag'=>-1,'info'=>'更新信息失败，请稍后重试！');
+            }
+        }
+    }
     /**
      * 检查原始密码是否正确
      * 参数说明：old_pwd-加密后老密码，uid-uid
