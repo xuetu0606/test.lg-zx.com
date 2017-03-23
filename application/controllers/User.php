@@ -33,7 +33,7 @@ class User extends CI_Controller
             show_404();
         }
         $data['title'] = '我的发布'; // 网页标题
-        $data['foot_js']='<script src="/static/js/lgb.js"></script>';
+        $data['foot_js']='<script src="/static/js/jquery.js"></script><script src="/static/js/head-foot.js"></script><script src="/static/js/lgb.js"></script>';
         $data['head_css']='<link rel="stylesheet" href="/static/css/lgb-wdfb.css"/>
             <link rel="stylesheet" href="/static/css/lgb.css"/>
             <style>
@@ -48,14 +48,18 @@ class User extends CI_Controller
             redirect('http://' . $_SERVER['HTTP_HOST'] . '/user/login');
         }
 
+        $this->session->unset_userdata('source_url');
+
         $data['user'] = $this->user_model->getUserBaseInfo($_SESSION['uid'],0,0,1);
 
         //获取已发布工种
         $count = $this->form_model->getMyGZPublish($_SESSION['uid'],$start,$fenye,1);
 
         if ($this->session->is_co) {
-            $data['zlg'] = $this->form_model->getMyZlgPublish($_SESSION['uid']);
+            $data['zlg'] = $this->form_model->getMyZlgPublish($_SESSION['uid'],1);
+            $data['zlg_del'] = $this->form_model->getMyZlgPublish($_SESSION['uid'],-1);
         }
+        //var_dump($data['zlg']);
 
         $this->load->library('pagination');
         $fenye=6;//分页数
@@ -83,7 +87,6 @@ class User extends CI_Controller
         $data['gong'] = $this->form_model->getMyGZPublish($_SESSION['uid'],$start,$fenye,1);
         $data['gong_del'] = $this->form_model->getMyGZPublish($_SESSION['uid'],$start,$fenye,-1);
         $data['gong_not'] = $this->form_model->getMyGZPublish($_SESSION['uid'],$start,$fenye,0);
-
         //var_dump($data['gong']);
         //var_dump($data);
 
@@ -108,13 +111,10 @@ class User extends CI_Controller
         if(!$_POST){
             $_SESSION['source_url']=$_SERVER['HTTP_REFERER'];
         }
-        $url=$_SESSION['source_url'];
-
 
         //是否登录
         if ($this->hasLogin()) {
-            //redirect('http://' . $_SERVER['HTTP_HOST'] . '/user/center');
-            redirect($url);
+            redirect('http://' . $_SERVER['HTTP_HOST'] . '/user');
         }
 
         $data['title'] = '零工在线登录';//网页标题
@@ -156,8 +156,8 @@ class User extends CI_Controller
                     delete_cookie('passwd');
                 }
 
-                if($url){
-                    redirect($url);
+                if($_SESSION['source_url']){
+                    redirect($_SESSION['source_url']);
                 }else{
                     redirect('http://' . $_SERVER['HTTP_HOST'] . '/user');
                 }
@@ -409,7 +409,7 @@ $(\'#province a\').click(function(){
 
         //是否登录
         if ($this->hasLogin()) {
-            redirect('http://' . $_SERVER['HTTP_HOST'] . '/user/center');
+            redirect('http://' . $_SERVER['HTTP_HOST'] . '/user');
         }
 
         $data['js']=$this->getProvinceCity_js();
@@ -418,11 +418,10 @@ $(\'#province a\').click(function(){
 
         $city = $this->main_model->getCityInfoByCode($citycode);//根据简码获取城市信息
 
-        $data['localhost'] = $_SERVER['HTTP_HOST'];// 当前域名
         $data['title'] = '注册'; // 网页标题
         $data['area'] = array($this->user_model->getProvince(), $this->user_model->getAllCity());//获取全部省市信息
 
-        //$this->load->view('templates/header', $data);
+        $this->load->view('templates/header', $data);
 
         $this->form_validation->set_rules('username', '用户名', 'trim|required|min_length[5]|max_length[12]');
         $this->form_validation->set_rules('password', '密码', 'trim|required|min_length[6]');
@@ -489,7 +488,7 @@ $(\'#province a\').click(function(){
 
         //是否登录
         if ($this->hasLogin()) {
-            redirect('http://' . $_SERVER['HTTP_HOST'] . '/user/center');
+            redirect('http://' . $_SERVER['HTTP_HOST'] . '/user');
         }
 
         $data['localhost'] = $_SERVER['HTTP_HOST'];// 当前域名
@@ -590,7 +589,7 @@ $(\'#province a\').click(function(){
 
         //是否登录
         if ($this->hasLogin()) {
-            redirect('http://' . $_SERVER['HTTP_HOST'] . '/user/center');
+            redirect('http://' . $_SERVER['HTTP_HOST'] . '/user');
         }
 
         $data['title'] = '重置密码';//网页标题
@@ -967,27 +966,69 @@ $(\'#province a\').click(function(){
      * 签约推广
      *
      */
-    public function contractAds()
-    {
-        if (!file_exists(APPPATH . 'views/home/user/contractads.php')) {
+
+    //签约推广
+    public function contractads(){
+        if ( ! file_exists(APPPATH.'views/home/tail/contract.php')){
             show_404();
         }
+        $citycode = $this->main_model->getCityCode();		//地区名
+        $city_arr = $this->main_model->getCityInfoByCode($citycode);
+        $data['cityname'] = $city_arr['name'];
+        $data['title'] = '签约推广'; // 定义标题
 
-        //是否登录
-        if (!$this->hasLogin()) {
-            redirect('http://' . $_SERVER['HTTP_HOST'] . '/user');
+        $uid = $_SESSION['uid'];
+        if($uid){
+            //var_dump($_SESSION);die('out');
+            if($_SESSION['is_co'] == 1){//判断如果是公司用户，则提示没开通此服务
+                $this->load->view('templates/head_simple',$data);
+                $this->load->view('home/tail/hint',$data);
+                $this->load->view('templates/footer2');
+            }else if($_SESSION['is_co'] == 0){
+                $this->load->model('user_model');
+                $result = $this->user_model->checkIsReal($uid);
+                if($result['flag'] == 1){//当用户已经实名的时候
+                    $this->load->model('form_model');
+                    $res = $this->form_model->checkIsPro($uid);//检查用户是否已经签约
+                    if($res){//检查是否已提交过签约信息
+                        redirect(site_url('home/contract_success'));
+                    }else{
+                        $data['personal'] = $this->user_model->getPersonalBaseInfo($uid);
+                        if($_POST['post_flag']==1){
+                            $arr['name'] = $_POST['username'];
+                            $arr['uid'] = $uid;
+                            $arr['idno'] = $_POST['idno'];
+                            $arr['qq'] = $_POST['qq'];
+                            $arr['wechat'] = $_POST['wechat'];
+                            if(empty($arr['qq'])){//判断QQ号微信号不能为空
+                                $data['error'] = 'QQ号不能为空！';
+                            }elseif(empty($arr['wechat'])){
+                                $data['error'] = '微信号不能为空！';
+                            }else{
+                                $result = $this->form_model->addPromotion($arr);
+                                if($result){
+                                    redirect(site_url('home/contract_success'));
+                                }
+                            }
+                        }
+                        $this->load->view('templates/head_simple',$data);
+                        $this->load->view('home/tail/contract',$data);
+                        $this->load->view('templates/footer2',$data);
+
+                    }
+                }else if($result['flag'] == -1){//当用户未实名的时候
+                    $this->main_model->alert('请先实名认证，认证通过后签约推广',site_url('user/identify'));
+                    //redirect(site_url('user/identify'));
+                }else if($result['flag'] == 0){
+                    $this->load->view('templates/head_simple',$data);
+                    $this->load->view('home/tail/hints',$data);
+                    $this->load->view('templates/footer2');
+                }
+            }
+        }else{
+            redirect(site_url('user/index'));
         }
-
-        $data['localhost'] = $_SERVER['HTTP_HOST'];// 当前域名
-        $data['title'] = '签约推广'; // 网页标题
-
-        $this->load->view('templates/head_simple', $data);
-        $this->load->view('home/user/contractads', $data);
-        $this->load->view('templates/footer2', $data);
-
     }
-
-
 
 
     /**
@@ -1244,9 +1285,9 @@ $(\'#province a\').click(function(){
             $data['info'] = $this->user_model->getPersonalInfo($uid);//根据用户uid查询个人用户基本信息
         }
 
-        $this->load->view('templates/header', $data);
+        $this->load->view('home/user/templates/header', $data);
         $this->load->view('home/user/updateinfo', $data);
-        $this->load->view('templates/footer', $data);
+        $this->load->view('home/user/templates/footer', $data);
 
     }
 
@@ -1271,13 +1312,12 @@ $(\'#province a\').click(function(){
     //修改密码
     public function doupdatepasswd()
     {
-        if (!file_exists(APPPATH . 'views/home/user/updatepasswd.php')) {
+        if (!file_exists(APPPATH . 'views/home/user/myinfo.php')) {
             show_404();
         }
         $citycode = $this->main_model->getCityCode();       //地区名
         $city_arr = $this->main_model->getCityInfoByCode($citycode);
         $data['cityname'] = $city_arr['name'];
-        $data['title'] = '修改密码'; // 网页标题
 
         $data['username'] = $_SESSION['username'];
         $test['uid'] = $_SESSION['uid'];
@@ -1310,9 +1350,6 @@ $(\'#province a\').click(function(){
             $data['error'] = $result['info'];
         }
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('home/user/updatepasswd', $data);
-        $this->load->view('templates/footer', $data);
     }
 
     /**
@@ -1330,21 +1367,67 @@ $(\'#province a\').click(function(){
             redirect('http://' . $_SERVER['HTTP_HOST'] . '/user');
         }
         //var_dump($_SESSION);
+        $data['user'] = $this->user_model->getUserBaseInfo($_SESSION['uid']);
+        $city=$this->user_model->getCityCode($data['user']['city_id']);
+        $data['head_css']='<link rel="stylesheet" href="/static/css/lgb.css"/><link rel="stylesheet" href="/static/css/lgb-wdzl.css"/>';
+        $data['foot_js']='<script src="/static/js/jquery.js"></script><script src="/static/js/lgb.js"></script>
+<script>
+$("#ghtx").change(function() {
+  $("#infoform").submit();
+})
+</script>
+';
         $data['is_co'] = $_SESSION['is_co'];
         $citycode = $this->main_model->getCityCode();       //地区名
         $city_arr = $this->main_model->getCityInfoByCode($citycode);
         $data['cityname'] = $city_arr['name'];
         $data['title'] = '我的资料'; // 网页标题
+
         $uid = $_SESSION['uid'];
-        if ($_SESSION['is_co'] == 1) {
+        if ($uid  == 1) {
             $data['info'] = $this->user_model->getCoUserInfo($uid);//根据用户uid查询公司用户基本信息
+            $data['scale'] = $this->user_model->getCoScale();
         } else {
             $data['info'] = $this->user_model->getPersonalInfo($uid);//根据用户uid查询个人用户基本信息
         }
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('home/user/myinfo', $data);
-        $this->load->view('templates/footer', $data);
+        $img=$this->upload($city['pinyin']);
+
+        $this->form_validation->set_rules('mobile', '手机号', 'trim|required|numeric|exact_length[11]');
+        $this->form_validation->set_error_delimiters();
+
+        $this->load->view('home/user/templates/header', $data);
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('home/user/myinfo', $data);
+        } elseif($img){
+            $this->user_model->updateInfoImage(array('uid'=>$_SESSION['uid'],'img'=>date('ym',time()).'/'.$_FILES['raw_name'].'_200_190'.$_FILES['file_ext']));
+            redirect('http://' . $_SERVER['HTTP_HOST'] . '/user/myinfo');
+        } else {
+
+            $_POST['uid']=$_SESSION['uid'];
+
+            if ($_SESSION['is_co'] == 1) {
+                $res = $this->user_model->updateMyCoInfo($_POST);
+                if ($res['flag'] == -1) {
+                    $data['error'] = $res['info'];
+                    $this->load->view('home/user/myinfo', $data);
+                } else if ($res['flag'] == 1) {
+                    $this->main_model->alert('资料修改成功', 'back');
+                }
+            } else {
+                $res = $this->user_model->updateMyPersonalInfo($_POST);
+                if ($res['flag'] == -1) {
+                    $data['error'] = $res['info'];
+                    $this->load->view('home/user/myinfo', $data);
+                } else if ($res['flag'] == 1) {
+                    $this->main_model->alert('资料修改成功', 'back');
+                }
+            }
+            echo $res['info'];
+        }
+
+        $this->load->view('home/user/templates/footer', $data);
 
     }
 
@@ -1468,6 +1551,63 @@ $(\'#province a\').click(function(){
         }
 
         $this->load->view('templates/footer2');
+    }
+
+
+    /**
+     * 上传工种信息图片 自动生成 图片文件名_200_190
+     * @param $citycode 用户注册地 城市简码  例如:qd
+     * @return mixed 成功返回file  否则flase
+     */
+    function upload($citycode) {
+        //初始化
+        if ($this->session->is_co) {
+            $config['upload_path'] = getcwd() . '/upload/' . $citycode . '/gstx/' . date('ym');
+        } else {
+            $config['upload_path'] = getcwd() . '/upload/' . $citycode . '/grtx/' . date('ym');
+        }
+        $config['allowed_types'] = 'gif|jpg|png|bmp|jpeg';
+        $config['encrypt_name'] = TRUE;
+        $config['remove_spaces'] = TRUE;
+        $config['max_size']  = '0';
+        $config['max_width']  = '0';
+        $config['max_height']  = '0';
+
+        if(!is_dir($config['upload_path'])){
+            mkdir($config['upload_path'],0777,true);
+        }
+
+        $this->load->library('upload', $config);
+
+        //200*190图片
+        $configThumb = array();
+        $configThumb['image_library'] = 'gd2';
+        $configThumb['source_image'] = '';
+        $configThumb['create_thumb'] = TRUE;
+        $configThumb['maintain_ratio'] = TRUE; //保持图片比例
+        $configThumb['new_image'] = $config['upload_path'];
+        $configThumb['width'] = 200;
+        $configThumb['height'] = 190;
+        $configThumb['thumb_marker']="_200_190";//缩略图名字后加上 "_200_190",
+
+
+        $this->load->library('image_lib');
+
+        //$arr=$this->upload->multiple("fileselect");
+
+        $upload = $this->upload->do_upload('infoimg');
+        if($upload === FALSE) return false;
+        $upload_data = $this->upload->data();//返回上传文件的所有相关信息的数组
+        if($upload_data['is_image'] == 1) {
+            //初始化150*100
+            $configThumb['source_image'] = $upload_data['full_path']; //文件路径带文件名
+            $this->image_lib->initialize($configThumb);
+            $this->image_lib->resize();
+        }
+        $_FILES=$upload_data;
+
+        return json_encode($upload_data);
+
     }
 
 }

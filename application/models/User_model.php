@@ -428,7 +428,7 @@ class User_model extends CI_Model {
         $city = $this->getCityCode($user['city_id']);
         $citycode=$city['pinyin'];
 
-    	$sql = "select uid,username,`no`,credit1,credit2,credit3,is_real,is_co 
+    	$sql = "select uid,username,`no`,city_id,credit1,credit2,credit3,is_real,is_co 
 				from userlist
 				where uid='{$uid}' ";
     	$query = $this->db->query($sql);
@@ -645,7 +645,7 @@ class User_model extends CI_Model {
      * @param unknown_type $uid
      */
     public function getPersonalInfo($uid){
-    	$sql = "select pro_t.name as province,city_t.name as city,user_personal.realname,user_personal.sex,
+    	$sql = "select pro_t.name as province,city_t.name as city,user_personal.realname,user_personal.nickname,user_personal.sex,
 				userlist.mobile,userlist.wechat,userlist.qq,user_personal.info,userlist.is_real,user_personal.idno,userlist.address
 				from userlist inner join user_personal on user_personal.uid=userlist.uid
 				inner join province_city as pro_t on userlist.province_id=pro_t.dist_id
@@ -678,7 +678,8 @@ class User_model extends CI_Model {
     	$wechat = $this->string_model->filter($wechat);
     	$qq = $this->string_model->filter($qq);
     	$info = $this->string_model->filter(trim($info));
-    	$sql = "update userlist set qq='$qq',wechat='$wechat',address='$address' where uid='$uid' ";
+        $email = $this->string_model->filter($email);
+    	$sql = "update userlist set qq='$qq',wechat='$wechat',address='$address',email='$email' where uid='$uid' ";
     	$query = $this->db->query($sql);
     	if($query){
     		$sql1 = "update user_co set info='$info', scale_code='$scale' ";
@@ -719,14 +720,18 @@ class User_model extends CI_Model {
     	$address = $this->string_model->filter(trim($address));
     	$wechat = $this->string_model->filter($wechat);
     	$qq = $this->string_model->filter($qq);
+        $email = $this->string_model->filter($email);
     	$info = $this->string_model->filter(trim($info));
-    	$sql = "update userlist set qq='$qq',wechat='$wechat',address='$address' where uid='$uid' ";
+    	$sql = "update userlist set qq='$qq',wechat='$wechat',address='$address',email='$email' where uid='$uid' ";
     	$query = $this->db->query($sql);
     	if($query){
     		$sql1 = "update user_personal set info='$info', sex='$sex' ";
     		if($realname){
     			$sql1 .= ",realname='$realname' ";
     		}
+            if($nickname){
+                $sql1 .= ",nickname='$nickname' ";
+            }
     		$sql1 .= " where uid='$uid'";
     		$query1 = $this->db->query($sql1);
     		if($query1){
@@ -737,6 +742,31 @@ class User_model extends CI_Model {
     	}else{
     		return array('flag'=>-1,'info'=>'更新您的信息失败，请稍后重试！');
     	}
+    }
+
+    /**
+     * 修改用户头像
+     *
+     */
+    public function updateInfoImage($data){
+        extract($data);
+        if($_SESSION['is_co']==1){
+            $sql1 = "update user_co set img='$img' WHERE uid='$uid'";
+            $query1 = $this->db->query($sql1);
+            if($query1){
+                return array('flag'=>1,'info'=>'');
+            }else{
+                return array('flag'=>-1,'info'=>'更新信息失败，请稍后重试！');
+            }
+        }else{
+            $sql1 = "update user_personal set img='$img' WHERE uid='$uid'";
+            $query1 = $this->db->query($sql1);
+            if($query1){
+                return array('flag'=>1,'info'=>'');
+            }else{
+                return array('flag'=>-1,'info'=>'更新信息失败，请稍后重试！');
+            }
+        }
     }
     /**
      * 检查原始密码是否正确

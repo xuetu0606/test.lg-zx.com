@@ -2,7 +2,7 @@
  * Created by Administrator on 2017/2/28.
  */
 $(function(){
-    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    //Ðü¸¡³öÏÖÏÂÀ­¿ò
     $('.lgbxl').mouseover(function(){
         $('div.lgb').css('display','block');
     });
@@ -26,15 +26,13 @@ $(function(){
         $(this).css('display','none');
 
     });
-    //ï¿½Ð¶Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
+    //ÅÐ¶Ï¹ö¶¯Ìõ£¬ÉèÖÃÏÂÀ­¿òÎ»ÖÃ
     {
-        var w=($(document).width()-1190)/2+160;
+        var w=($(document).width()-1190)/2+157;
         $('div.lgb').css('right',w+'px');
         $('div.wx').css('right',w-80+'px');
-
         //console.log(w);
-
-        //if($(document).height()<=$(document.body).height()+2)//ï¿½Ð¹ï¿½ï¿½ï¿½ï¿½ï¿½
+        //if($(document).height()<=$(document.body).height()+2)//ÓÐ¹ö¶¯Ìõ
         //{
         //    $('div.lgb').css('right',w+'px');
         //    $('div.wx').css('right',w-80+'px');
@@ -46,7 +44,7 @@ $(function(){
 
     }
     $(window).resize(function(){
-        w=($(document).width()-1190)/2+160;
+        w=($(document).width()-1190)/2+157;
         //console.log(w);
         $('div.lgb').css('right',w+'px');
         $('div.wx').css('right',w-80+'px');

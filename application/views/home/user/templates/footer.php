@@ -14,8 +14,6 @@
     </div>
 </footer>
 </body>
-<script src="/static/js/jquery.js"></script>
-<script src="/static/js/head-foot.js"></script>
 <?php
 echo $foot_js;
 ?>

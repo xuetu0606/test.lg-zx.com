@@ -1,48 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>注册</title>
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
-    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
-    <link rel="stylesheet" href="/static/node_modules/bootstrap/dist/css/bootstrap.css"/>
-    <link rel="stylesheet" href="/static/css/common.css"/>
-    <link rel="stylesheet" href="/static/css/head-foot.css"/>
-    <link rel="stylesheet" href="/static/css/register.css"/>
-</head>
-<body>
-<header>
-    <div class="main">
-        <div class="city">
-            <span class="stress">青岛</span>
-            <a href="切换城市.html">[切换城市]</a>
-        </div>
-        <div class="fr">
-            <ul>
-                <li><a href="#">注册</a></li>
-                <li><a href="#">登录</a></li>
-                <li class="lgbxl"><a href="#">零工宝</a><img src="/static/images/xiala.png" alt=""/></li>
-                <li class="stress wxb">微信版</li>
-                <li><a href="#" class="stress">手机版</a></li>
-                <li><a href="#">帮助</a></li>
-            </ul>
-            <div class="lgb">
-                <a href="#">零工宝<img src="/static/images/xiala.png" alt="" /></a>
-                <a href="#" class="lgba">我的发布</a>
-                <a href="#" class="lgba">我的收藏</a>
-                <a href="#" class="lgba">我的资料</a>
-            </div>
-            <div class="wx">
-                <img src="/static/images/head-foot/weixin.png" alt=""/>
-            </div>
-        </div>
-    </div>
+<link rel="stylesheet" href="/static/node_modules/bootstrap/dist/css/bootstrap.css"/>
+<link rel="stylesheet" href="/static/css/register.css"/>
 
-</header>
 <section>
     <div class="logo">
         <img src="/static/images/LOGObig.png" alt=""/>
