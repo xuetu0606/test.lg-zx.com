@@ -20,9 +20,6 @@
                         <div id="gongsi" style="width:600px; height:900px; margin:0 auto;">
                             <br/>
                                 <form action="<?php echo site_url('daili/add'); ?>" method="post">
-                                    <label for="nickname">昵　称　:</label>
-                                    <input type="text" name="nickname" id="nickname"/>
-                                    <br/><br/>
                                     
                                     <label for="referrer">推荐人　:</label>
                                     <input type="text" name="referrer" id="referrer"/><br/><br/>
