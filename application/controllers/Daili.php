@@ -420,5 +420,62 @@ class Daili extends CI_Controller {
         redirect('http://' . $_SERVER['HTTP_HOST'] . '/daili');
     }
 	
-	
+	/**
+     * 代理商添加会员
+     * 
+     */
+	//添加一个会员
+    public function add(){
+        if($_POST){
+            if(! $_POST['arae']){
+                $this->main_model->alert('请选择区县', 'back');
+                return false;
+            }
+            if(! $_POST['address']){
+                $this->main_model->alert('请填写详细地址', 'back');
+                return false;
+            }
+            if(! $_POST['mobile']){
+                $this->main_model->alert('请填写手机号', 'back');
+                return false;
+            }
+            if(! preg_match("/^1[345678]{1}\d{9}$/",$_POST['mobile'])){  
+                $this->main_model->alert('请输入正确的手机号', 'back');
+                return false;
+            } 
+            if(! $_POST['coname']){
+                $this->main_model->alert('请填写公司名称', 'back');
+                return false;
+            }
+            if(! $_POST['info1']){
+                $this->main_model->alert('请填写服务标题', 'back');
+                return false;
+            }
+            if(! $_POST['info3']){
+                $this->main_model->alert('请填写服务介绍', 'back');
+                return false;
+            }
+            if(! $_POST['info']){
+                $this->main_model->alert('请填写公司简介', 'back');
+                return false;
+            }
+            // $this->main_model->alert('删除失败，请稍后重试', 'back');
+            $this->daili_model->addUser($_POST);
+            // var_dump($_POST);
+        }
+        $city_id = $_SESSION['daili_cityid'];
+        $data['city'] = $this->daili_model->getCity($city_id);
+        $data['arae'] = $this->daili_model->getJoin($city_id);
+        $data['job'] = $this->daili_model->getJob();
+        $this->load->view('daili/templates/header');
+        $this->load->view('daili/add-member',$data);
+        $this->load->view('daili/templates/footer');
+    }
+    //获取根据省份城市查询区县街道
+    public function getJoin(){
+        $upid = $this->uri->segment(3);
+        $data = $this->daili_model->getJoin($upid);
+        $str = json_encode($data);
+        echo $str;
+    }
 }

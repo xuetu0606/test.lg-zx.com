@@ -156,5 +156,156 @@ group by userlist.uid {$addsql}";
         }
     }
 
-	
+	    
+	    /**
+     * 查询所有工种
+     */
+    public function getJob(){
+        $sql = "select id,name from job_type where level=3";
+        $result = $this->db->query($sql);
+        $list = $result->result_array();
+        return $list;
+    }
+    /**
+     * 根据城市查询区县
+     */
+    public function getJoin($upid){
+        $sql = "select id,name from district_dic where upid=".$upid;
+        $result = $this->db->query($sql);
+        $list = $result->result_array();
+        return $list;
+    }
+/**
+ * 注册用户
+ */
+    public function addUser($data){
+        extract($data);
+        $time_now = time();
+        $username= trim($mobile);
+        $mobile= trim($mobile);
+        $password= '123456';
+        $is_co = trim($is_co);
+        //生成工号uid
+        $new_uid = $this->addUid();
+        //公司
+        if($is_co == 'gongsi'){
+            $is_co = 1;
+            $sql = "insert into user_co (uid,coname,scale_code,info,updatetime)
+            values
+            ('$new_uid','$coname','$scale_code','$info','$time_now')";
+            $this->db->query($sql);
+
+            $sql = " insert into publish_list (uid,job_code,info1,info3,addtime,city_id,mobile,address,flag)
+            values
+            ('$new_uid','$job_type','$info1','$info3','$time_now','$c_id','$mobile','$address',1)";
+            $this->db->query($sql);
+            $publish_id = $this->getPublish_list_id();
+            $sql = " insert into publish_list_service_district (publish_id,district_id,area_id)
+            values
+            ('$publish_id','$arae','$street')";
+            $this->db->query($sql);
+            //个人
+        }else if($is_co == 'geren'){
+            $is_co = 0;
+             $sql = "insert into user_personal (uid,realname,nickname,info)
+            values
+            ('$new_uid','$realname','$nickname','$info')";
+            $this->db->query($sql);
+            
+            $sql = " insert into publish_list (uid,job_code,info1,info3,addtime,city_id,mobile,address,flag)
+            values
+            ('$new_uid','$job_type','$info1','$info3','$time_now','$c_id','$mobile','$address',1)";
+            $this->db->query($sql);
+            $publish_id = $this->getPublish_list_id();
+            $sql = " insert into publish_list_service_district (publish_id,district_id,area_id)
+            values
+            ('$publish_id','$arae','$street')";
+            $this->db->query($sql);
+        }
+        if(strlen($new_uid) < 3){
+            $new_uid = "0".$new_uid;
+        }
+        $password = $this->encryptPwd($password);
+        if(! $referrer){
+            $referrer = '零工在线';
+            $promotion_flag = 0;
+        }else{
+            $promotion_flag = 1;
+        }
+        $sql = "insert into userlist 
+            (no ,
+            username ,
+            password ,
+            province_id ,
+            city_id ,
+            address ,
+            mobile  ,
+            tel  ,
+            email ,
+            qq  ,
+            wechat ,
+            is_co  ,
+            addtime,
+            credit2,
+            referrer,
+            promotion_flag)
+            values
+            (
+            '".$new_uid."',
+            '".$username."',
+            '".$password."',
+            ".$p_id.",
+            ".$c_id.",
+            '".$address."',
+            '".$mobile."',
+            '".$tel."',
+            '".$email."',
+            '".$qq."',
+            '".$wechat."',
+            ".$is_co.",
+            ".$time_now.",
+            10,
+            '".$referrer."',
+            '".$promotion_flag."'
+            )
+        ";
+        $this->db->query($sql);
+    }
+
+    /**
+     * 生成新的工号uid
+     * 规则：最新自增id+1
+     *格式为：lg+数字编号，若最新id小于4位则前面加0补齐
+     */
+    public function addUid(){
+        $min_len = 3;//小于最小位数则前面加0补齐
+        $pr = "";//工号前缀
+//      $pr = "lg";//工号前缀
+        $query = $this->db->query("select max(uid) as uid from userlist ");
+        $id_arr = $query->row_array();
+        $max_id = $id_arr['uid']?($id_arr['uid']+1):1;
+        return $max_id;
+    }
+    //获取publish_list当前id
+    public function getPublish_list_id(){
+        $min_len = 3;//小于最小位数则前面加0补齐
+        $pr = "";//工号前缀
+//      $pr = "lg";//工号前缀
+        $query = $this->db->query("select max(id) as id from publish_list ");
+        $id_arr = $query->row_array();
+        return $id_arr['id'];
+    }
+    public function getCity($city_id){
+        $sql = "select name as city_name,id as city_id,upid from district_dic where id=".$city_id;
+        $result = $this->db->query($sql);
+        $data = $result->result_array();
+        $user['upid'] = $data[0]['upid'];
+        $user['city_name'] = $data[0]['city_name'];
+        $user['city_id'] = $data[0]['city_id'];
+        $sql = "select name as up_name from district_dic where id=".$user['upid'];
+        $result = $this->db->query($sql);
+        $data = $result->result_array();
+        $user['up_name'] = $data[0]['up_name'];
+        return $user;
+    }
 }
