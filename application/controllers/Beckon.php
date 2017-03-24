@@ -24,7 +24,7 @@
 				// echo $list;
 			}else{
 				$data['job_type']  = $this->beckon_model->getJob_type();
-				$data['area'] = $this->beckon_model->getArea(/*$city_id']*/224);
+				$data['area'] = $this->beckon_model->getArea(/*$city_id*/224);
 				$data['pay_circle'] = $this->beckon_model->getPay_circle();
 
 				$config['base_url'] = site_url('beckon/index');

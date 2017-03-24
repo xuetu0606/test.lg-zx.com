@@ -96,19 +96,23 @@
 				$job_code_sql = "select level from job_type where id=".$job_code;
 				$result = $this->db->query($job_code_sql);
 				$result = $result->result_array();
+				$job_code_sql_1 = false;
 				if($result[0]['level'] == 1){
-					$job_code_sql = 'select id from job_type where pre_pre_id='.$job_code;
+					$job_code_sql_1 = 'select id from job_type where pre_pre_id='.$job_code;
 				}else if($result[0]['level'] == 2){
-					$job_code_sql = 'select id from job_type where pre_id='.$job_code;
+					$job_code_sql_1 = 'select id from job_type where pre_id='.$job_code;
 				}else if($result[0]['level'] == 3){
 					$sql.=' and i.job_code='.$job_code;
 				}
-				$result = $this->db->query($job_code_sql);
+				$result = $this->db->query($job_code_sql_1);
 				$result = $result->result_array();
-				foreach($result as $item){
-					$sql.=' or i.job_code='.$item['id'];
+				if($job_code_sql_1){
+					$sql.=' and (1=2 ';
+					foreach($result as $item){
+						$sql.=' or i.job_code='.$item['id'];
+					}
+					$sql.=' ) ';
 				}
-			
 			}else if($jiesuan){
 				$sql.=' and i.pay_circle='.$jiesuan;
 			}else if($gongzi){
