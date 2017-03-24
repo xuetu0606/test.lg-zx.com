@@ -314,48 +314,48 @@
         var url = '<?php echo site_url('beckon/index'); ?>?job_code='+job_code+'&quyu='+quyu+'&gongzi='+gongzi+'&jiesuan='+jiesuan+'&fbsj='+fbsj+'&renzheng='+renzheng+'&xinyong='+xinyong+'&gongzi_s_1='+gongzi_s_1+'&gongzi_s_2='+gongzi_s_2+'&sgz='+sgz;
         // console.log(url);
         $.get(url, function(str){
-            console.log(str);
-            // var data = eval('(' + str + ')');
+            // console.log(str);
+            var data = eval('(' + str + ')');
             // console.log(data);
-            // var div = document.getElementById('beckons');
-            // $(div).html('');
-            // for(var i = 0 ; i < data.length ; i++){
-            //     $(div).append(
-            //         '<div class="type">'+
-            //             '<img src="'+
-            //                 data[i].coimg+
-            //             '" alt="" class="tx">'+
-            //             '<div class="jieshao">'+
-            //                 '<div class="line1">'+
-            //                     '<a href="'<?php echo site_url('beckon/find');?>+'/'+data[i].id+'" class="name">'+
-            //                         data[i].title+
-            //                     '</a>'+
-            //                     '<span class="vip">'+
-            //                         (data[i].vip == 1 ? '<img src="/static/images/vip/vip1.png" alt=""/>' : '')+
-            //                     '</span>'+
-            //                     '<span class="identify">'+
-            //                         (data[i].is_real == 1 ? '<img src="/static/images/renzheng/yingyezhiz.png" alt="">' : '')+
-            //                     '</span>'+
-            //                 '</div>'+
-            //                 '<span class="address">'+
-            //                     data[i].aera+' - '+data[i].address+
-            //                 '</span>'+
-            //                 '<div class="line3">'+
-            //                     '<span class="gs">'+
-            //                         data[i].coname+
-            //                     '</span>'+
-            //                     '&nbsp;&nbsp;'+
-            //                     '<span class="sj">'+
-            //                         getLocalTime(data[i].addtime)+
-            //                     '</span>'+
-            //                 '</div>'+
-            //             '</div>'+
-            //             '<span class="tel">'+
-            //                 data[i].mobile+
-            //             '</span>'+
-            //         '</div>'
-            //     );
-            // }
+            var div = document.getElementById('beckons');
+            $(div).html('');
+            for(var i = 0 ; i < data.length ; i++){
+                $(div).append(
+                    '<div class="type">'+
+                        '<img src="'+
+                            data[i].coimg+
+                        '" alt="" class="tx">'+
+                        '<div class="jieshao">'+
+                            '<div class="line1">'+
+                                '<a href="'<?php echo site_url('beckon/find');?>+'/'+data[i].id+'" class="name">'+
+                                    data[i].title+
+                                '</a>'+
+                                '<span class="vip">'+
+                                    (data[i].vip == 1 ? '<img src="/static/images/vip/vip1.png" alt=""/>' : '')+
+                                '</span>'+
+                                '<span class="identify">'+
+                                    (data[i].is_real == 1 ? '<img src="/static/images/renzheng/yingyezhiz.png" alt="">' : '')+
+                                '</span>'+
+                            '</div>'+
+                            '<span class="address">'+
+                                data[i].aera+' - '+data[i].address+
+                            '</span>'+
+                            '<div class="line3">'+
+                                '<span class="gs">'+
+                                    data[i].coname+
+                                '</span>'+
+                                '&nbsp;&nbsp;'+
+                                '<span class="sj">'+
+                                    getLocalTime(data[i].addtime)+
+                                '</span>'+
+                            '</div>'+
+                        '</div>'+
+                        '<span class="tel">'+
+                            data[i].mobile+
+                        '</span>'+
+                    '</div>'
+                );
+            }
         });
     }
         function getLocalTime(nS) {     
