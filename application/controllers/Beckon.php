@@ -21,8 +21,8 @@
 				extract($_GET);
 				// var_dump($sgz);
 				$list = $this->beckon_model->getBeckons($page,$pages,$job_code ,$quyu ,$gongzi ,$jiesuan ,$fbsj ,$renzheng ,$xinyong,$gongzi_s,$gongzi_s_1,$gongzi_s_2,$sgz);
-				echo json_encode($list);
-				// echo $list;
+				// echo json_encode($list);
+				echo $list;
 			}else{
 				$data['job_type']  = $this->beckon_model->getJob_type();
 				$data['area'] = $this->beckon_model->getArea(/*$city_id*/224);

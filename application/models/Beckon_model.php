@@ -91,27 +91,18 @@
 						job_type j
 						ON i.job_code=j.id
 					where 
-						1=1";
+						1=1 ";
 			if($job_code){
 				$job_code_sql = "select level from job_type where id=".$job_code;
 				$result = $this->db->query($job_code_sql);
 				$result = $result->result_array();
 				$job_code_sql_1 = false;
 				if($result[0]['level'] == 1){
-					$job_code_sql_1 = 'select id from job_type where pre_pre_id='.$job_code;
+					$sql.=' and j.pre_pre_id='.$job_code;
 				}else if($result[0]['level'] == 2){
-					$job_code_sql_1 = 'select id from job_type where pre_id='.$job_code;
+					$sql.=' and j.pre_id='.$job_code;
 				}else if($result[0]['level'] == 3){
 					$sql.=' and i.job_code='.$job_code;
-				}
-				$result = $this->db->query($job_code_sql_1);
-				$result = $result->result_array();
-				if($job_code_sql_1){
-					$sql.=' and (1=2 ';
-					foreach($result as $item){
-						$sql.=' or i.job_code='.$item['id'];
-					}
-					$sql.=' ) ';
 				}
 			}else if($jiesuan){
 				$sql.=' and i.pay_circle='.$jiesuan;
@@ -131,7 +122,7 @@
 				$sql.=' order by credit3 desc';
 			}else if($gongzi_s_1 && $gongzi_s_2){
 				$sql.=' and i.pay_unit=1 and i.pay<'.$gongzi_s_2.' and i.pay>'.$gongzi_s_1;
-			}else if($quyu != false){
+			}else if($quyu){
 				$sql.=' and i.district_id='.$quyu;
 			}else if($sgz){
 				$sql.=' and i.title LIKE \'%'.$sgz.'%\' or j.name LIKE \'%'.$sgz.'%\' ';
@@ -140,7 +131,7 @@
 				$pages = 0;
 			}
 			$sql.=' LIMIT '.$pages.', '.$page.'';
-			// return $sql;
+			return $sql;
 	    	$result = $this->db->query($sql);
 			$list = $result->result_array();
 			for($i = 0 ; $i < count($list) ; $i++){
@@ -162,7 +153,7 @@
 				$now_time = time();
 				$list[$i]['vip'] = $endtime[0]['endtime'] > $now_time ? 1 : 2;
 			}
-			return $list;
+			// return $list;
 	    }
 	    public function find($uid){
 		$sql = "select 
