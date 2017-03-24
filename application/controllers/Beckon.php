@@ -9,14 +9,7 @@
 		}
 		//打开招零工列表页
 		public function index(){
-			if ( ! file_exists(APPPATH.'views/daili/index.php')){
-	            show_404();
-	        }
-
-	        //是否登录
-	        if (!$this->hasLogin()){
-	            redirect('http://'.$_SERVER['HTTP_HOST'].'/daili/login');
-	        }
+			
 			$pages = $this->uri->segment(3);
 			session_start();
 			if($pages){
