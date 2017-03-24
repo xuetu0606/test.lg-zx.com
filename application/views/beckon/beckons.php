@@ -40,7 +40,7 @@
 <div class="full">
     <div class="main">
         <img src="/static/images/LOGOa.png" alt="" class="logo"/>
-        <a href="javascript:void(0);" style="position: relative;width: 200px;left: 720px;">免费发布招零工信息</a>
+        <a href="/pub/selest/0/zlg" style="position: relative;width: 200px;left: 720px;">免费发布招零工信息</a>
     </div>
 </div>
 <section>
