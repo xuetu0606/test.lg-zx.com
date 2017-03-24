@@ -47,9 +47,7 @@
 </header>
 <div class="full">
     <div class="main">
-        <img src="/static/images/LOGOa.png" alt="" class="logo" onclick="function () {
-          location.href='http://127.0.0.1';
-        }"/>
+        <a style="border: none;background: #fff; height: auto;width: auto;" href="/"><img src="/static/images/LOGOa.png" alt="" class="logo" /></a>
         <form action="">
             <input type="text" class="input-normal"/>
             <input type="submit" value="" class="fdj"/>
@@ -89,9 +87,9 @@
                     <li><a href="#">我的收藏</a></li>
                     <li><a href="/user/myinfo" <?php echo $this->router->fetch_method()=='myinfo'?'class="active"':'';?>>我的资料</a></li>
                     <li><a href="#">认证管理</a></li>
-                    <li><a href="#">账户明细</a></li>
-                    <li><a href="#">我的评价</a></li>
+                    <li><a href="/home/myaccount" <?php echo $this->router->fetch_method()=='myaccount'?'class="active"':'';?>>账户明细</a></li>
+                    <li><a href="/home/evaluate" <?php echo $this->router->fetch_method()=='evaluate'?'class="active"':'';?>>我的评价</a></li>
                     <li><a href="#">消息文件</a></li>
-                    <li><a href="#">签约推广</a></li>
+                    <li><a href="/user/contract" <?php echo $this->router->fetch_method()=='contract'?'class="active"':'';?>>签约推广</a></li>
                 </ul>
             </div>

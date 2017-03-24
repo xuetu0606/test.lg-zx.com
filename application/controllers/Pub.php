@@ -482,7 +482,7 @@ $this->load->view('home/user/templates/footer', $data);
     }
 
     /**
-     * 发布工种
+     * 修改工种
      *
      */
     public function edit($id)
@@ -674,11 +674,14 @@ $this->load->view('home/user/templates/footer', $data);
             redirect('http://' . $_SERVER['HTTP_HOST'] . '/user');
         }
 
-        //var_dump($_FILES);
+
+        $data['hang'] = $this->user_model->getJobType(array('level' => 1, 'pre_id' => 0, 'pre_pre_id' => 0));
+        $data['zhi'] = $this->user_model->getJobType(array('level' => 2, 'pre_id' => $this->uri->segment(3, 0), 'pre_pre_id' => 0));
+        $data['gong'] = $this->user_model->getJobType(array('level' => 3, 'pre_id' => $this->uri->segment(4, 0), 'pre_pre_id' => $this->uri->segment(3, 0)));
+        //var_dump($edit);
 
         //修改
-        //修改
-        if ($edit) {
+        if ($edit=='edit') {
             $data['zlg'] = $this->form_model->getZlgDetal(array('uid' => $_SESSION['uid'], 'id' => $this->uri->segment(4, 0)));
             //var_dump($data['zlg']);
             $data['three_level'] = $this->list_model->get_three_level();
@@ -687,10 +690,10 @@ $this->load->view('home/user/templates/footer', $data);
             $data['area'] = $this->main_model->list_area;
             $data['edit'] = $edit;
             $_POST['id'] = $this->uri->segment(4, 0);
-
+            $data['zhi'] = $this->user_model->getJobType(array('level' => 2, 'pre_id' => $data['zlg']['job_level_1'], 'pre_pre_id' => 0));
+            $data['gong'] = $this->user_model->getJobType(array('level' => 3, 'pre_id' => $data['zlg']['job_level_2'], 'pre_pre_id' => $data['zlg']['job_level_1']));
             //var_dump($data['dist']);
             //var_dump($data['area']);
-
         }
 
         $data['title'] = '招零工'; // 网页标题
@@ -711,9 +714,6 @@ $this->load->view('home/user/templates/footer', $data);
         $(".jiedao").hide();
     })
 </script>';
-        $data['hang'] = $this->user_model->getJobType(array('level' => 1, 'pre_id' => 0, 'pre_pre_id' => 0));
-        $data['zhi'] = $this->user_model->getJobType(array('level' => 2, 'pre_id' => $data['zlg']['job_level_1'], 'pre_pre_id' => 0));
-        $data['gong'] = $this->user_model->getJobType(array('level' => 3, 'pre_id' => $data['zlg']['job_level_2'], 'pre_pre_id' => $data['zlg']['job_level_1']));
 
         if($_SESSION['is_co']==1){
             $data['user'] = $this->user_model->getCoUserInfo($_SESSION['uid']);//获取会员基础信息
@@ -752,7 +752,7 @@ $this->load->view('home/user/templates/footer', $data);
             if (!$_POST['job_code']) {
                 $this->main_model->alert("请选择您的服务内容", 'back');
             }
-            if ($edit) {
+            if ($edit=='edit') {
                 //var_dump($_POST);
                 //die();
                 $_POST['uid']=$_SESSION['uid'];

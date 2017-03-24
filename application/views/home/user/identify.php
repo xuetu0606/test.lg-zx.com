@@ -1,3 +1,55 @@
+<div class="content">
+    <div class="rzgl scxx fbgz">
+        <table>
+            <thead>
+            <tr>
+                <th>认证信息</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php if($user){?>
+            <tr>
+                <td><img src="./images/lgb/dh.png" alt=""/><span class="rz">手机已认证</span></td>
+                <td>1566****4568 <a href="#">更换</a></td>
+            </tr>
+            <?php }?>
+            <tr>
+                <td><img src="./images/lgb/dh.png" alt=""/><span class="rz">邮箱已认证</span></td>
+                <td>2654564@qq.com <a href="#">更换</a></td>
+            </tr>
+            <tr>
+                <td><img src="./images/lgb/dh.png" alt=""/><span class="rz">实名已认证</span></td>
+                <td>认证之后提高账户的信用等级和安全性 <a href="#">查看</a></td>
+            </tr>
+            <tr>
+                <td><img src="./images/lgb/dh.png" alt=""/><span class="rz">营业执照已认证</span></td>
+                <td>认证之后提高账户的信用等级和安全性 <a href="#">查看</a></td>
+            </tr>
+            <tr>
+                <td><img src="./images/lgb/wrz.png" alt=""/><span class="wrz">手机未认证</span></td>
+                <td>绑定手机可提高信息真实性，也可通过手机找回密码 <a href="#">绑定</a></td>
+            </tr>
+            <tr>
+                <td><img src="./images/lgb/wrz.png" alt=""/><span class="wrz">邮箱未认证</span></td>
+                <td>绑定邮箱可提高账户的安全性，也可通过邮箱找回密码 <a href="#">绑定</a></td>
+            </tr>
+            <tr>
+                <td><img src="./images/lgb/wrz.png" alt=""/><span class="wrz">实名未认证</span></td>
+                <td>认证之后提高账户的信用等级和安全性 <a href="#">认证</a></td>
+            </tr>
+            <tr>
+                <td><img src="./images/lgb/wrz.png" alt=""/><span class="wrz">营业执照未认证</span></td>
+                <td>认证之后提高账户的信用等级和安全性 <a href="#">认证</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+</section>
+
 <link rel="stylesheet" href="/static/css/lgb/title.css"/>
 <link rel="stylesheet" href="/static/css/lgb/identify.css"/>
 <section>

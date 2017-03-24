@@ -19,9 +19,9 @@
     <div class="main">
         <div class="middle">
             <div class="buzhou">
-                <span class="step step1"><?php echo $hang[$this->uri->segment(3, 0)];?> <a href="/pub/selest">重写</a></span>
+                <span class="step step1"><?php echo $hang[$this->uri->segment(3, 0)];?> <a href="/pub/selest">重选</a></span>
                 <span class="step b"> > </span>
-                <span class="step step2"><?php echo $zhi[$this->uri->segment(4, 0)];?> <a href="/pub/selest/<?php echo $this->uri->segment(3, 0);?>">重写</a></span>
+                <span class="step step2"><?php echo $zhi[$this->uri->segment(4, 0)];?> <a href="/pub/selest/<?php echo $this->uri->segment(3, 0);?>">重选</a></span>
                 <span class="step b"> > </span>
                 <span class="step step3 stress"> 填写信息 </span>
                 <span class="step b"> > </span>
