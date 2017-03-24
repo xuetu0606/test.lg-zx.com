@@ -817,7 +817,7 @@ $(\'#province a\').click(function(){
 
         $city_id = $uinfo['city_id'];
         $this->load->model('admin_model');
-        $citycode = $this->admin_model->getCityCode($city_id);
+        $citycode = $this->main_model->getCityCode($city_id);
         $citycode = $citycode['pinyin'];
         
         //$citycode = $this->main_model->getCityCode();
@@ -968,38 +968,43 @@ $(\'#province a\').click(function(){
      */
 
     //签约推广
-    public function contractads(){
-        if ( ! file_exists(APPPATH.'views/home/tail/contract.php')){
+    public function contract(){
+        if ( ! file_exists(APPPATH.'views/home/user/contract.php')){
             show_404();
         }
         $citycode = $this->main_model->getCityCode();		//地区名
         $city_arr = $this->main_model->getCityInfoByCode($citycode);
         $data['cityname'] = $city_arr['name'];
         $data['title'] = '签约推广'; // 定义标题
+        $data['head_css']='<link rel="stylesheet" href="/static/css/lgb.css"/><link rel="stylesheet" href="/static/css/lgb-qytg.css"/>';
+        $data['user'] = $this->user_model->getUserBaseInfo($_SESSION['uid']);
 
         $uid = $_SESSION['uid'];
         if($uid){
             //var_dump($_SESSION);die('out');
             if($_SESSION['is_co'] == 1){//判断如果是公司用户，则提示没开通此服务
-                $this->load->view('templates/head_simple',$data);
+                $this->load->view('home/user/templates/header',$data);
                 $this->load->view('home/tail/hint',$data);
-                $this->load->view('templates/footer2');
-            }else if($_SESSION['is_co'] == 0){
+                $this->load->view('home/user/templates/footer');
+            }else if($_SESSION['is_co'] != 1){
                 $this->load->model('user_model');
                 $result = $this->user_model->checkIsReal($uid);
-                if($result['flag'] == 1){//当用户已经实名的时候
+                if($result['flag']== 1){//当用户已经实名的时候
                     $this->load->model('form_model');
                     $res = $this->form_model->checkIsPro($uid);//检查用户是否已经签约
                     if($res){//检查是否已提交过签约信息
-                        redirect(site_url('home/contract_success'));
+                        redirect(site_url('user/contract_success'));
                     }else{
+                        var_dump($_POST);
                         $data['personal'] = $this->user_model->getPersonalBaseInfo($uid);
-                        if($_POST['post_flag']==1){
-                            $arr['name'] = $_POST['username'];
+                        if($_POST['agree']=='on'){
+
+                            $arr['name'] = $data['user']['realname'];
                             $arr['uid'] = $uid;
-                            $arr['idno'] = $_POST['idno'];
+                            $arr['idno'] = $data['user']['idno'];
                             $arr['qq'] = $_POST['qq'];
                             $arr['wechat'] = $_POST['wechat'];
+                            $arr['info']= $_POST['info'];
                             if(empty($arr['qq'])){//判断QQ号微信号不能为空
                                 $data['error'] = 'QQ号不能为空！';
                             }elseif(empty($arr['wechat'])){
@@ -1007,13 +1012,13 @@ $(\'#province a\').click(function(){
                             }else{
                                 $result = $this->form_model->addPromotion($arr);
                                 if($result){
-                                    redirect(site_url('home/contract_success'));
+                                    redirect(site_url('user/contract_success'));
                                 }
                             }
                         }
-                        $this->load->view('templates/head_simple',$data);
-                        $this->load->view('home/tail/contract',$data);
-                        $this->load->view('templates/footer2',$data);
+                        $this->load->view('home/user/templates/header',$data);
+                        $this->load->view('home/user/contract',$data);
+                        $this->load->view('home/user/templates/footer',$data);
 
                     }
                 }else if($result['flag'] == -1){//当用户未实名的时候
@@ -1028,6 +1033,28 @@ $(\'#province a\').click(function(){
         }else{
             redirect(site_url('user/index'));
         }
+    }
+
+    public function contract_success(){
+        $data['title'] = "签约推广结果";
+        $data['head_css']='<link rel="stylesheet" href="/static/css/lgb.css"/><link rel="stylesheet" href="/static/css/lgb-qytg.css"/>';
+        $this->load->view('home/user/templates/header',$data);
+        $this->load->model('form_model');
+        $uid = $_SESSION['uid'];
+        $res = $this->form_model->checkIsPro($uid);//检查用户是否已经签约
+        if($res){//检查是否签约
+            if($res['flag'] == 1){//审核通过
+                $data['arr2'] = $this->form_model->getPromotionList($uid);
+
+                $this->load->view('home/tail/earnings',$data);
+            }else if($res['flag'] == 0){//待审核
+                $data['info'] = "【我们将尽快审核，稍后将审核结果发到您的消息文件中，如有疑问请拨打客服电话：400-860-6286咨询】";
+                $this->load->view('home/tail/contract-success',$data);
+            }
+        }else{
+            redirect(site_url('user/contract'));
+        }
+        $this->load->view('home/user/templates/footer',$data);
     }
 
 

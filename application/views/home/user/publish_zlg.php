@@ -20,9 +20,15 @@
     <div class="main">
         <div class="middle">
             <div class="buzhou">
+                <?php if($this->uri->segment(3, 0)=='edit'){?>
                 <span class="step step1"><?php echo $hang[$zlg['job_level_1']];?></span>
                 <span class="step b"> > </span>
                 <span class="step step2"><?php echo $zhi[$zlg['job_level_2']];?></span>
+                <?php }else{?>
+                    <span class="step step1"><?php echo $hang[$this->uri->segment(3, 0)];?> <a href="/pub/selest/0/zlg">重选</a></span>
+                    <span class="step b"> > </span>
+                    <span class="step step2"><?php echo $zhi[$this->uri->segment(4, 0)];?> <a href="/pub/selest/<?php echo $this->uri->segment(3, 0)?>/zlg">重选</a></span>
+                <?php }?>
                 <span class="step b"> > </span>
                 <span class="step step3 stress"> 填写信息 </span>
                 <span class="step b"> > </span>
@@ -59,7 +65,7 @@
                         <div class="check">
                             <?php foreach ($area[0] as $k => $v):?>
                                 <div class="marginr">
-                                    <input type="radio" name="districtid" value="<?php echo $k;?>" <?php echo $k==$zlg['district_id']?'checked':'';?>/><span><?php echo $v;?></span>
+                                    <input type="<?php echo $this->uri->segment(3, 0)=='edit'?'radio':'checkbox';?>" name="districtid" value="<?php echo $k;?>" <?php echo $k==$zlg['district_id']?'checked':'';?>/><span><?php echo $v;?></span>
                                 </div>
                             <?php endforeach;?>
                         </div>
