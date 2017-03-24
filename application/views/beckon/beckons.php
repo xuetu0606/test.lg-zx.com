@@ -327,7 +327,7 @@
                         '" alt="" class="tx">'+
                         '<div class="jieshao">'+
                             '<div class="line1">'+
-                                '<a href="'<?php echo site_url('beckon/find');?>+'/'+data[i].id+'" class="name">'+
+                                '<a href="<?php echo site_url('beckon/find');?>/'+data[i].uid+'" class="name">'+
                                     data[i].title+
                                 '</a>'+
                                 '<span class="vip">'+
