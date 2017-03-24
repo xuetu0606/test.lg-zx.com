@@ -5,7 +5,7 @@
     <title>招零工</title>
     <link rel="stylesheet" href="/static/css/common.css"/>
     <link rel="stylesheet" href="/static/css/head-foot.css"/>
-    <link rel="stylesheet" href="/static/css/workInfor.css"/>
+    <link rel="stylesheet" href="/static/css/workInfor1.css"/>
     <link rel="stylesheet" href="/static/css/form.css"/>
 </head>
 <body>
@@ -224,17 +224,12 @@
         </div>
     </div>
     <div class="fenye">
-        <a href="javascript:void(0);">1</a>
+        <!-- <a href="javascript:void(0);">1</a>
         <a href="javascript:void(0);">2</a>
-        <a href="javascript:void(0);">3</a>
-        <a href="javascript:void(0);">4</a>
-        <a href="javascript:void(0);">5</a>
-        <a href="javascript:void(0);">6</a>
-        <a href="javascript:void(0);">7</a>
-        <a href="javascript:void(0);">8</a>
-        <a href="javascript:void(0);">9</a>
-        <a href="javascript:void(0);">10</a>
-        <a href="javascript:void(0);">下一页</a>
+        <a href="javascript:void(0);">3</a> -->
+        <?= $link ?>
+        <!-- <a href="javascript:void(0);">最后一页</a>
+        <a href="javascript:void(0);">下一页</a> -->
     </div>
 </section>
 <footer>
@@ -314,10 +309,10 @@
             gongzi = 0;
         }else if(obj.id == 'sgz_b'){
             sgz = document.getElementById('sgz_m').value;
-            console.log(sgz);
+            // console.log(sgz);
         }
-        var url = '<?php echo site_url('beckon/getBeckonsByParam'); ?>?job_code='+job_code+'&quyu='+quyu+'&gongzi='+gongzi+'&jiesuan='+jiesuan+'&fbsj='+fbsj+'&renzheng='+renzheng+'&xinyong='+xinyong+'&gongzi_s_1='+gongzi_s_1+'&gongzi_s_2='+gongzi_s_2+'&sgz='+sgz;
-        console.log(url);
+        var url = '<?php echo site_url('beckon/index'); ?>?job_code='+job_code+'&quyu='+quyu+'&gongzi='+gongzi+'&jiesuan='+jiesuan+'&fbsj='+fbsj+'&renzheng='+renzheng+'&xinyong='+xinyong+'&gongzi_s_1='+gongzi_s_1+'&gongzi_s_2='+gongzi_s_2+'&sgz='+sgz;
+        // console.log(url);
         $.get(url, function(str){
             // console.log(str);
             var data = eval('(' + str + ')');

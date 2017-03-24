@@ -49,8 +49,16 @@
 			$list = $result->result_array();
 			return $list;
 	    }
+	    //获取招聘信息总数
+	    public function getCount(){
+	    	$sql = 'select count(*) as count from invite_list';
+	    	$result = $this->db->query($sql);
+			$result = $result->result_array();
+			// var_dump($result);
+			return $result[0]['count'];
+	    }
 	    //获取招零工信息
-	    public function getBeckons($job_code = false ,$quyu = false ,$gongzi = false ,$jiesuan = false ,$fbsj = false ,$renzheng = false ,$xinyong = false,$gongzi_s = false,$gongzi_s_1 = false,$gongzi_s_2 = false,$sgz = false){
+	    public function getBeckons($page = false,$pages = false,$job_code = false ,$quyu = false ,$gongzi = false ,$jiesuan = false ,$fbsj = false ,$renzheng = false ,$xinyong = false,$gongzi_s = false,$gongzi_s_1 = false,$gongzi_s_2 = false,$sgz = false){
 	    	$sql = "select 
 						i.id as  id,
 						i.uid as  uid,
@@ -100,8 +108,7 @@
 				foreach($result as $item){
 					$sql.=' or i.job_code='.$item['id'];
 				}
-			}else if($quyu){
-				$sql.=' and i.district_id='.$quyu;
+			
 			}else if($jiesuan){
 				$sql.=' and i.pay_circle='.$jiesuan;
 			}else if($gongzi){
@@ -120,9 +127,15 @@
 				$sql.=' order by credit3 desc';
 			}else if($gongzi_s_1 && $gongzi_s_2){
 				$sql.=' and i.pay_unit=1 and i.pay<'.$gongzi_s_2.' and i.pay>'.$gongzi_s_1;
+			}else if($quyu != false){
+				$sql.=' and i.district_id='.$quyu;
 			}else if($sgz){
 				$sql.=' and i.title LIKE \'%'.$sgz.'%\' or j.name LIKE \'%'.$sgz.'%\' ';
 			}
+			if(! $pages){
+				$pages = 0;
+			}
+			$sql.=' LIMIT '.$pages.', '.$page.'';
 			// return $sql;
 	    	$result = $this->db->query($sql);
 			$list = $result->result_array();
