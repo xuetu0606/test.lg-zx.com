@@ -1640,7 +1640,7 @@ $("#ghtx").change(function() {
     /**
      * 打开消息文件页面
      */
-    public function index(){
+    public function news(){
         var_dump($_SESSION);
         $this->load->view('lgb/news_file');
     }

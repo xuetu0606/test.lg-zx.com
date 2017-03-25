@@ -193,7 +193,7 @@
         <div class="information" id="beckons">
             <?php foreach($beckons as $item):?>
                 <div class="type">
-                    <img src="<?= $item['coimg'] ?>" alt="" class="tx"/>
+                    <img src="<?= $item['coimg'] ? $item['coimg'] : '/static/images/default/noimg.jpg'?>" alt="" class="tx"/>
                     <div class="jieshao">
                         <div class="line1">
                             <a href="<?php echo site_url('beckon/find');?>/<?= $item['uid'] ?>" class="name"><?= $item['title'] ?></a>
@@ -328,7 +328,7 @@
                 $(div).append(
                     '<div class="type">'+
                         '<img src="'+
-                            data[i].coimg+
+                            (data[i].coimg ? data[i].coimg : '/static/images/default/noimg.jpg')+
                         '" alt="" class="tx">'+
                         '<div class="jieshao">'+
                             '<div class="line1">'+
