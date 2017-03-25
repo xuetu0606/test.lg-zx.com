@@ -104,34 +104,42 @@
 				}else if($result[0]['level'] == 3){
 					$sql.=' and i.job_code='.$job_code;
 				}
-			}else if($jiesuan){
+			}
+			if($jiesuan){
 				$sql.=' and i.pay_circle='.$jiesuan;
-			}else if($gongzi){
+			}
+			if($gongzi){
 				if($gongzi == 'num'){
 					$sql.=' and i.pay_unit=1 and i.pay>100';
 				}else{
 					$sql.=' and i.pay_unit=1 and i.pay<'.$gongzi;
 				}
-			}else if($fbsj){
+			}
+			if($fbsj){
 				ini_set('date.timezone','Asia/Shanghai');
 				$time = time();
 				$sql.=' and i.addtime<'.($time-$fbsj*24*60*60*1000);
-			}else if($renzheng){
+			}
+			if($renzheng){
 				$sql.=' and u.is_real='.$renzheng;
-			}else if($xinyong){
+			}
+			if($xinyong){
 				$sql.=' order by credit3 desc';
-			}else if($gongzi_s_1 && $gongzi_s_2){
+			}
+			if($gongzi_s_1 && $gongzi_s_2){
 				$sql.=' and i.pay_unit=1 and i.pay<'.$gongzi_s_2.' and i.pay>'.$gongzi_s_1;
-			}else if($quyu){
+			}
+			if($quyu){
 				$sql.=' and i.district_id='.$quyu;
-			}else if($sgz){
+			}
+			if($sgz){
 				$sql.=' and i.title LIKE \'%'.$sgz.'%\' or j.name LIKE \'%'.$sgz.'%\' ';
 			}
 			if(! $pages){
 				$pages = 0;
 			}
 			$sql.=' LIMIT '.$pages.', '.$page.'';
-			// return $sql;
+			return $sql;
 	    	$result = $this->db->query($sql);
 			$list = $result->result_array();
 			for($i = 0 ; $i < count($list) ; $i++){
@@ -153,7 +161,7 @@
 				$now_time = time();
 				$list[$i]['vip'] = $endtime[0]['endtime'] > $now_time ? 1 : 2;
 			}
-			return $list;
+			// return $list;
 	    }
 	    public function find($uid){
 		$sql = "select 
