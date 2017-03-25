@@ -29,7 +29,6 @@ class User extends CI_Controller
      */
     public function index()
     {
-        var_dump($_SESSION);
         if (!file_exists(APPPATH . 'views/home/user/center.php')) {
             show_404();
         }
