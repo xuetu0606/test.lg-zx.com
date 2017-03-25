@@ -139,7 +139,7 @@
 				$pages = 0;
 			}
 			$sql.=' LIMIT '.$pages.', '.$page.'';
-			return $sql;
+			// return $sql;
 	    	$result = $this->db->query($sql);
 			$list = $result->result_array();
 			for($i = 0 ; $i < count($list) ; $i++){
@@ -161,7 +161,7 @@
 				$now_time = time();
 				$list[$i]['vip'] = $endtime[0]['endtime'] > $now_time ? 1 : 2;
 			}
-			// return $list;
+			return $list;
 	    }
 	    public function find($uid){
 		$sql = "select 

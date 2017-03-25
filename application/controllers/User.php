@@ -1637,5 +1637,12 @@ $("#ghtx").change(function() {
         return json_encode($upload_data);
 
     }
-
+    /**
+     * 打开消息文件页面
+     */
+    public function index(){
+        var_dump($_SESSION);
+        $this->load->view('lgb/news_file');
+    }
+    
 }
