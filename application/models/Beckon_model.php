@@ -110,7 +110,7 @@
 			}
 			if($gongzi){
 				if($gongzi == 'num'){
-					$sql.=' and i.pay_unit=1 and i.pay>100';
+					$sql.=' and i.pay_unit=1 and i.pay>100 ';
 				}else{
 					$sql.=' and i.pay_unit=1 and i.pay<'.$gongzi;
 				}

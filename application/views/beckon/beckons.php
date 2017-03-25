@@ -286,6 +286,10 @@
             quyu = obj.name;
         }else if(obj.id == 'gongzi'){
            gongzi = obj.name;
+            gongzi_s_1 = 0;
+            gongzi_s_2 = 0;
+            document.getElementById('gongzi_s_1').value = '';
+            document.getElementById('gongzi_s_2').value = '';
         }else if(obj.id == 'jiesuan'){
             jiesuan = obj.name;
         }else if(obj.id == 'fbsj'){
@@ -315,48 +319,48 @@
         // console.log(url);
         $.get(url, function(str){
             // console.log(str);
-            console.log(quyu);
-            // var data = eval('(' + str + ')');
+            // console.log(quyu);
+            var data = eval('(' + str + ')');
             // console.log(data);
-            // var div = document.getElementById('beckons');
-            // $(div).html('');
-            // for(var i = 0 ; i < data.length ; i++){
-            //     $(div).append(
-            //         '<div class="type">'+
-            //             '<img src="'+
-            //                 data[i].coimg+
-            //             '" alt="" class="tx">'+
-            //             '<div class="jieshao">'+
-            //                 '<div class="line1">'+
-            //                     '<a href="<?php echo site_url('beckon/find');?>/'+data[i].uid+'" class="name">'+
-            //                         data[i].title+
-            //                     '</a>'+
-            //                     '<span class="vip">'+
-            //                         (data[i].vip == 1 ? '<img src="/static/images/vip/vip1.png" alt=""/>' : '')+
-            //                     '</span>'+
-            //                     '<span class="identify">'+
-            //                         (data[i].is_real == 1 ? '<img src="/static/images/renzheng/yingyezhiz.png" alt="">' : '')+
-            //                     '</span>'+
-            //                 '</div>'+
-            //                 '<span class="address">'+
-            //                     data[i].aera+' - '+data[i].address+
-            //                 '</span>'+
-            //                 '<div class="line3">'+
-            //                     '<span class="gs">'+
-            //                         data[i].coname+
-            //                     '</span>'+
-            //                     '&nbsp;&nbsp;'+
-            //                     '<span class="sj">'+
-            //                         getLocalTime(data[i].addtime)+
-            //                     '</span>'+
-            //                 '</div>'+
-            //             '</div>'+
-            //             '<span class="tel">'+
-            //                 data[i].mobile+
-            //             '</span>'+
-            //         '</div>'
-            //     );
-            // }
+            var div = document.getElementById('beckons');
+            $(div).html('');
+            for(var i = 0 ; i < data.length ; i++){
+                $(div).append(
+                    '<div class="type">'+
+                        '<img src="'+
+                            data[i].coimg+
+                        '" alt="" class="tx">'+
+                        '<div class="jieshao">'+
+                            '<div class="line1">'+
+                                '<a href="<?php echo site_url('beckon/find');?>/'+data[i].uid+'" class="name">'+
+                                    data[i].title+
+                                '</a>'+
+                                '<span class="vip">'+
+                                    (data[i].vip == 1 ? '<img src="/static/images/vip/vip1.png" alt=""/>' : '')+
+                                '</span>'+
+                                '<span class="identify">'+
+                                    (data[i].is_real == 1 ? '<img src="/static/images/renzheng/yingyezhiz.png" alt="">' : '')+
+                                '</span>'+
+                            '</div>'+
+                            '<span class="address">'+
+                                data[i].aera+' - '+data[i].address+
+                            '</span>'+
+                            '<div class="line3">'+
+                                '<span class="gs">'+
+                                    data[i].coname+
+                                '</span>'+
+                                '&nbsp;&nbsp;'+
+                                '<span class="sj">'+
+                                    getLocalTime(data[i].addtime)+
+                                '</span>'+
+                            '</div>'+
+                        '</div>'+
+                        '<span class="tel">'+
+                            data[i].mobile+
+                        '</span>'+
+                    '</div>'
+                );
+            }
         });
     }
         function getLocalTime(nS) {     
