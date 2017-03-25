@@ -1642,7 +1642,9 @@ $("#ghtx").change(function() {
      */
     public function news(){
         var_dump($_SESSION);
-        $this->load->view('lgb/news_file');
+        $data['user'] = $this->user_model->getUserBaseInfo($uid);
+        $this->load->view('home/user/templates/header', $data);
+        $this->load->view('home/user/news_file');
+        $this->load->view('home/user/templates/footer', $data);
     }
-    
 }

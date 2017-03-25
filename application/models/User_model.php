@@ -1157,6 +1157,21 @@ class User_model extends CI_Model {
         }
     }
 
-
+    /**
+     * 零工宝消息文件
+     */
+    public function find($uid){
+      $sql = 'select 
+                l.credit1,
+                l.credit2 
+              from 
+                userlist l,
+                user_service_log s
+              where 
+                l.uid=s.uid
+                and
+                s.uid='.$uid;
+      $this->db->query($sql);
+    }
 
 }
