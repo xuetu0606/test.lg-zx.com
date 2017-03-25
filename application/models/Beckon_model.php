@@ -117,6 +117,7 @@
 			}
 			if($fbsj){
 				$time = time();
+				$time = strtotime('-'.$fbsj.' day', $time);
 				$sql.=' and i.addtime<'.($time-$fbsj*24*60*60*1000);
 			}
 			if($renzheng){
