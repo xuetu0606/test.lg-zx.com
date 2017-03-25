@@ -118,7 +118,7 @@
 			if($fbsj){
 				ini_set('date.timezone','Asia/Shanghai');
 				$time = time();
-				$sql.=' and i.addtime<'.($time-$fbsj*24*60*60*1000);
+				$sql.=' and i.addtime>'.($time-$fbsj*24*60*60*1000);
 			}
 			if($renzheng){
 				$sql.=' and u.is_real='.$renzheng;
