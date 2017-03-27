@@ -1156,7 +1156,15 @@ class User_model extends CI_Model {
             return array('flag'=>-1,'info'=>'提现失败，请稍后重试！');
         }
     }
-
+    /**
+     * 查询表中数据的总数
+     */
+    public function getCunto($uid){
+      $sql = 'select count(*) as count from user_message_log where uid='.$uid;
+      $query = $this->db->query($sql);
+      $result = $query->result_array();
+      return $result[0]['count'];
+    }
     /**
      * 零工宝消息文件
      * 通知

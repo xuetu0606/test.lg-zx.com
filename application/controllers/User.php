@@ -1636,9 +1636,6 @@ $("#ghtx").change(function() {
         return json_encode($upload_data);
 
     }
-    /**
-     * 查询表中数据的总数
-     */
     
     /**
      * 查询消息文件信息
@@ -1659,7 +1656,7 @@ $("#ghtx").change(function() {
 
         $page = 10;
         $config['base_url'] = site_url('user/findAllNews/t');
-        $config['total_rows'] = $this->db->count_all('user_message_log');
+        $config['total_rows'] = $this->user_model->getCunto($uid);
         $config['uri_segment'] = 4; 
         $config['prev_link'] = '上一页';
         $config['next_link'] = '下一页';
@@ -1692,7 +1689,7 @@ $("#ghtx").change(function() {
         }
         $data['news_g'] = $this->user_model->findNews($_SESSION['uid'],$page,$pages_t);
         $data['news_t'] = $this->user_model->findNew($page,$pages_g);
-var_dump($data);
+
         $this->load->view('home/user/templates/header', $data);
         $this->load->view('home/user/news_file', $data);
         $this->load->view('home/user/templates/footer', $data);
