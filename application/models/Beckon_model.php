@@ -92,10 +92,12 @@
 						ON i.job_code=j.id
 					where 
 						1=1 ";
+
 			if($job_code){
 				$job_code_sql = "select level from job_type where id=".$job_code;
 				$result = $this->db->query($job_code_sql);
 				$result = $result->result_array();
+
 				$job_code_sql_1 = false;
 				if($result[0]['level'] == 1){
 					$sql.=' and j.pre_pre_id='.$job_code;
@@ -133,6 +135,7 @@
 				$sql.=' and i.district_id='.$quyu;
 			}
 			if($sgz){
+
 				$sql.=' and i.title LIKE \'%'.$sgz.'%\' or j.name LIKE \'%'.$sgz.'%\' ';
 			}
 			if(! $pages){

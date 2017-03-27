@@ -40,7 +40,9 @@
 <div class="full">
     <div class="main">
         <img src="/static/images/LOGOa.png" alt="" class="logo"/>
+
         <a href="/pub/selest/0/zlg" style="position: relative;width: 200px;left: 720px;">免费发布招零工信息</a>
+
     </div>
 </div>
 <section>
@@ -193,7 +195,9 @@
         <div class="information" id="beckons">
             <?php foreach($beckons as $item):?>
                 <div class="type">
+
                     <img src="<?= $item['coimg'] ? $item['coimg'] : '/static/images/default/noimg.jpg'?>" alt="" class="tx"/>
+
                     <div class="jieshao">
                         <div class="line1">
                             <a href="<?php echo site_url('beckon/find');?>/<?= $item['uid'] ?>" class="name"><?= $item['title'] ?></a>
@@ -290,6 +294,7 @@
             gongzi_s_2 = 0;
             document.getElementById('gongzi_s_1').value = '';
             document.getElementById('gongzi_s_2').value = '';
+
         }else if(obj.id == 'jiesuan'){
             jiesuan = obj.name;
         }else if(obj.id == 'fbsj'){
@@ -319,7 +324,9 @@
         // console.log(url);
         $.get(url, function(str){
             // console.log(str);
+
             // console.log(quyu);
+
             var data = eval('(' + str + ')');
             // console.log(data);
             var div = document.getElementById('beckons');
@@ -333,6 +340,7 @@
                         '<div class="jieshao">'+
                             '<div class="line1">'+
                                 '<a href="<?php echo site_url('beckon/find');?>/'+data[i].uid+'" class="name">'+
+
                                     data[i].title+
                                 '</a>'+
                                 '<span class="vip">'+
