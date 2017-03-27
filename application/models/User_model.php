@@ -1169,7 +1169,7 @@ class User_model extends CI_Model {
      * 零工宝消息文件
      * 通知
      */
-    public function findNews($uid,$page = false,$pages = false){
+    public function findNews($uid,$page = 10,$pages = 0){
       $sql = 'select 
                 id,
                 title,
@@ -1191,7 +1191,7 @@ class User_model extends CI_Model {
     /**
      * 公告
      */
-    public function findNew($page = false,$pages = false){
+    public function findNew($page = 10,$pages = 0){
       $sql = 'select 
                 id, 
                 title,

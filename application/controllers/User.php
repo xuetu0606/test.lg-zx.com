@@ -1727,6 +1727,7 @@ $("#ghtx").change(function() {
                 $this->user_model->update_delete_1($item,$_SESSION['uid']);
             }
         }
+        $this->findAllNews();
     }
     /**
      * 查询所有收藏信息
