@@ -18,9 +18,9 @@ class User extends CI_Controller
         ));
         $this->load->library(array(
             'session',
+            'pagination',
             'form_validation'
         ));
-
     }
 
     /**
@@ -1637,13 +1637,109 @@ $("#ghtx").change(function() {
 
     }
     /**
-     * 打开消息文件页面
+     * 查询表中数据的总数
      */
-    public function news(){
-        var_dump($_SESSION);
+    
+    /**
+     * 查询消息文件信息
+     */
+    public function findAllNews(){
+        $uid = $_SESSION['uid'];
+        // var_dump($_SESSION);
         $data['user'] = $this->user_model->getUserBaseInfo($uid);
+        $data['title'] = '消息文件'; // 网页标题
+        $data['foot_js']='<script src="/static/js/jquery.js"></script><script src="/static/js/head-foot.js"></script><script src="/static/js/lgb.js"></script>';
+        $data['head_css']='<link rel="stylesheet" href="/static/css/lgb-wdfb.css"/>
+            <link rel="stylesheet" href="/static/css/lgb-wdsc.css"/>
+            <link rel="stylesheet" href="/static/css/common.css"/>
+            <link rel="stylesheet" href="/static/css/lgb.css"/>
+            <style>
+            .m h1,.m h2,.m h3{ margin: 5px 0;}
+            </style>';
+
+        $page = 10;
+        $config['base_url'] = site_url('user/findAllNews/t');
+        $config['total_rows'] = $this->db->count_all('user_message_log');
+        $config['uri_segment'] = 4; 
+        $config['prev_link'] = '上一页';
+        $config['next_link'] = '下一页';
+        $config['per_page'] = $page;
+        $config['first_link'] = false;//首页  
+        $config['cur_tag_open'] = '<a style="background:#C6C6C6">';
+        $config['cur_tag_close'] = '</a>';
+        $config['last_link'] = false;//尾页  
+        $config['use_page_numbers'] = 1;
+        
+        $this->pagination->initialize($config);
+        $data['link_g'] = $this->pagination->create_links();
+
+        $config['base_url'] = site_url('user/findAllNews/g');
+        $config['total_rows'] = $this->db->count_all('user_message_log2');
+        $this->pagination->initialize($config);
+        $data['link_t'] = $this->pagination->create_links();
+
+        if($pages_name = $this->uri->segment(3)){
+            if($pages_name == 'g'){
+                $pages_g = $this->uri->segment(4);
+                $pages_t = 0;
+            }else if($pages_name == 't'){
+                $pages_g = 0;
+                $pages_t = $this->uri->segment(4);
+            }
+        }else{
+            $pages_g = 0;
+            $pages_t = 0;
+        }
+        $data['news_g'] = $this->user_model->findNews($_SESSION['uid'],$page,$pages_t);
+        $data['news_t'] = $this->user_model->findNew($page,$pages_g);
+var_dump($data);
         $this->load->view('home/user/templates/header', $data);
-        $this->load->view('home/user/news_file');
+        $this->load->view('home/user/news_file', $data);
         $this->load->view('home/user/templates/footer', $data);
+    }
+    /**
+     * 查询一条消息
+     */
+    public function findById(){
+        $key = $this->uri->segment(3);
+        $value = $this->uri->segment(4);
+        if($key == 'delete_t'){
+            $id_array = array();
+            $this->user_model->update_delete_1($value,$_SESSION['uid']);
+        }else if($key == 'delete_g'){
+            $this->user_model->update_delete_2($value);
+        }else if($key == 'find_t'){
+            $data['news'] = $this->user_model->find_2($value,$_SESSION['uid']);
+        }else if($key == 'find_g'){
+            $data['news'] = $this->user_model->find_1($value);
+        }
+        echo '<h3>'.$data['news']['title'].'</h3>';
+        echo '<p>'.$data['news']['message'].'</p>';
+    }
+    /**
+     * 查询所有收藏信息
+     */
+    public function findAllKeeps(){
+        $uid = $_SESSION['uid'];
+        $data['user'] = $this->user_model->getUserBaseInfo($uid);
+        $data['title'] = '我的收藏'; // 网页标题
+        $data['foot_js']='<script src="/static/js/jquery.js"></script><script src="/static/js/head-foot.js"></script><script src="/static/js/lgb.js"></script>';
+        $data['head_css']='<link rel="stylesheet" href="/static/css/lgb-wdfb.css"/>
+            <link rel="stylesheet" href="/static/css/lgb-wdsc.css"/>
+            <link rel="stylesheet" href="/static/css/common.css"/>
+            <link rel="stylesheet" href="/static/css/lgb.css"/>
+            <style>
+            .m h1,.m h2,.m h3{ margin: 5px 0;}
+            </style>';
+        $data['keeps'] = $this->user_model->findKeeps($_SESSION['uid']);
+        $this->load->view('home/user/templates/header', $data);
+        $this->load->view('home/user/shoucang', $data);
+        $this->load->view('home/user/templates/footer', $data);
+    }
+    /**
+     * 查询一条收藏
+     */
+    public function findKeep(){
+        $id = $this->uri->segment(3);
     }
 }

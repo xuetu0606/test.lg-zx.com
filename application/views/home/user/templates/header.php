@@ -5,8 +5,11 @@
     <title>零工宝-<?php echo $title;?></title>
     <link rel="stylesheet" href="/static/css/common.css"/>
     <link rel="stylesheet" href="/static/css/head-foot.css"/>
-    <link rel="stylesheet" href="/static/css/workInfor.css"/>
+    <link rel="stylesheet" href="/static/css/workInfor1.css"/>
     <link rel="stylesheet" href="/static/css/form.css"/>
+    <link rel="stylesheet" href="/static/css/lgb.css"/>
+    <link rel="stylesheet" href="/static/css/lgb-wdsc.css"/>
+
     <?php
     echo $head_css;
     ?>
@@ -84,12 +87,12 @@
                 <h1>零工宝</h1>
                 <ul id="navlist">
                     <li><a href="/user" <?php echo $this->router->fetch_method()=='index'?'class="active"':'';?>>我的发布</a></li>
-                    <li><a href="/user/news">我的收藏</a></li>
+                    <li><a href="/user/findAllKeeps">我的收藏</a></li>
                     <li><a href="/user/myinfo" <?php echo $this->router->fetch_method()=='myinfo'?'class="active"':'';?>>我的资料</a></li>
                     <li><a href="#">认证管理</a></li>
                     <li><a href="/home/myaccount" <?php echo $this->router->fetch_method()=='myaccount'?'class="active"':'';?>>账户明细</a></li>
                     <li><a href="/home/evaluate" <?php echo $this->router->fetch_method()=='evaluate'?'class="active"':'';?>>我的评价</a></li>
-                    <li><a href="#">消息文件</a></li>
+                    <li><a href="/user/findAllNews">消息文件</a></li>
                     <li><a href="/user/contract" <?php echo $this->router->fetch_method()=='contract'?'class="active"':'';?>>签约推广</a></li>
                 </ul>
             </div>
