@@ -16,8 +16,6 @@ section div.main div.buzhou {
   width: auto;
   margin-bottom: 60px;
   padding-left: 40px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 section div.main div.buzhou span.step {
@@ -37,8 +35,14 @@ section div.main div.classify {
 section div.main div.classify ul {
   height: 40px;
   line-height: 40px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   border-bottom: solid 2px #ff3c5a;
 }
 section div.main div.classify ul li a {
@@ -77,7 +81,6 @@ section div.main div.infor {
 section div.main div.infor h1 {
   font-size: 24px;
   margin: 60px 160px;
-  font-weight: normal;
 }
 section div.main div.infor form {
   font-size: 16px;
@@ -129,6 +132,7 @@ section div.main div.infor form div.imgs div.zhtp img.gb:hover {
 section div.main div.infor form div.check span.allcheck,
 section div.main div.infor form div.imgs span.allcheck {
   color: #3cd3ff;
+  font-weight: bold;
 }
 section div.main div.infor form div.check span.allcheck:hover,
 section div.main div.infor form div.imgs span.allcheck:hover {

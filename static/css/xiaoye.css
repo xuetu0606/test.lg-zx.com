@@ -42,26 +42,11 @@
   margin: 0 auto;
   margin-top: 40px;
 }
-.gftx-main form div.zfb {
-  display: none;
-}
 .gftx-main form label span {
   font-size: 16px;
 }
 .gftx-main form .mar {
   margin: 60px 150px;
-}
-.gftx-main div.shuoming {
-  width: 460px;
-  margin: 0 auto;
-  margin-top: 80px;
-}
-.gftx-main div.shuoming p {
-  color: #9b9b9b;
-  margin-top: 16px;
-}
-.gftx-main div.shuoming p:first-child {
-  font-size: 16px;
 }
 .hycz-company {
   background-color: #ffffff;
@@ -144,8 +129,6 @@
   color: #fff;
   background-color: #caa600;
   font-size: 18px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
   border-radius: 4px;
   letter-spacing: 2px;
 }

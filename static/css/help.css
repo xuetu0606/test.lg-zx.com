@@ -1,15 +1,10 @@
 div.head {
   padding: 40px 0;
 }
-div.head img {
-  vertical-align: middle;
-}
 div.head span {
-  font-size: 24px;
+  font-size: 36px;
   color: #999999;
-  vertical-align: middle;
-  margin-left: 6px;
-  margin-top: 28px;
+  font-weight: bold;
 }
 p.line {
   border: solid 1px #c6c6c6;

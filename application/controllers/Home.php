@@ -13,8 +13,9 @@ class Home extends CI_Controller {
 		if ( ! file_exists(APPPATH.'views/home/index.php')){
 	        show_404();
 	    }
-	    //echo '<marquee><span style="color:green;font-size:50px;">敬告：零工在线电脑版升级维护中（手机登录http://m.lg-zx.com手机版正常使用），给您带来不便，敬请谅解。400-860-6286</span></marquee>';
+
 	    if($_SERVER['HTTP_HOST']=='pc.lg-zx.com'){//选择城市页面
+
 			if(strpos($_SERVER['HTTP_REFERER'], 'lg-zx.com')){//判断来源是来自本站
 				$data['title'] = '选择城市页'; // 定义标题
 				$data['citylist'] = $this->main_model->get_provinc_city();
@@ -50,7 +51,6 @@ class Home extends CI_Controller {
 		     	$data['list'][] = $value['list'];
 				$data['list_hot'][] = $value['list_hot'];
 		     }
-		     
 		     $aaa = $this->list_model->get_one_two_three();
 
 		     		 $data['lists'] = array();//调换在数据库里查出来的顺序    /**********
@@ -113,7 +113,7 @@ class Home extends CI_Controller {
 
 	     
 	}
-	//根据当前城市名，获取城市简码-----异步获取
+	//根据当前城市名，获取城市简码
 	public function currentCity(){
 		$city = $_POST['city'];//接收ajax传过来的城市名
 
@@ -130,81 +130,15 @@ class Home extends CI_Controller {
 		}
 		$city = $_POST['city']; 
 		$citycode = $this->main_model->cnameGetCcode($city);
-		if($citycode){
-			redirect("http://{$citycode['pinyin']}.lg-zx.com");
-		}else{
-			$this->main_model->alert('查找失败，请重新提供城市名','back');
-		}
+		var_dump($citycode);
+		var_dump($city);die();
+			$data['title'] = '选择城市页'; // 定义标题
+			$data['citylist'] = $this->main_model->get_provinc_city();
+
+			$this->load->view('templates/header',$data);
+			$this->load->view('home/header/city',$data);
+		    $this->load->view('templates/footer');
 	}
-
-	//零工宝页我的账户，跳转到账户明细页
-    public function myaccount(){
-        if ( ! file_exists(APPPATH.'views/home/pay/account.php')){
-            show_404();
-        }
-        //var_dump($_SESSION);
-        $uid = $_SESSION['uid'];
-	    $citycode = $this->main_model->getCityCode();		//获取当前地区名，放到首页头部
-		$city_arr = $this->main_model->getCityInfoByCode($citycode);
-		$data['cityname'] = $city_arr['name'];
-			
-		$data['title'] = '我的账户'; // 定义标题
-
-            $test['uid'] = $_SESSION['uid'];
-            $type = $this->uri->segment(3);
-            if($type){
-                $test['type'] = $type;
-            }else{
-                $test['type'] = 1;
-            }
-            $data['itemstype'] = $test['type'];
-            $this->load->model('user_model');
-            $data['items'] = $this->user_model->getUsercreditsItems($test);//获取用户三类明细
-            //var_dump($data['items']);
-            $data['credit'] = $this->user_model->getUsercredit($uid);//根据uid获得用户零工比。工分余额
-
-            $this->load->view('templates/header',$data);
-            $this->load->view('home/pay/account',$data);
-            $this->load->view('templates/footer');
-    }
-
-    //零工宝我的评价
-    public function evaluate(){
-    	if ( ! file_exists(APPPATH.'views/home/pay/myevaluate.php')){
-	        show_404();
-	    }
-	    if($_SESSION['uid']){
-	    	$uid = $_SESSION['uid'];
-	    $citycode = $this->main_model->getCityCode();		//获取当前地区名，放到首页头部
-		$city_arr = $this->main_model->getCityInfoByCode($citycode);
-		$data['cityname'] = $city_arr['name'];
-			
-		$data['title'] = '我的评价'; // 定义标题
-
-		    // $type = $this->uri->segment(3);
-      //       if($type == 2){
-      //           $type = 2;//收到的评价
-      //       }else{
-      //           $type = 1;//发布的评价
-      //       }
-
-			$data['result'] = $this->list_model->getcredits($uid);
-			var_dump($data['result']);
-
-			$this->load->view('home/user/templates/header',$data);
-			$this->load->view('home/pay/myevaluate',$data);
-			$this->load->view('home/user/templates/footer');
-	    }else{
-	    	redirect('http://'.$_SERVER['HTTP_HOST'].'/user/index');
-	    }
-    }
-
-
-
-
-
-
-
 	
 	//根据一级分类，点击跳到二级分类列表
 	public function profession(){
@@ -539,7 +473,7 @@ class Home extends CI_Controller {
     }
 
     //点击我要评价
-    public function evaluate2(){
+    public function evaluate(){
     	if ( ! file_exists(APPPATH.'views/home/tail/evaluate.php')){
 	        show_404();
 	    }

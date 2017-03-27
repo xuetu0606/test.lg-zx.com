@@ -9,28 +9,21 @@ $(function(){
         $('.warning').hide();
         k=$(this).parent().index();
         star=$(this).parent().parent();
-        star.children('.score').val(k);
-        for(i=0;i<5;i++){
-            star.children('.stardiv').eq(i).children('.back').addClass('whitexing');
-        }
-        for(i=0;i<k;i++){
+        star.children('.score').val('1');
+        if(index<=k)
+        {
+            //alert("index="+index+"k="+k);
+            for( i=0;i<k;i++){
             star.children('.stardiv').eq(i).children('.back').addClass('redxing').removeClass('whitexing');
         }
-        //if(index<=k)
-        //{
-        //    //alert("index="+index+"k="+k);
-        //
-        //    for( i=0;i<k;i++){
-        //    star.children('.stardiv').eq(i).children('.back').addClass('redxing').removeClass('whitexing');
-        //}
-        //    index=k;
-        //}
-        //else{
-        //    //alert("index="+index+"k="+k);
-        //    for(j=4;j>=k;j--){
-        //        star.children('.stardiv').eq(j).children('.back').removeClass('redxing').addClass('whitexing');
-        //    }
-        //    index=k;
-        //}
+            index=k;
+        }
+        else{
+            //alert("index="+index+"k="+k);
+            for(j=4;j>=k;j--){
+                star.children('.stardiv').eq(j).children('.back').removeClass('redxing').addClass('whitexing');
+            }
+            index=k;
+        }
     })
 });

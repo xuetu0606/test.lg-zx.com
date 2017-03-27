@@ -39,17 +39,11 @@ section div.main div.login {
 }
 section div.main div.login span.type {
   height: 55px;
-  width: 265px;
+  width: 263px;
   line-height: 55px;
   text-align: center;
   font-size: 18px;
   vertical-align: middle;
-}
-section div.main div.login span.type:first-child {
-  margin-left: -2px;
-}
-section div.main div.login span.type:nth-child(2) {
-  margin-right: -2px;
 }
 section div.main div.login span.type:first-child {
   background-color: #c6c6c6;
@@ -72,6 +66,7 @@ section div.main div.login div.zhdl {
 }
 section div.main div.login div.zhdl p {
   font-size: 16px;
+  font-weight: bold;
   margin: 10px;
   width: 120px;
   margin-left: 144px;
@@ -89,7 +84,7 @@ section div.main div.login div.zhdl input[type=password] {
   border-radius: 5px;
 }
 section div.main div.login div.zhdl input[type=submit] {
-  width: 210px;
+  width: 200px;
   background-color: #ff3c5a;
   color: #fff;
   display: block;

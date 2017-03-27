@@ -1,16 +1,22 @@
 section div.main div.body div.content p.xz {
   margin-top: 40px;
-  margin-left: 27px;
-  width: 871px;
+  margin-left: 30px;
   height: 26px;
   padding: 0 50px;
   background-color: #ededed;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 section div.main div.body div.content p.xz span:hover {
   cursor: pointer;
@@ -101,6 +107,7 @@ section div.main div.body div.content div.fbgz div.before div.demo div.right div
 section div.main div.body div.content div.zlg div.before div.demo div.right div.jsh div.m {
   display: inline-block;
   height: 90px;
+  margin-top: 10px;
   vertical-align: top;
   max-width: 460px;
 }
@@ -111,7 +118,6 @@ section div.main div.body div.content div.zlg div.deleted div.demo div.right div
 section div.main div.body div.content div.fbgz div.before div.demo div.right div.jsh div.m h1,
 section div.main div.body div.content div.zlg div.before div.demo div.right div.jsh div.m h1 {
   font-size: 16px;
-  font-weight: normal;
 }
 section div.main div.body div.content div.fbgz div.now div.demo div.right div.jsh div.m h2,
 section div.main div.body div.content div.zlg div.now div.demo div.right div.jsh div.m h2,

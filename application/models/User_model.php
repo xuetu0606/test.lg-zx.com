@@ -442,12 +442,8 @@ class User_model extends CI_Model {
 		}
 		$query1 = $this->db->query($sql2);
 		$arr1 = $query1->row_array();
-        if($arr1['img']){
-            $arr1['img'] = file_exists(getcwd().$img_src.$arr1['img'])?($img_src.$arr1['img']):"/static/images/default/noimg.jpg" ;
-        }else{
-            $arr1['img'] = "/static/images/default/noimg.jpg" ;
-        }
 
+		$arr1['img'] = $arr1['img']?($img_src.$arr1['img']):"/static/images/default/noimg.jpg" ;
 //			$row['idno'] = $row2['idno'] ;
 			$arr['medal'] = "/static/images/section/3-list/";
 			if($arr['is_real']){//是实名认证
@@ -634,7 +630,7 @@ class User_model extends CI_Model {
      */
     public function getCoUserInfo($uid){
     	$sql = "select pro_t.name as province,city_t.name as city, user_co.coname, co_scale.name as scale,
-				userlist.mobile,userlist.wechat,userlist.qq,userlist.email,user_co.info,userlist.is_real,user_co.idno,userlist.address
+				userlist.mobile,userlist.wechat,userlist.qq,user_co.info,userlist.is_real,user_co.idno,userlist.address
 				from userlist inner join user_co on user_co.uid=userlist.uid
 				LEFT JOIN co_scale on co_scale.code=user_co.scale_code
 				inner join province_city as pro_t on userlist.province_id=pro_t.dist_id
@@ -650,7 +646,7 @@ class User_model extends CI_Model {
      */
     public function getPersonalInfo($uid){
     	$sql = "select pro_t.name as province,city_t.name as city,user_personal.realname,user_personal.nickname,user_personal.sex,
-				userlist.mobile,userlist.wechat,userlist.qq,userlist.email,user_personal.info,userlist.is_real,user_personal.idno,userlist.address
+				userlist.mobile,userlist.wechat,userlist.qq,user_personal.info,userlist.is_real,user_personal.idno,userlist.address
 				from userlist inner join user_personal on user_personal.uid=userlist.uid
 				inner join province_city as pro_t on userlist.province_id=pro_t.dist_id
 				inner join province_city  as city_t on userlist.city_id=city_t.dist_id
@@ -750,7 +746,7 @@ class User_model extends CI_Model {
 
     /**
      * 修改用户头像
-     *sdsadsadsa
+     *
      */
     public function updateInfoImage($data){
         extract($data);
@@ -863,9 +859,7 @@ class User_model extends CI_Model {
     	$sql = "update user_co set coname='$coname',idno='$idno',idno_img='$idno_img' where uid='$uid'";
 //    	echo $sql;exit;
     	$query = $this->db->query($sql);
-        $sql1 = "update userlist set is_real='0' where uid='$uid'";
-        $query1 = $this->db->query($sql1);
-    	if($query and $query1){
+    	if($query){
     		return array('flag'=>1,'info'=>'实名认证成功');
     	}else{
     		return array('flag'=>-1,'info'=>'信息提交失败，请稍后重试！');
@@ -896,9 +890,7 @@ class User_model extends CI_Model {
   		$coname = $this->string_model->filter($coname);
     	$sql = "update user_personal set realname='$realname',idno='$idno',idno_img='$idno_img' where uid='$uid'";
     	$query = $this->db->query($sql);
-        $sql1 = "update userlist set is_real='0' where uid='$uid'";
-        $query1 = $this->db->query($sql1);
-        if($query and $query1){
+    	if($query){
     		return array('flag'=>1,'info'=>'实名认证成功');
     	}else{
     		return array('flag'=>-1,'info'=>'信息提交失败，请稍后重试！');

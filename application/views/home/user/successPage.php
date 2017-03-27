@@ -1,17 +1,16 @@
-<link rel="stylesheet" href="/static/css/lgb.css"/>
+<link rel="stylesheet" href="/static/css/lgb/title.css"/>
+<link rel="stylesheet" href="/static/css/lgb/identify.css"/>
+<section>
+    <p class="title">
+        <a href="#"><</a>
+        <span><?php echo $title ?></span>
+    </p>
 
-<div class="content">
-    <div class="ghyx">
-        <p class="buzhou">
-
-            <?php echo $buzhou ?>
-        </p>
-        <div class="success" style="margin-top: 100px;">
-            <img src="/static/images/lgb/dih.png" alt=""/><span><?php echo $info ?></span>
-        </div>
-
+    <div class="success">
+        <p><?php echo $info ?></p>
+        <p class="pink">自动跳转到零工宝界面（<span id="time" class="pink">5</span>s）</p>
     </div>
-</div>
-</div>
-</div>
+
 </section>
+
+<script src="/static/js/countDown.js"></script>

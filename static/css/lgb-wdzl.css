@@ -65,7 +65,7 @@ section div.main div.body div.content div.ghyx p.buzhou {
 section div.main div.body div.content div.ghyx p.buzhou span {
   font-size: 18px;
   color: #999;
-  width: 110px;
+  width: 100px;
 }
 section div.main div.body div.content div.ghyx p.buzhou span:nth-child(even) {
   font-weight: bold;
@@ -97,8 +97,6 @@ section div.main div.body div.content span.fs {
   border: solid 1px #556f7b;
   font-size: 16px;
   line-height: 28px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
   border-radius: 4px;
   margin-left: 10px;
 }

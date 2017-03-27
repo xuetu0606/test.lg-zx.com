@@ -212,6 +212,9 @@
                     <ul class="treeview-menu">
                         <li class="<?php echo $hytj_class; ?>"><a href="/daili/hytj"><i class="fa fa-circle-o"></i> 会员统计</a></li>
                     </ul>
+                    <ul class="treeview-menu">
+                        <li class="<?php echo $hytj_class; ?>"><a href="<?php echo site_url('/daili/add'); ?>"><i class="fa fa-circle-o"></i> 会员添加</a></li>
+                    </ul>
                 </li>
 
                 <li class="<?php echo $mailbox_class;?>">
@@ -224,7 +227,7 @@
             </span>
                     </a>
                 </li>
-				
+
                 <!--预留
                 <li class="header">LABELS</li>
                 <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>

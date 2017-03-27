@@ -15,7 +15,7 @@
 <header>
     <div class="main">
         <div class="city">
-            <span class="stress"><a href="/"><?php echo $cityname; ?></a></span>
+            <span class="stress"><?php echo $cityname; ?></span>
             <a href="http://www.lg-zx.com/">[切换城市]</a>
         </div>
         <div class="fr">
@@ -86,7 +86,7 @@
                     <li><a href="/user" <?php echo $this->router->fetch_method()=='index'?'class="active"':'';?>>我的发布</a></li>
                     <li><a href="#">我的收藏</a></li>
                     <li><a href="/user/myinfo" <?php echo $this->router->fetch_method()=='myinfo'?'class="active"':'';?>>我的资料</a></li>
-                    <li><a href="/user/identify">认证管理</a></li>
+                    <li><a href="#">认证管理</a></li>
                     <li><a href="/home/myaccount" <?php echo $this->router->fetch_method()=='myaccount'?'class="active"':'';?>>账户明细</a></li>
                     <li><a href="/home/evaluate" <?php echo $this->router->fetch_method()=='evaluate'?'class="active"':'';?>>我的评价</a></li>
                     <li><a href="#">消息文件</a></li>

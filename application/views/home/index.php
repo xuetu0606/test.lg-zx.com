@@ -1,4 +1,4 @@
-
+<?php //var_dump($list_hot);  ?>
 <link rel="stylesheet" href="/static/css/shouye.css"/>
 <div class="hiddenHeader">
     <div class="hiddenSearchP">
@@ -14,7 +14,7 @@
             </div>
 
         </form>
-        <a href="<?php echo site_url('pub/selest'); ?>" class="fabu">免费发布信息</a>
+        <a href="#" class="fabu">免费发布信息</a>
     </div>
 </div>
 <section>
@@ -27,9 +27,9 @@
                 <img src="/static/images/shouye/LOGOa.png" alt=""/>
                 <span>一个专业的分类信息网站</span>
             </div>
-            <form action="<?php echo site_url('Listlg/lgsearch'); ?>" method="POST" class="formsousuo">
+            <form action="#" method="" class="formsousuo">
             <div class="search">
-                <input type="text" placeholder="输入工种或关键字" class="sousuo" name='search'/>
+                <input type="text" placeholder="输入工种或关键字" class="sousuo"/>
                 <a class="sousuo">搜索</a>
                 <ul>
                     <li class="stress">热门搜索：</li>
@@ -42,55 +42,51 @@
 
             </form>
             <div class="publish">
-                <a href="<?php echo site_url('pub/selest'); ?>" class="fabu">免费发布信息</a>
+                <a href="#" class="fabu">免费发布信息</a>
                 <a href="#" class="xiugai">修改/删除信息</a>
             </div>
         </div>
         <nav>
             <ul>
                 <li><a href="/" class="active">首页</a></li>
-                <li><a href="<?php echo site_url('listlg/index/news'); ?>">最新发布</a></li>
+                <li><a href="#">最新发布</a></li>
                 <?php foreach($first_level as $key => $value){//循环遍历出来7个一级分类 ?>
-                <li><a href="<?php echo site_url('listlg/index/l1/'.$key); ?>"><?php echo $value['name']; ?></a></li>
+                <li><a href="<?php echo site_url('home/######'); ?>"><?php echo $value['name']; ?></a></li>
                 <?php } ?>
-                <li><a href="<?php echo site_url('listlg/index/student'); ?>">大学生专栏</a></li>
+                <li><a href="#">大学生专栏</a></li>
                 <li><a href="#">招零工</a></li>
             </ul>
         </nav>
     </div>
     <div class="body">
         <div class="main main1">
-        <?php $i=1; foreach($lists as $key_one => $value){//遍历三级二级一级分类列表 
+        <?php $i=1; foreach($lists as $key => $value){//遍历三级二级一级分类列表 
 
         ?>
             <div class="demo">
-                <p class="h1"><a href="<?php echo site_url('listlg/index/l1/'.$key_one); ?>"><?php echo $value['name']; //一级分类 *****?></a></p>
+                <p class="h1"><a href="<?php echo site_url('home/######'); ?>"><?php echo $value['name']; //一级分类 *****?></a></p>
                 
                     <?php foreach($value['sub'] as $key => $val){ ?>
                 <div class="type">
                     
                     <?php if($val['name'] == '其他'){ //二级分类 ****?>
                     <div class="h2">
-                        <span><a href="<?php echo site_url('listlg/index/l1/'.$key_one.'/l2/'.$key); ?>"><?php echo $val['name']; ?></a></span>
+                        <span><a href="#"><?php echo $val['name']; ?></a></span>
                     </div>
                    <?php }else{ ?>
                    <div class="h2">
-                        <span><a href="<?php echo site_url('listlg/index/l1/'.$key_one.'/l2/'.$key); ?>"><?php echo $val['name']; ?></a></span>
-                        <a href="<?php echo site_url('listlg/index/l1/'.$key_one.'/l2/'.$key); ?>"><img src="/static/images/shouye/<?php echo $key; ?>.png" alt=""/></a>
+                        <span><a href="#"><?php echo $val['name']; ?></a></span>
+                        <a href="#"><img src="/static/images/shouye/<?php echo $key; ?>.png" alt=""/></a>
                     </div>
                     <div class="h3">
                         <ul>
                         <?php $a = 0; 
                         foreach($val['sub'] as $k => $v){ 
                             if($v['name'] != '其他'){
-                                if($v['name'] == '保姆' || $v['name'] == '月嫂' || $v['name'] == '家具' || $v['name'] == '珍稀木器' || $v['name'] == '室内卫生' || $v['name'] == '除虫害' || $v['name'] == '干洗洗涤' || $v['name'] == '送水' || $v['name'] == '家庭搬家' || $v['name'] == '钢琴搬家' || $v['name'] == '开锁换锁' || $v['name'] == '汽车秘钥' || $v['name'] == '小型车维修' || $v['name'] == '安全接送' || $v['name'] == '红娘' || $v['name'] == '婚纱照写真' || $v['name'] == '全家福' || $v['name'] == '疑难杂症' || $v['name'] == '诊所' || $v['name'] == '殡仪服务' || $v['name'] == '刻碑' || $v['name'] == '起名改名' || $v['name'] == '学生托管' || $v['name'] == '家教' || $v['name'] == '京剧' || $v['name'] == '棋牌' || $v['name'] == '书法' || $v['name'] == '会计培训' || $v['name'] == '财税服务' || $v['name'] == '工商注册' || $v['name'] == '礼品定制' || $v['name'] == '广告服务' || $v['name'] == '常规货运' || $v['name'] == '保温保鲜货运' || $v['name'] == '整体卫生' || $v['name'] == '玻璃幕墙' || $v['name'] == '电脑' || $v['name'] == '手机' || $v['name'] == '电视' || $v['name'] == '凿墙拆改' || $v['name'] == '腻子' || $v['name'] == '线路' || $v['name'] == '复印机' || $v['name'] == '一体机' || $v['name'] == '传真机' || $v['name'] == '楼宇装修' || $v['name'] == 'LED显示屏' || $v['name'] == '手机软件APP' || $v['name'] == '微信推广' || $v['name'] == '社交平台推广' || $v['name'] == '职业经理' || $v['name'] == '会计师' || $v['name'] == '业务员' || $v['name'] == '驾驶员' || $v['name'] == '学徒工'){ ?>
-                                        <li><a href="<?php echo site_url('listlg/index/l1/'.$key_one.'/l2/'.$key.'/l3/'.$k); ?>" class="stress"><?php echo $v['name']; ?></a></li>
-                             <?php   }else{ ?>
-                                        <li><a href="<?php echo site_url('listlg/index/l1/'.$key_one.'/l2/'.$key.'/l3/'.$k); ?>">
-                                            <?php echo $v['name']; ?></a></li>
-                             <?php  }
-                                ?>
-                            
+                                //continue; 
+                        ?>
+                            <li><a href="#" class="stress">
+                            <?php echo $v['name']; ?></a></li>
                             <?php } $a++; 
                             if($a%4==0){
                                 echo "</ul><ul>";
@@ -212,4 +208,6 @@
     </div>
 </section>
 <script src="/static/js/search.js"></script>
+<script src="/static/js/jquery.js"></script>
 <script src="/static/js/shouye.js"></script>
+<script src="/static/js/head-foot.js"></script>

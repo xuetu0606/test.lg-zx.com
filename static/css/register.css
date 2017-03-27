@@ -2,11 +2,8 @@ section div.logo {
   text-align: center;
   margin: 40px auto;
 }
-section div.logo img {
-  width: 200px;
-}
 section div.logo p {
-  font-size: 13px;
+  font-size: 18px;
   margin: 20px 0;
 }
 section div.form {
@@ -16,9 +13,6 @@ section div.form {
   padding: 30px 20px;
   border: solid 1px #c6c6c6;
   box-sizing: border-box;
-}
-section div.form form label {
-  font-weight: normal;
 }
 section div.form form .text-danger {
   color: #ff3c5a;
@@ -50,7 +44,7 @@ section div.form form .btnprimary {
   color: #fff;
   background-color: #ff3c5a;
   border: solid 1px #ff3c5a;
-  width: 100%;
+  width: 80%;
   display: inline-block;
   padding: 6px 12px;
   margin-bottom: 0;
