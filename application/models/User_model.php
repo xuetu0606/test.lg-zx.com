@@ -1244,9 +1244,7 @@ class User_model extends CI_Model {
               from 
                   user_message_log2 
               where 
-                  id='.$id.'
-                  and
-                  uid='.$uid;
+                  id='.$id;
       $query = $this->db->query($sql);
       $result = $query->result_array();
       return $result;
