@@ -1304,4 +1304,8 @@ class User_model extends CI_Model {
       }
       return $result;
     }
+    public function deleteKeep($id){
+      $sql = 'delete from shoucang_list where id='.$id;
+      $this->db->query($sql);
+    }
 }

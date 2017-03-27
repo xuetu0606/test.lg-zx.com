@@ -18,7 +18,7 @@
                             <tbody>
                                 <?php foreach($news_t as $item): ?>
                                     <tr>
-                                        <td style="width: 40px!important;"><input type="checkbox"class="should-check"/></td>
+                                        <td style="width: 40px!important;"><input type="checkbox" class="should-check t"/></td>
                                         <td><a href="<?php echo site_url('user/findById'); ?>/find_t/<?= $item['id'] ?>"><?= $item['title'] ?></a></td>
                                         <td><?= date('Y-m-d H:i:s',$item['addtime']) ?></td>
                                         <td><a href="<?php echo site_url('user/findById'); ?>/delete_t/<?= $item['id'] ?>">删除</a></td>
@@ -26,11 +26,11 @@
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
-                        <!-- <div class="acheck">
+                        <div class="acheck">
                             <input type="checkbox" class="allcheck"/>
                             <span>全选</span>
-                            <span class="del" onclick="delete(this);">删除</span>
-                        </div> -->
+                            <span class="del" id="t_d" onclick="delete_s(this);">删除</span>
+                        </div>
 
                     </form>
 
@@ -49,7 +49,7 @@
                             <tbody>
                                 <?php foreach($news_g as $item): ?>
                                     <tr>
-                                        <td style="width: 40px!important;"><input type="checkbox"class="should-check"/></td>
+                                        <td style="width: 40px!important;"><input type="checkbox" class="should-check g"/></td>
                                         <td><a href="<?php echo site_url('user/findById'); ?>/find_g/<?= $item['id'] ?>"><?= $item['title'] ?></a></td>
                                         <td><?= date('Y-m-d H:i:s',$item['addtime']) ?></td>
                                         <td><a href="<?php echo site_url('user/findById'); ?>/delete_g/<?= $item['id'] ?>">删除</a></td>
@@ -57,11 +57,11 @@
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
-                        <!-- <div class="acheck">
+                        <div class="acheck">
                             <input type="checkbox" class="allcheck"/>
                             <span>全选</span>
-                            <span class="del" onclick="delete(this);">删除</span>
-                        </div> -->
+                            <span class="del" id="g_d" onclick=" delete_s(this); ">删除</span>
+                        </div>
 
                     </form>
                 </div>
@@ -76,7 +76,15 @@
     </div>
 </section>
 <script type="text/javascript">
-    function delete(obj){
-        $('input.should-check')
+    function delete_s(obj){
+        console.log(obj);
+        if(obj.id == 't_d'){
+            var check = $("input:checkbox:checked.t");
+        }else if(obj.id == 'g_d'){
+            var check = $("input:checkbox:checked.g");
+        }
+        console.log(check);
+        console.log(check.length);
+
     }
 </script>

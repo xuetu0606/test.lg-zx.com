@@ -1728,15 +1728,36 @@ $("#ghtx").change(function() {
             <style>
             .m h1,.m h2,.m h3{ margin: 5px 0;}
             </style>';
-        $data['keeps'] = $this->user_model->findKeeps($_SESSION['uid']);
+
+        $page = 10;
+        $config['base_url'] = site_url('user/findAllKeeps');
+        $config['total_rows'] = $this->db->count_all('shoucang_list');
+        $config['uri_segment'] = 4; 
+        $config['prev_link'] = '上一页';
+        $config['next_link'] = '下一页';
+        $config['per_page'] = $page;
+        $config['first_link'] = false;//首页  
+        $config['cur_tag_open'] = '<a style="background:#C6C6C6">';
+        $config['cur_tag_close'] = '</a>';
+        $config['last_link'] = false;//尾页  
+        $config['use_page_numbers'] = 1;
+        
+        $this->pagination->initialize($config);
+        $data['link'] = $this->pagination->create_links();
+
+        $pages = $this->uri->segment(3);
+
+        $data['keeps'] = $this->user_model->findKeeps($_SESSION['uid'],$page,$pages);
         $this->load->view('home/user/templates/header', $data);
         $this->load->view('home/user/shoucang', $data);
         $this->load->view('home/user/templates/footer', $data);
     }
     /**
-     * 查询一条收藏
+     * 修改一条收藏
      */
-    public function findKeep(){
+    public function updateKeep(){
         $id = $this->uri->segment(3);
+        $this->user_model->deleteKeep($id);
+        $this->findAllKeeps();
     }
 }

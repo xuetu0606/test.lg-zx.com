@@ -18,7 +18,7 @@
                                 <tr>
                                     <td><?= $item['title'] ?></td>
                                     <td><?= date('Y-m-d H:i:s',$item['addtime']) ?></td>
-                                    <td><a href="<?= site_url('user/') ?>">取消收藏</a></td>
+                                    <td><a href="<?= site_url('user/updateKeep') ?>/<?= $item['id'] ?>">取消收藏</a></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -43,9 +43,7 @@
                     </table>
                 </div>
                 <div class="fenye">
-                    <a href="#">1</a>
-                    <a href="#">10</a>
-                    <a href="#">下一页</a>
+                    <?= $link ?>
                 </div>
             </div>
         </div>
