@@ -18,6 +18,7 @@ $(function(){
         }
         else if($(this).parents('.fenlei').length==1&&$(this).children('a').text()=="不限"){
             $('.zhiye').hide();
+            $('.gongzhong').hide();
         }
         else if($(this).parents('.zhiye').length==1&&$(this).children('a').text()!="不限"){
             $('.gongzhong #job').parent('li').siblings().children('a').css('color','#333');

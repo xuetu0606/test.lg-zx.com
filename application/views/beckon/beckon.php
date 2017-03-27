@@ -45,7 +45,7 @@
             <input type="text" class="input-normal"/>
             <input type="submit" value="" class="fdj"/>
         </form>
-        <a href="#">免费发布信息</a>
+        <a href="/pub/selest/0/zlg">免费发布信息</a>
     </div>
 </div>
 <section>

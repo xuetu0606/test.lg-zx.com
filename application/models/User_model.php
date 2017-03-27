@@ -1156,7 +1156,153 @@ class User_model extends CI_Model {
             return array('flag'=>-1,'info'=>'提现失败，请稍后重试！');
         }
     }
+    /**
+     * 查询表中数据的总数
+     */
+    public function getCunto($uid){
+      $sql = 'select count(*) as count from user_message_log where uid='.$uid;
+      $query = $this->db->query($sql);
+      $result = $query->result_array();
+      return $result[0]['count'];
+    }
+    /**
+     * 零工宝消息文件
+     * 通知
+     */
+    public function findNews($uid,$page = 10,$pages = 0){
+      $sql = 'select 
+                id,
+                title,
+                message,
+                addtime,
+                updatetime
+              from 
+                user_message_log
+              where 
+                uid='.$uid.'
+                and
+                flag!=-1
+              limit
+                '.intval($pages).','.$page.'';
+      $query = $this->db->query($sql);
+      $result = $query->result_array();
+      return $result;
+    }
+    /**
+     * 公告
+     */
+    public function findNew($page = 10,$pages = 0){
+      $sql = 'select 
+                id, 
+                title,
+                message,
+                addtime,
+                updatetime
+              from 
+                user_message_log2
+              where 
+                flag!=-1 
+              limit
+                '.intval($pages).','.$page.'  ';
+      $query = $this->db->query($sql);
+      $result = $query->result_array();
+      return $result;
+    }
 
-
-
+    /**
+     * 查询公告表
+     */
+    public function find_1($id){
+      $sql = 'select 
+                  id,
+                  uid,
+                  title,
+                  message,
+                  addtime,
+                  flag,
+                  updatetime 
+              from 
+                  user_message_log 
+              where 
+                  id='.$id;
+      $query = $this->db->query($sql);
+      $result = $query->result_array();
+      return $result;
+    }
+    /**
+     * 查询通知表
+     */
+    public function find_2($id){
+      $sql = 'select 
+                  id,
+                  title,
+                  message,
+                  addtime,
+                  flag,
+                  updatetime 
+              from 
+                  user_message_log2 
+              where 
+                  id='.$id;
+      $query = $this->db->query($sql);
+      $result = $query->result_array();
+      return $result;
+    }
+    /**
+     * 修改通知表信息状态修改为删除态
+     */
+    public function update_delete_1($id,$uid){
+      $sql = ' update 
+                  user_message_log2
+              set 
+                  flag=-1
+              where 
+                  id='.$id.'
+                  and
+                  uid='.$uid;
+      $this->db->query($sql);
+    }
+    /**
+     * 修改公告表
+     */
+    public function update_delete_2($id){
+      $sql = ' update 
+                  user_message_log
+              set 
+                  flag=-1
+              where 
+                  id='.$id;
+      $this->db->query($sql);
+    }
+    /**
+     * 查询所有收藏
+     */
+    public function findKeeps($uid){
+      $sql = 'select 
+                id,
+                uid,
+                publish_id,
+                addtime
+              from 
+                shoucang_list
+              where 
+                uid='.$uid;
+      $query = $this->db->query($sql);
+      $result = $query->result_array();
+      for($i = 0 ; $i < count($result) ; $i++){
+        $sql = 'select 
+                  info1 
+                from
+                  publish_list
+                where 
+                  id='.$result[$i]['publish_id'];
+        $query = $this->db->query($sql);
+        $result[$i]['title'] = $query->result_array()[0]['info1'];
+      }
+      return $result;
+    }
+    public function deleteKeep($id){
+      $sql = 'delete from shoucang_list where id='.$id;
+      $this->db->query($sql);
+    }
 }
