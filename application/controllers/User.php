@@ -1656,7 +1656,7 @@ $("#ghtx").change(function() {
 
         $page = 10;
         $config['base_url'] = site_url('user/findAllNews/t');
-        $config['total_rows'] = $this->user_model->getCunto($uid);
+        $config['total_rows'] = $this->user_model->getCunto($_SESSION['uid']);
         $config['uri_segment'] = 4; 
         $config['prev_link'] = '上一页';
         $config['next_link'] = '下一页';
@@ -1712,6 +1712,21 @@ $("#ghtx").change(function() {
         }
         echo '<h3>'.$data['news']['title'].'</h3>';
         echo '<p>'.$data['news']['message'].'</p>';
+    }
+    /**
+     * 全选删除
+     */
+    public function deleteByIds(){
+        var_dump($_POST);
+        if($_POST['g_d']){
+            foreach($_POST['g_d'] as $item){
+                $this->user_model->update_delete_2($item);
+            }
+        }else if($_POST['t_d']){
+            foreach($_POST['g_t'] as $item){
+                $this->user_model->update_delete_1($item,$_SESSION['uid']);
+            }
+        }
     }
     /**
      * 查询所有收藏信息

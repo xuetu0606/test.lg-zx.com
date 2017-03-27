@@ -1268,7 +1268,7 @@ class User_model extends CI_Model {
     /**
      * 修改公告表
      */
-    public function update_delete_2($id,$uid){
+    public function update_delete_2($id){
       $sql = ' update 
                   user_message_log
               set 
