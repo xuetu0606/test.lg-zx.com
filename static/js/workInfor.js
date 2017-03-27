@@ -3,23 +3,27 @@ $(function(){
     $('.type ul li').click(function(){
         $(this).children('a').css('color','#ff3c5a');
         $(this).siblings().children('a').css('color','#333');
-
+        var data1 = $(this).children('a').attr('data');
         if($(this).parents('.fenlei').length==1&&$(this).children('a').text()!="不限"){
-            $('.zhiye').show();
+
+            $('.zhiyes').hide();
+            $(".zhiye" + data1).show();
         }
         else if($(this).parents('.fenlei').length==1&&$(this).children('a').text()=="不限"){
-            $('.zhiye').hide();
+            $('.zhiyes').hide();
 
         }
-        else if($(this).parents('.zhiye').length==1&&$(this).children('a').text()!="不限"){
-            $('.gongzhong').show();
+        else if($(this).parents('.zhiyes').length==1&&$(this).children('a').text()!="不限"){
+            $('.gongzhong').hide();
+            $('.gongzhongs' + data1).show();
         }
-        else if($(this).parents('.zhiye').length==1&&$(this).children('a').text()=="不限"){
+        else if($(this).parents('.zhiyes').length==1&&$(this).children('a').text()=="不限"){
             $('.gongzhong').hide();
 
         }
         else if($(this).parents('.quyu').length==1&&$(this).children('a').text()!="不限"){
-            $('.dizhi').show();
+            $('.dizhi').hide();
+            $('.dizhis' + data1).show();
         }
         else if($(this).parents('.quyu').length==1&&$(this).children('a').text()=="不限"){
             $('.dizhi').hide();
@@ -35,24 +39,24 @@ $(function(){
     $('#time span.xl').click(function(){
         var ul=$(this).siblings('ul.list-group');
         if(ul.css('display')=='none'){
-            $('img.timejt').prop('src','./images/shangla.png');
+            $('img.timejt').prop('src','/static/images/shangla.png');
            ul.show();
         }else{
-            $('img.timejt').prop('src','./images/form/xl.png');
+            $('img.timejt').prop('src','/static/images/form/xl.png');
             ul.hide();
         }
     });
     $('.citya').click(function(){
        $('.fbsj').text($(this).text());
         $('#time ul.list-group').hide();
-        $('img.timejt').prop('src','./images/form/xl.png');
+        $('img.timejt').prop('src','/static/images/form/xl.png');
     });
     $(document).bind("click", function (e) {
         var target = $(e.target);
         if(target.closest("#time").length == 0){
             //进入if则表明点击的不是#province,#proDiv元素中的一个
             $("#time ul.list-group").hide();
-            $('img.timejt').prop('src','./images/form/xl.png');
+            $('img.timejt').prop('src','/static/images/form/xl.png');
         }
         e.stopPropagation();
     });

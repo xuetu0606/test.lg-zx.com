@@ -97,11 +97,11 @@ $query = $this->db->query($sql);
 	//根据首页传过来的id。查找一级分类
 	public function get_one($id){
 		$sql = "select name from job_type where id={$id}";
-		$query = $this -> db -> query($sql);
+		$query = $this ->db-> query($sql);
 		$arr = $query->row_array();
 		return $arr['name'];
 	}
-    
+
     /**
      * 取得最新发布的工种列表
      *参数：$limit 条数限制，默认5条
@@ -135,7 +135,7 @@ $query = $this->db->query($sql);
     /**
      * 获取工种查询列表
      * @param unknown_type $data 参数包含：
-     * l1-一级分类，l2-二级分类，l3-三级分类，d-区县，a-片区，s-性别，t-类型，stu-是否大学生，f-是否涉外，r-是否实名认证，o-是否上门服务，or-顺序,p-当前页码,pz-每页记录数默认10
+     * l1-一级分类，l2-二级分类，l3-三级分类，d-区县，a-片区，s-性别，t-类型，stu-是否大学生，f-是否涉外，    ，o-是否上门服务，or-顺序,p-当前页码,pz-每页记录数默认10
      * page-当前页码 默认1，pagesie-每页记录条数 默认10，
      * 
      * 
@@ -177,7 +177,7 @@ $query = $this->db->query($sql);
 		!is_null($o)&&$o<>'all' &&$sql_part .= " and publish_list.is_onsite_service='$o' ";
 		
 		($d||$a) && $sql_part .= " group by publish_list.id";
-    	$sql = "select info1,userlist.uid,no,username,userlist.is_real, job_type.`name`,publish_list.id,userlist.is_co,userlist.credit3,publish_list.mobile,publish_list.flushtime,publish_list.addtime 
+    	$sql = "select info1,userlist.uid,no,username,userlist.is_real, job_type.`name`,publish_list.id,userlist.is_co,userlist.credit3,publish_list.mobile,publish_list.flushtime,publish_list.img as pimg,publish_list.city_id,publish_list.addtime 
 				$sql_part ";
     	($or==0||!$or) && $sql .=" order by publish_list.flushtime desc,publish_list.addtime DESC ";//
     	$or==1 && $sql .=" order by userlist.credit3 DESC ";
@@ -213,12 +213,12 @@ $query = $this->db->query($sql);
 			$row['img'] = $row2['img']?($img_src.$row2['img']):"/static/images/default/noimg.jpg" ;
 			$row['idno'] = $row2['idno'] ;
 			if($row['is_real']){//是实名认证
-				$row['medal'] = 'jin';
+				$row['medal'] = 'jin';      
 			}elseif($row['credit3']>=17){
-				$row['medal'] = 'jin';
+				$row['medal'] = 'jin';  
 			}elseif($row['credit3']>=9){
 				$row['medal'] = 'yin';
-			}elseif($row['credit3']>=4){
+			}elseif($row['credit3']>=4){ 
 				$row['medal'] = 'tong';
 			}else{
 				$row['medal'] = 'wdj';
@@ -388,7 +388,7 @@ $query = $this->db->query($sql);
 		$citycode = $this->Main_model->getCityCode();
     	$city_arr = $this->Main_model->getCityInfoByCode($citycode);
 		//基本信息
-		$sql = "SELECT publish_list.info1,userlist.no,userlist.uid,publish_list.mobile, userlist.is_co,publish_list.address,userlist.is_real,publish_list.is_student,userlist.username,userlist.no,
+		$sql = "SELECT publish_list.info1,userlist.no,userlist.uid,publish_list.mobile, userlist.is_co,publish_list.address,userlist.is_real,publish_list.is_student,userlist.username,userlist.no,publish_list.addtime,publish_list.pv,
 				publish_list.is_for_foreign,publish_list.is_onsite_service,publish_list.info2,publish_list.info3,publish_list.info4,userlist.credit3,publish_list.job_code
 				FROM `publish_list`
 				inner JOIN userlist on userlist.uid=publish_list.uid
@@ -418,14 +418,14 @@ $query = $this->db->query($sql);
 		}
 		//用户信息
 		if($row['is_co']==1){//公司类型
-			$sql3 = "select coname ,img,co_scale.code,co_scale.name from user_co left join co_scale on user_co.scale_code=co_scale.code where uid='{$row['uid']}'";
+			$sql3 = "select coname ,img,info,co_scale.code,co_scale.name from user_co left join co_scale on user_co.scale_code=co_scale.code where uid='{$row['uid']}'";
 		}else{//个人类型
 			$sql3 = "select nickname,realname,img,sex from user_personal where uid='{$row['uid']}'";
 		}
 		$query3 = $this->db->query($sql3);
 		$row_user = $query3->row_array();
 		//评论信息
-		$sql4 = " select addtime,info,adduid from user_credits_log where uid='{$row['uid']}' and type='credit3' and way_id='7' and info is not null and info !=''";
+		$sql4 = " select user_credits_log.addtime,user_credits_log.info,user_credits_log.adduid,userlist.username from user_credits_log left join userlist on userlist.uid=user_credits_log.adduid where user_credits_log.uid='{$row['uid']}' and user_credits_log.type='credit3' and user_credits_log.way_id='7' and user_credits_log.info is not null and user_credits_log.info !='' order by addtime desc";
 		$query4 = $this->db->query($sql4);
 		while ($row4 = $query4->unbuffered_row('array')) {
 			$row_pl[] =$row4;
@@ -536,5 +536,40 @@ $query = $this->db->query($sql);
 		$query = $this->db->query($sql);
 		return $query;
 	}
+
+    /*
+    *   根据publish_list表的job_code查询出一级、二级、三级分类
+    *   $id job_code
+     */
+    public function jcodeGetTname($id){
+        $sql = "SELECT pre_id,pre_pre_id FROM job_type where id={$id}";
+        $query = $this->db->query($sql);
+        $arr = $query->result_array();
+        $sql2 = "SELECT id,level,name FROM job_type where id={$arr[0]['pre_id']} or id={$arr[0]['pre_pre_id']}";
+        $query2 = $this->db->query($sql2);
+        $arr2 = $query2->result_array();
+
+        foreach($arr2 as $k => $v){
+            if($v['level'] == 1){
+                $arr2['name1']=$v['name'];
+            }else{
+                $arr2['name2']=$v['name'];
+            }
+        }
+        return $arr2;
+    }
+
+    //根据uid获取评价内容
+    public function getcredits($uid,$type){
+      if($type == 1){
+        $sql = "select uid,credits,addtime,info from user_credits_log where adduid={$uid} and type='credit3' and way_id=7 order by addtime desc";
+      }else{
+        $sql = "select uid,credits,addtime,info from user_credits_log where uid={$uid} and type='credit3' and way_id=7 order by addtime desc";
+      }
+
+      $query = $this->db->query($sql);
+      $arr = $query->result_array();
+      return $arr;
+    }
 }
 

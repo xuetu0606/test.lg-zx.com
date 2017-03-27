@@ -14,11 +14,22 @@ class Main_model extends CI_Model {
     public function getCityCode(){
     	$host = $_SERVER['HTTP_HOST'];
     	$host_arr = explode('.',$host);
-    	if(strpos($host_arr[0],'-m')){
+/*    	if(strpos($host_arr[0],'-m')){
     		$citycode = str_replace("-m","",$host_arr[0]);
     	}else{
     		$citycode = 'qd';
-    	}
+    	}*/
+    	$citycode = $host_arr[0];
+    	return $citycode;
+    }
+     /**
+     * 切换城市页，根据上一级URL地址获取城市简码
+     */
+        public function getCityCode2(){
+    	$host = $_SERVER['HTTP_REFERER'];
+    	$host_arr = explode('.',$host);
+    	$citycode = substr($host_arr[0],7,2);
+    	//$a = parse_url($host);
     	return $citycode;
     }
     /**
@@ -35,6 +46,27 @@ class Main_model extends CI_Model {
 		}
 		return $arr[$code];   	
     }
+
+    /*
+    *   获取全国省份、城市
+    *   
+    *   返回值：省份、城市数组
+     */
+    public function get_provinc_city(){
+    	$sql = "select dist_id,name,pinyin,level,pre_dist_id from province_city  ";
+    	$query = $this->db->query($sql);
+    	$list = array();
+    	while ($row = $query->unbuffered_row('array')) {
+    		if($row['level']==1){
+    			$list[$row['dist_id']] = array('name'=>$row['name']); 
+    		}elseif($row['level']==2){
+    			$list[$row['pre_dist_id']]['sub'][$row['pinyin']]= $row['name'];
+    		}
+    	}
+    	return $list;
+    }
+
+
     /**
      * 获取城市拼音首字母列表
      * 
@@ -239,5 +271,17 @@ where district_dic.upid='{$province_id}' and district_dic.level=2 ";
 		return $arr;
 	}
 
+	/**
+	 *	根据城市名获取城市简码
+	 *   参数：城市名称
+	 *   返回值：城市简码
+	 */
+	public function cnameGetCcode($cname){
+		$sql = "select pinyin from province_city where name='{$cname}' and level=2";
+		$query = $this->db->query($sql);
+		$arr = $query->row_array();
+
+		return $arr;
+	}
 
 }

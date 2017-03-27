@@ -13,13 +13,14 @@ section div.main div.title div.right {
   display: inline-block;
   width: 200px;
   text-align: center;
+  position: relative;
 }
 section div.main div.title div.right span.salary {
   font-size: 24px;
   font-weight: bold;
   color: #ff3c5a;
 }
-section div.main div.title div.right a {
+section div.main div.title div.right a#dlssq {
   margin-top: 10px;
   width: 140px;
   text-align: center;
@@ -30,13 +31,59 @@ section div.main div.title div.right a {
   border-radius: 4px;
   background-color: #ff3c5a;
 }
+section div.main div.title div.tx {
+  display: none;
+  width: 600px;
+  position: absolute;
+  padding-bottom: 40px;
+  top: 90px;
+  left: -17rem;
+  background-color: #ffffff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  border: solid 1px #c6c6c6;
+}
+section div.main div.title div.tx p {
+  color: #546e7a;
+  background-color: #f9f9f9;
+  font-size: 18px;
+  height: 50px;
+  line-height: 50px;
+  padding-left: 20px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+section div.main div.title div.tx p img {
+  float: right;
+  margin-right: 14px;
+  margin-top: 15px;
+}
+section div.main div.title div.tx p img:hover {
+  cursor: pointer;
+}
+section div.main div.title div.tx .list-group-item {
+  background-color: #ffffff;
+}
+section div.main div.title div.tx form {
+  text-align: left;
+  padding-left: 100px;
+}
+section div.main div.title div.tx form textarea {
+  width: 320px;
+}
+section div.main div.title div.tx form .option {
+  font-size: 14px;
+  color: #888888;
+}
 section div.main div.title div.line1 span {
   margin: 0 4px;
   vertical-align: middle;
 }
 section div.main div.title div.line1 span.name {
   font-size: 24px;
-  font-weight: bold;
 }
 section div.main div.title div.line2 {
   margin-top: 16px;

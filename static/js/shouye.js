@@ -17,6 +17,12 @@ $(function(){
         $(this).addClass('active');
         $(this).parent().siblings().find('a').removeClass('active');
     });
+    $('.head nav ul li a').hover(function(){
+        $(this).css('background-color','#ff3c5a').css('color','#fff');
+    },function(){
+        $(this).css('background-color','#fff').css('color','#ff3c5a');
+
+    });
     $('input.sousuo').focus(function(){
         $(this).attr('placeholder','');
     });

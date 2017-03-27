@@ -26,6 +26,7 @@ input {
   outline: none;
   appearance: none;
   border-width: 0;
+  font-family: "微软雅黑", "Lucida Grande" !important;
 }
 input:-moz-placeholder {
   color: #dbdbdb;
@@ -52,9 +53,12 @@ section {
   margin: 0 auto;
 }
 body {
-  font-family: "Lucida Grande", "黑体", "微软雅黑" !important;
+  font-family: "微软雅黑", "Lucida Grande" !important;
   background-color: #eeeeee !important;
 }
 body .stress {
   color: #ff3c5a !important;
+}
+pre {
+  font-family: "微软雅黑", "Lucida Grande" !important;
 }

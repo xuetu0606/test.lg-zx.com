@@ -8,7 +8,7 @@
         </div>
         <div class="form-group">
             <label>身份证号：</label>
-            <span><?php echo strlen($user['idno'])==15?substr_replace($idcard,"****",8,4):(strlen($user['idno'])==18?substr_replace($idcard,"****",10,4):"身份证位数不正常！");;?></span>
+            <span><?php echo strlen($user['idno'])==15?substr_replace($idcard,"****",8,4):(strlen($user['idno'])==18?substr_replace($idcard,"****",10,4):"身份证位数不正常！");?></span>
         </div>
         <div class="form-group">
             <label>联系电话：</label>

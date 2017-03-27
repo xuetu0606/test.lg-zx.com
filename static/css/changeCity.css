@@ -29,6 +29,7 @@ section div.search form input {
   box-sizing: border-box;
   border: solid 1px #dbdbdb;
   margin-left: 20px;
+  border-right: none;
 }
 section div.search form input[type=submit].sousuo {
   height: 36px;
@@ -42,6 +43,9 @@ section div.search form input[type=submit].sousuo {
   box-sizing: border-box;
   background-color: #ffffff;
   background: url("../images/city/fdj.png") no-repeat 5px 5px;
+}
+section div.search form input[type=submit].sousuo:hover {
+  cursor: pointer;
 }
 section div.search div.hotcity {
   display: inline-block;

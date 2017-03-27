@@ -28,16 +28,20 @@ function starsubmit(){
     $('input.score').each(function(k,v){
         if($(this).val()==0){
             flag=false;
+            //alert(111);
             return false;
         }
-        else flag=true;
+        else { flag=true; }
+        
     });
-    if(!flag||$('.remark').text()==''){
+    if(!flag && $('.remark').text()==''){
         $('.warning').show();
+        //alert(333);
         return false;
     }
     else{
         $('.warning').hide();
+        //alert(444);
         return true;
     }
 }

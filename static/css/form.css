@@ -1,7 +1,10 @@
 form div.form-group {
   margin-bottom: 15px;
 }
-form div.form-control {
+form .wrap {
+  height: auto;
+}
+form .form-control {
   width: 100%;
   padding-left: 40px;
   box-sizing: border-box;
@@ -15,6 +18,7 @@ form label {
   height: 34px;
   line-height: 34px;
   font-size: 16px;
+  font-weight: normal;
 }
 form label .xing {
   color: red;
@@ -33,6 +37,7 @@ form .select {
   padding-left: 6px;
   box-sizing: border-box;
   position: relative;
+  vertical-align: middle;
 }
 form .select span.xl {
   position: absolute;
@@ -116,9 +121,7 @@ form input[type=checkbox] {
   margin: 0 4px;
   vertical-align: middle;
   margin-bottom: 4px;
-
   border-color: #c6c6c6;
-
 }
 form input.fdj {
   width: 50px;
@@ -142,9 +145,7 @@ form textarea {
   resize: none;
   overflow: auto;
   outline: none;
-
   border-radius: 4px;
-
 }
 form .btn {
   width: 150px;

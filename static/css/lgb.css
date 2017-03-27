@@ -36,21 +36,19 @@ section div.main div.head div.bottom {
   height: 50px;
   line-height: 50px;
   padding: 0 20px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 section div.main div.head div.bottom ul {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
 }
 section div.main div.head div.bottom ul li {
   font-size: 18px;
   color: #c6c6c6;
+  height: 50px;
+  line-height: 50px;
 }
 section div.main div.head div.bottom ul li span {
   font-size: 18px;
@@ -68,10 +66,10 @@ section div.main div.head div.bottom ul li a {
   font-size: 16px;
   border: solid 1px #ff3c5a;
   color: #ff3c5a;
-  height: 17px;
+  height: 20px;
   width: 42px;
   text-align: center;
-  line-height: 17px;
+  line-height: 20px;
 }
 section div.main div.body div.navigation {
   display: inline-block;
@@ -105,9 +103,11 @@ section div.main div.body div.navigation ul .active {
 section div.main div.body div.content {
   background-color: #ffffff;
   display: inline-block;
-  padding: 40px 20px;
+  padding: 28px 20px;
   width: 950px;
   height: 1180px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 section div.main div.body div.content p.title {

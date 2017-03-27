@@ -812,32 +812,27 @@ $(\'#province a\').click(function(){
             redirect('http://' . $_SERVER['HTTP_HOST'] . '/user');
         }
 
+        $data['head_css']='<link rel="stylesheet" href="/static/css/lgb.css"/><link rel="stylesheet" href="/static/css/lgb-wdsc.css"/>';
+        $data['foot_js']='<script src="/static/js/jquery.js"></script><script src="/static/js/head-foot.js"></script><script src="/static/js/lgb.js"></script>';
+
         $uid = $_SESSION['uid'];
         $uinfo = $this->user_model->getUserinfoByUid($uid);
+        $data['user'] = $this->user_model->getUserBaseInfo($uid);
+        if ($uid  == 1) {
+            $data['info'] = $this->user_model->getCoUserInfo($uid);//根据用户uid查询公司用户基本信息
+        } else {
+            $data['info'] = $this->user_model->getPersonalInfo($uid);//根据用户uid查询个人用户基本信息
+        }
 
         $city_id = $uinfo['city_id'];
         $this->load->model('admin_model');
         $citycode = $this->main_model->getCityCode($city_id);
         $citycode = $citycode['pinyin'];
+
         
-        //$citycode = $this->main_model->getCityCode();
-
-        //是否公司
-        if ($is_so = $this->session->is_co) {
-            $config['upload_path'] = getcwd() . '/upload/' . $citycode . '/gssm/' . date('ym');
-        } else {
-            $config['upload_path'] = getcwd() . '/upload/' . $citycode . '/grsm/' . date('ym');
-        }
-
-        if(!is_dir($config['upload_path'])){
-            mkdir($config['upload_path'],0777,true);
-        }
-        //var_dump($config['upload_path']);
-
-        $data['localhost'] = $_SERVER['HTTP_HOST'];// 当前域名
         $data['title'] = '实名认证'; // 网页标题
 
-        $this->load->view('templates/head_simple', $data);
+        $this->load->view('home/user/templates/header', $data);
 
 
         $config['allowed_types'] = 'gif|jpg|png';
@@ -852,10 +847,10 @@ $(\'#province a\').click(function(){
             }else{
                 $data['identifyinfo'] = $this->user_model->identifyinfo2($uid);
             }
-            $this->load->view('home/user/identifySuccess', $data);
+            $this->load->view('home/user/identify', $data);
         } elseif ($return_isReal['flag'] == 0) {//已提交未审核
             $data['info'] = '正在审核中,请耐心等待';
-            $this->load->view('home/user/successPage', $data);
+            $this->load->view('home/user/identify', $data);
         } else {
 
             $this->form_validation->set_rules('idno', '证件号', 'trim|required');
@@ -902,7 +897,7 @@ $(\'#province a\').click(function(){
             }
         }
 
-        $this->load->view('templates/footer2', $data);
+        $this->load->view('home/user/templates/footer', $data);
 
     }
 
@@ -1380,7 +1375,7 @@ $(\'#province a\').click(function(){
     }
 
     /**
-     * 我的资料
+     * 零工宝我的资料
      *
      */
     public function myInfo()
@@ -1411,7 +1406,7 @@ $("#ghtx").change(function() {
         $data['title'] = '我的资料'; // 网页标题
 
         $uid = $_SESSION['uid'];
-        if ($uid  == 1) {
+        if ($_SESSION['is_co']  == 1) {
             $data['info'] = $this->user_model->getCoUserInfo($uid);//根据用户uid查询公司用户基本信息
             $data['scale'] = $this->user_model->getCoScale();
         } else {
@@ -1420,6 +1415,17 @@ $("#ghtx").change(function() {
 
         $img=$this->upload($city['pinyin']);
 
+        if($img){
+            $_POST='';
+            $return_img=$this->user_model->updateInfoImage(array('uid'=>$_SESSION['uid'],'img'=>date('ym',time()).'/'.$_FILES['raw_name'].'_200_190'.$_FILES['file_ext']));
+            if($return_img['flag']==1){
+                $this->main_model->alert('修改头像成功', '/user/myinfo');
+            }else{
+                $this->main_model->alert('修改头像失败,请稍后重试', '/user/myinfo');
+            }
+
+        }
+
         $this->form_validation->set_rules('mobile', '手机号', 'trim|required|numeric|exact_length[11]');
         $this->form_validation->set_error_delimiters();
 
@@ -1427,9 +1433,6 @@ $("#ghtx").change(function() {
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('home/user/myinfo', $data);
-        } elseif($img){
-            $this->user_model->updateInfoImage(array('uid'=>$_SESSION['uid'],'img'=>date('ym',time()).'/'.$_FILES['raw_name'].'_200_190'.$_FILES['file_ext']));
-            redirect('http://' . $_SERVER['HTTP_HOST'] . '/user/myinfo');
         } else {
 
             $_POST['uid']=$_SESSION['uid'];
