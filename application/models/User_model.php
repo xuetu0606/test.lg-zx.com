@@ -1232,7 +1232,7 @@ class User_model extends CI_Model {
     /**
      * 查询通知表
      */
-    public function find_2($id,$uid){
+    public function find_2($id){
       $sql = 'select 
                   id,
                   uid,
