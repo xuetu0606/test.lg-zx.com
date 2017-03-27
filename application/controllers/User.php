@@ -1710,8 +1710,10 @@ $("#ghtx").change(function() {
         }else if($key == 'find_g'){
             $data['news'] = $this->user_model->find_1($value);
         }
-        echo '<h3>'.$data['news']['title'].'</h3>';
-        echo '<p>'.$data['news']['message'].'</p>';
+        echo '<center style="margin:200px;">';
+        echo '<h3>'.$data['news'][0]['title'].'</h3>';
+        echo '<p>'.$data['news'][0]['message'].'</p>';
+        echo '</center>';
     }
     /**
      * 全选删除
