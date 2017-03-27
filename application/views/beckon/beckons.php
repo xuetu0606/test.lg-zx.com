@@ -241,7 +241,7 @@
         <ul>
             <li><a href="javascript:void(0);">法律声明 |</a></li>
             <li><a href="javascript:void(0);">零工宝 |</a></li>
-            <li><a href="javascript:void(0);">零工小参 |</a></li>
+            <li><a href="/help">零工小参 |</a></li>
             <li><a href="javascript:void(0);">招贤纳士 |</a></li>
             <li><a href="javascript:void(0);">关注微博</a></li>
         </ul>
