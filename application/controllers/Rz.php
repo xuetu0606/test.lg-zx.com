@@ -162,7 +162,7 @@ class Rz extends CI_Controller
 
     /**
      * 判断用户是否已经登录
-     *
+     *sasa
      */
     public function hasLogin()
     {
