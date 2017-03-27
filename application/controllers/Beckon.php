@@ -9,7 +9,7 @@
 		}
 		//打开招零工列表页
 		public function index(){
-			
+
 			$pages = $this->uri->segment(3);
 			session_start();
 			if($pages){
@@ -19,13 +19,16 @@
 			if($_GET){
 				//将一个数组遍历成一个个以key命名的值
 				extract($_GET);
+
 				// var_dump($quyu);
+
 				$list = $this->beckon_model->getBeckons($page,$pages,$job_code ,$quyu ,$gongzi ,$jiesuan ,$fbsj ,$renzheng ,$xinyong,$gongzi_s,$gongzi_s_1,$gongzi_s_2,$sgz);
 				echo json_encode($list);
 				// echo $list;
 			}else{
 				$data['job_type']  = $this->beckon_model->getJob_type();
 				$data['area'] = $this->beckon_model->getArea(/*$city_id*/224);
+
 				$data['pay_circle'] = $this->beckon_model->getPay_circle();
 
 				$config['base_url'] = site_url('beckon/index');
