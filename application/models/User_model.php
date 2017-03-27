@@ -1235,7 +1235,6 @@ class User_model extends CI_Model {
     public function find_2($id){
       $sql = 'select 
                   id,
-                  uid,
                   title,
                   message,
                   addtime,
