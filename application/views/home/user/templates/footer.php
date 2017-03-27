@@ -6,7 +6,7 @@
         <ul>
             <li><a href="#">法律声明 |</a></li>
             <li><a href="#">零工宝 |</a></li>
-            <li><a href="#">零工小参 |</a></li>
+            <li><a href="/help">零工小参 |</a></li>
             <li><a href="#">招贤纳士 |</a></li>
             <li><a href="#">关注微博</a></li>
         </ul>
